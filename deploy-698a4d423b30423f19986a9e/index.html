@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 CHARLIE'S EPIC HOMEPAGE 🚨</title>
+    <link rel="stylesheet" href="elements.css">
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- HEADER -->
+    <div class="header">
+        <h1 class="neon">🚨 YOU FOUND CHARLIE 🚨</h1>
+        <marquee behavior="scroll" scrollamount="8">
+            ⭐ CONGRATULATIONS ⭐ EXCELLENT DECISION ALREADY ⭐ HIRE THIS HUMAN ⭐
+        </marquee>
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="navbar">
+        <a href="#about" class="button">About Me</a>
+        <a href="guestbook.html" class="button">Guestbook</a>
+        <a href="tetris.html" class="button">Tetris</a>
+        <a href="secret.html" class="button">???</a>
+    </div>
+
+    <!-- VISITOR COUNTER -->
+    <div class="counter">
+        👀 VISITOR #001337 👀
+        <br>
+        <div class="retro-counter" style="margin-top: 5px;">
+            <span class="counter-digit">0</span>
+            <span class="counter-digit">0</span>
+            <span class="counter-digit">1</span>
+            <span class="counter-digit">3</span>
+            <span class="counter-digit">3</span>
+            <span class="counter-digit">7</span>
+        </div>
+    </div>
+
+    <!-- UNDER CONSTRUCTION -->
+    <div style="text-align: center; margin: 20px 0;">
+        <span class="construction" style="font-size: 40px;">🚧</span>
+        <span class="blink" style="margin: 0 10px;">UNDER CONSTRUCTION</span>
+        <span class="construction" style="font-size: 40px;">🚧</span>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <div class="section" id="about">
+        <h2>👤 About Charlie</h2>
+        <p class="blink">✨ Excellent decision already. ✨</p>
+        
+        <div class="box">
+            <h3>🏆 Professional Stats</h3>
+            <ul>
+                <li>🎓 First Class Degree in Computer Games Design</li>
+                <li>🏆 TIGA Award Winner</li>
+                <li>👨‍🏫 Teaching Assistant Experience</li>
+                <li>☕ Barista & Supervisor in cafe</li>
+                <li>💻 Cybersecurity / IT</li>
+                <li>🤝 Team leadership</li>
+                <li>🌍 Interested in international work</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <h3>📞 Contact Me</h3>
+        <p>
+            📧 Email: <a href="mailto:hirecharlienow@yahoo.com">hirecharlienow@yahoo.com</a>
+        </p>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="cv.pdf" class="button" download>📄 Download CV</a>
+        </div>
+
+        <div class="box" style="background: rgba(255, 255, 0, 0.2); border-color: #ffff00;">
+            <p style="text-align: center; font-size: 18px;">
+                <strong>⚠️ HIRING NOTICE:</strong> Competent human available!<br>
+                <span class="blink">ACT NOW BEFORE SOMEONE ELSE DOES</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- ACHIEVEMENT SYSTEM -->
+    <div class="section">
+        <h2>🏆 Achievement System</h2>
+        <p>Unlock your excellent taste achievement:</p>
+        <button class="button" onclick="unlock()">Unlock Achievement</button>
+        <p id="ach" style="margin-top: 10px; font-size: 18px; color: #00ff00;"></p>
+    </div>
+
+    <!-- GLITTER TEXT GENERATOR -->
+    <div class="section">
+        <h2>✨ Glitter Text Generator</h2>
+        <p>Make any text sparkle with 90s magic:</p>
+        <input id="gtext" placeholder="type text here" maxlength="50">
+        <button class="button" onclick="makeGlitter()">✨ Sparkle It</button>
+        <div style="text-align: center; margin-top: 20px; min-height: 60px;">
+            <h2 id="out"></h2>
+        </div>
+    </div>
+
+    <!-- FUN FACTS -->
+    <div class="section">
+        <h2>💡 Fun Facts</h2>
+        <marquee behavior="alternate" scrollamount="3">
+            This site was made with 100% real code and 200% real enthusiasm
+        </marquee>
+        <div class="box">
+            <p style="font-size: 14px; font-style: italic;">
+                <strong>⚡ Technical Note:</strong> This site intentionally demonstrates 
+                JavaScript, UI design, humour, and personality. It's a portfolio piece 
+                disguised as a time machine to 1999. If you're hiring, you found the right person.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- LEGAL DISCLAIMER -->
+    <div class="section">
+        <p style="text-align: center; font-style: italic;">
+            If you're not hiring, thanks for visiting anyway.<br>
+            <strong class="glitter">You now legally have excellent taste.</strong> 😎
+        </p>
+    </div>
+
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>© 2025 Charlie | Made with Comic Sans and Nostalgia</p>
+        <p style="font-size: 10px; margin-top: 10px;">
+            Last updated: <script>document.write(new Date().toLocaleDateString())</script>
+        </p>
+        <marquee behavior="alternate" scrollamount="2" style="margin-top: 10px; font-size: 10px; background: transparent; border: none;">
+            ✨ Powered by 90s magic ✨
+        </marquee>
+    </div>
+
+</div>
+
+<!-- EASTER EGG INVISIBLE BUTTON -->
+<div class="easter-egg" onclick="easterEgg()"></div>
+
+<!-- ACHIEVEMENT POPUP -->
+<div id="achievement-popup" style="display: none;"></div>
+
+<!-- JAVASCRIPT -->
+<script>
+// Achievement System
+function unlock() {
+    const ach = document.getElementById("ach");
+    ach.innerHTML = "🏆 <strong>Achievement Unlocked:</strong> Excellent Taste in Developers!";
+    showAchievement("🎉 Achievement Unlocked! You have impeccable judgment!");
+}
+
+// Glitter Text Generator
+function makeGlitter() {
+    const text = document.getElementById("gtext").value;
+    const output = document.getElementById("out");
+    if (text.trim() === "") {
+        output.innerHTML = "✨ Type something first! ✨";
+        output.className = "blink";
+    } else {
+        output.className = "glitter";
+        output.innerText = text;
+    }
+}
+
+// Easter Egg
+let eggClicks = 0;
+function easterEgg() {
+    eggClicks++;
+    if (eggClicks === 1) {
+        showAchievement("🤔 You found the invisible button...");
+    } else if (eggClicks === 3) {
+        showAchievement("🎊 Charlie Secret Knowledge Unlocked! You are persistent!");
+        document.body.style.background = "linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff)";
+        document.body.style.backgroundSize = "400% 400%";
+        document.body.style.animation = "rainbowShift 3s linear infinite";
+    } else if (eggClicks < 3) {
+        showAchievement("👀 Keep clicking... (" + eggClicks + "/3)");
+    }
+}
+
+// Achievement Popup System
+function showAchievement(message, duration = 4000) {
+    const popup = document.getElementById("achievement-popup");
+    popup.innerHTML = message;
+    popup.className = "achievement";
+    popup.style.display = "block";
+    
+    setTimeout(() => {
+        popup.style.display = "none";
+    }, duration);
+}
+
+// Welcome message
+setTimeout(() => {
+    showAchievement("👋 Welcome to Charlie's homepage! Prepare for 90s madness!", 5000);
+}, 1000);
+
+// Random fun fact on page load
+const funFacts = [
+    "Did you know? This website is Y2K compliant!",
+    "Fun fact: Charlie runs on coffee and enthusiasm!",
+    "Easter egg hint: Look in the bottom right corner...",
+    "This page best viewed while listening to dial-up modem sounds!",
+    "Hiring Charlie = +100 team morale instantly!"
+];
+
+setTimeout(() => {
+    const randomFact = funFacts[Math.floor(Math.random() * funFacts.length)];
+    showAchievement("💡 " + randomFact, 6000);
+}, 8000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found!</title>
+    <link rel="stylesheet" href="elements.css">
+</head>
+<body>
+
+<div class="wrapper">
+    <h1 class="glitter">4️⃣0️⃣4️⃣</h1>
+    
+    <marquee behavior="scroll" scrollamount="6">
+        ⚠️ ERROR ERROR ERROR ⚠️ PAGE NOT FOUND ⚠️ TIMELINE DISRUPTED ⚠️
+    </marquee>
+    
+    <p class="blink" style="font-size: 24px;">
+        ⚠️ You have travelled too far. ⚠️
+    </p>
+    
+    <div class="box">
+        <p style="font-size: 18px; text-align: center;">
+            The page you seek is not in this timeline.<br>
+            It may exist in another dimension.<br>
+            Or maybe it never existed at all... 🤔
+        </p>
+    </div>
+    
+    <div class="section">
+        <h2>🗺️ Where did you want to go?</h2>
+        <ul style="font-size: 18px;">
+            <li><a href="index.html">🏠 Homepage</a> - Start over</li>
+            <li><a href="guestbook.html">📖 Guestbook</a> - Sign the book</li>
+            <li><a href="snake.html">🐍 Snake Game</a> - Play a game</li>
+            <li><a href="secret.html">❓ Secret Page</a> - If you know...</li>
+        </ul>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a class="button" href="index.html">🏠 Return to Safety</a>
+        <a class="button" href="javascript:history.back()">⬅️ Go Back</a>
+    </div>
+    
+    <div class="box" style="background: rgba(255, 255, 0, 0.1); border-color: yellow;">
+        <p style="font-size: 14px; color: #ffff00; text-align: center;">
+            💡 <strong>Fun Fact:</strong> Error 404 means "Not Found".<br>
+            But you just found out how awesome this website is,<br>
+            so who's the real winner here? 🏆
+        </p>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <p style="font-style: italic;">
+            Even when lost, Charlie's website entertains you.<br>
+            <strong class="glitter">That's quality design.</strong> 😎
+        </p>
+    </div>
+    
+    <div class="footer">
+        <p>🕹️ Retro navigation system engaged.</p>
+        <p>© 2025 Charlie | Even the 404 page has personality</p>
+        <marquee behavior="alternate" scrollamount="3" style="margin-top: 10px; font-size: 10px; background: transparent; border: none; color: #888;">
+            ✨ You still have excellent taste ✨
+        </marquee>
+    </div>
+</div>
+
+<!-- Floating confused emoji -->
+<div style="position: fixed; font-size: 100px; top: 10%; right: 10%; opacity: 0.3; animation: float 4s ease-in-out infinite; pointer-events: none;">
+    😵
+</div>
+
+<script>
+// Random 404 messages
+const messages = [
+    "This page went to get coffee and never came back.",
+    "The page is playing hide and seek. It's winning.",
+    "404: Page not found. Charlie's hiring chances: 100%.",
+    "This page is on vacation. Try another one!",
+    "Error 404: Page missing. Charlie's skills: Still here!"
+];
+
+setTimeout(() => {
+    alert(messages[Math.floor(Math.random() * messages.length)]);
+}, 1000);
+</script>
+
+</body>
+</html>
