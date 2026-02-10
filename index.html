@@ -5,13 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🚨 CHARLIE'S HOMEPAGE 🚨</title>
 <link rel="stylesheet" href="elements.css">
+<style>
+/* ASCII Art Animation */
+#ascii-art {
+    font-family: monospace;
+    white-space: pre;
+    line-height: 1.2;
+    font-size: 14px;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+    animation: asciiPulse 2s ease-in-out infinite;
+}
+
+@keyframes asciiPulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; text-shadow: 0 0 20px #00ff00; }
+}
+
+/* Shake Animation */
+.shake-body {
+    animation: shake 2s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+
+
+.hiring-icon {
+    font-size: 40px;
+    animation: spin 2s linear infinite;
+}
+
+.hiring-text {
+    background: #000;
+    color: #00ff00;
+    padding: 5px;
+    border: 2px solid #00ff00;
+    font-size: 12px;
+    margin-top: 5px;
+    animation: blink 1s steps(2, start) infinite;
+}
+</style>
 </head>
 
 <body>
 
-<div id="splash" style="position:fixed; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, #000033, #330066, #000033); z-index:99999; display:flex; align-items:center; justify-content:center;">
+    </div>
+</div>
+
+<!-- ASCII Loading Screen -->
+<div id="splash" style="position:fixed; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, #000033, #330066, #000033); z-index:99999; display:flex; align-items:center; justify-content:center; flex-direction:column;">
     <div style="text-align:center;">
-        <h1 class="glitter" style="font-size:48px;">LOADING CHARLIE...</h1>
+        <div id="ascii-art">
+
+██╗      ██████╗  █████╗ ██████╗ ██╗███╗   ██╗ ██████╗      ██████╗██╗  ██╗ █████╗ ██████╗ ██╗     ██╗███████╗         
+██║     ██╔═══██╗██╔══██╗██╔══██╗██║████╗  ██║██╔════╝     ██╔════╝██║  ██║██╔══██╗██╔══██╗██║     ██║██╔════╝         
+██║     ██║   ██║███████║██║  ██║██║██╔██╗ ██║██║  ███╗    ██║     ███████║███████║██████╔╝██║     ██║█████╗           
+██║     ██║   ██║██╔══██║██║  ██║██║██║╚██╗██║██║   ██║    ██║     ██╔══██║██╔══██║██╔══██╗██║     ██║██╔══╝           
+███████╗╚██████╔╝██║  ██║██████╔╝██║██║ ╚████║╚██████╔╝    ╚██████╗██║  ██║██║  ██║██║  ██║███████╗██║███████╗██╗██╗██╗
+╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝╚═╝╚═╝╚═╝
+                                                                                                                                                                         
+                                                                                                                                                                                                   
+        </div>
         <div style="width:300px; height:30px; border:3px ridge #00ff00; margin:30px auto; background:#000;">
             <div id="loadbar" style="height:100%; width:0%; background:linear-gradient(to right, #00ff00, #ffff00, #ff00ff); box-shadow: 0 0 10px #00ff00;"></div>
         </div>
@@ -23,9 +82,9 @@
     
     <div class="header">
         <h1 class="neon">
-    <img src="charlie.png" class="title-icon">
-    YOU FOUND CHARLIE
-    <img src="charlie.png" class="title-icon">
+    <img src="charlie.png" class="title-icon clickable-icon">
+    <span id="greeting">YOU FOUND CHARLIE</span>
+    <img src="charlie.png" class="title-icon clickable-icon">
 </h1>
 
         <marquee scrollamount="8">
@@ -41,6 +100,7 @@
         <a href="secret.html" class="button">???</a>
         <button class="button" style="background:linear-gradient(to bottom, #800080, #4b0082); color:white; border-color:#ff00ff;" onclick="shareWebsite()">📤 Share Site</button>
         <button class="button" style="background:linear-gradient(to bottom, #ff1493, #ff69b4); color:white; border-color:#ff00ff;" onclick="partyMode()">🎉 Party Mode</button>
+     
     </div>
 
     <div class="counter">
@@ -54,6 +114,11 @@
             <span class="counter-digit">7</span>
         </div>
         👀
+    </div>
+
+    <!-- Live Status Display -->
+    <div class="counter" style="margin-top:10px;">
+        🟢 STATUS: <span id="status" class="blink">AVAILABLE FOR HIRE</span>
     </div>
 
     <div class="section" id="about">
@@ -82,19 +147,21 @@
         <h3>📞 Contact Me</h3>
         <p style="font-size:20px;text-align:center;">
             📧 <a href="mailto:hirecharlienow@yahoo.com">hirecharlienow@yahoo.com</a>
+ <div class="box">
+        <h3 style="text-align: center; color: #00ffff;">📞 Other Ways to Reach Me:</h3>
+        <p style="text-align: center; font-size: 16px;">
+                                    💼 LinkedIn: <a href="https://linkedin.com/in/charliewoodhead7" target="_blank">linkedin.com/in/charliewoodhead7</a><br>
+            🎨 ArtStation: <a href="https://artstation.com/charliewoodhead7" target="_blank">artstation.com/charliewoodhead7</a>
+        </p>
+    </div>
+
         </p>
 
         <div style="text-align:center;margin:20px 0;">
             <button class="button" onclick="openCV()">📄 View CV</button>
         </div>
 
-        <div class="box" style="background:rgba(255,255,0,0.2);border-color:#ffff00;">
-            <p style="text-align:center;font-size:18px;">
-                <strong>⚠️ HIRING NOTICE:</strong> Competent human available!<br>
-                <span class="blink">ACT NOW BEFORE SOMEONE ELSE DOES</span>
-            </p>
-        </div>
-    </div>
+      
 
    <!-- Visitor Map Section -->
 <div class="section visitor-map">
@@ -110,18 +177,28 @@
     </p>
 </div>
 
+   
+    <!-- Random Quote Generator -->
     <div class="section">
-        <h2>🏆 Achievement System</h2>
-        <button class="button" onclick="unlock()">Unlock Achievement</button>
-        <p id="ach" style="margin-top:10px;font-size:18px;color:#00ff00;"></p>
+        <h2>💬 Daily Motivation</h2>
+        <button class="button" onclick="randomQuote()">✨ Generate Quote</button>
+        <p id="quote" style="font-size:18px; margin-top:15px; text-align:center; color:#00ffff; min-height:40px;"></p>
     </div>
 
+    <!-- Testimonials Section -->
     <div class="section">
-        <h2>✨ Glitter Text Generator</h2>
-        <input id="gtext" placeholder="type text here" maxlength="50">
-        <button class="button" onclick="makeGlitter()">✨ Sparkle It</button>
-        <div style="text-align:center;margin-top:20px;min-height:60px;">
-            <h2 id="out"></h2>
+        <h2>⭐ What People Are Saying</h2>
+        <div class="box">
+            <p><strong>🎮 Gabe Newell:</strong> "Best portfolio I've seen since Half-Life 2. When can you start?"</p>
+        </div>
+        <div class="box">
+            <p><strong>💾 Bill Gates:</strong> "Reminds me of the good old days. Hire immediately."</p>
+        </div>
+        <div class="box">
+            <p><strong>🌟 Your Future Boss:</strong> "How did I live without Charlie on my team?"</p>
+        </div>
+        <div class="box">
+            <p><strong>🔥 Anonymous Recruiter:</strong> "I came for the memes, stayed for the skills."</p>
         </div>
     </div>
 
@@ -137,7 +214,8 @@
         </div>
         <p style="text-align: center; margin-top: 15px;">
             If you're not hiring, thanks for visiting anyway.<br>
-            <span class="glitter" style="font-size: 20px;">You now legally have excellent taste. 😎</span>
+            <span class="glitter" style="font-size: 20px;">You now legally have excellent taste.
+</span>
         </p>
     </div>
 
@@ -151,9 +229,17 @@
 
 </div>
 
-<!-- ================= SOUND ================= -->
+<!-- ================= SOUND FILES ================= -->
 <audio id="cv-sound">
-<source src="https://www.myinstants.com/media/sounds/windows-xp-startup.mp3">
+    <source src="https://www.myinstants.com/media/sounds/windows-xp-startup.mp3">
+</audio>
+
+<audio id="click-sound">
+    <source src="https://www.myinstants.com/media/sounds/button-3.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="party-sound">
+    <source src="https://www.myinstants.com/media/sounds/tada.mp3" type="audio/mpeg">
 </audio>
 
 <!-- ================= CV OVERLAY ================= -->
@@ -195,6 +281,111 @@
 <div id="achievement-popup" style="display:none;"></div>
 
 <script>
+// ================= SOUND EFFECTS =================
+function playSound(soundId) {
+    const sound = document.getElementById(soundId);
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+    }
+}
+
+// Add click sounds to all buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.button');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => playSound('click-sound'));
+    });
+});
+
+// ================= TIME-BASED GREETING =================
+function setGreeting() {
+    const hour = new Date().getHours();
+    let greeting = "👋 YOU FOUND CHARLIE";
+    
+    if (hour >= 5 && hour < 12) {
+        greeting = "🌅 GOOD MORNING! YOU FOUND CHARLIE";
+    } else if (hour >= 12 && hour < 17) {
+        greeting = "☀️ GOOD AFTERNOON! YOU FOUND CHARLIE";
+    } else if (hour >= 17 && hour < 22) {
+        greeting = "🌙 GOOD EVENING! YOU FOUND CHARLIE";
+    } else {
+        greeting = "🌃 WORKING LATE? YOU FOUND CHARLIE";
+    }
+    
+    document.getElementById('greeting').textContent = greeting;
+}
+
+setGreeting();
+
+// ================= CLICK COUNTER EASTER EGG =================
+let iconClickCount = 0;
+document.querySelectorAll('.clickable-icon').forEach(icon => {
+    icon.addEventListener('click', function() {
+        iconClickCount++;
+        playSound('click-sound');
+        
+        if (iconClickCount === 5) {
+            alert('🎊 You clicked me 5 times! You must really like Charlie!');
+            playSound('achievement-sound');
+        } else if (iconClickCount === 10) {
+            alert('🏆 10 clicks! Achievement unlocked: SUPERFAN!');
+            playSound('achievement-sound');
+            partyMode();
+        } else if (iconClickCount === 20) {
+            alert('💎 20 clicks! You are now LEGENDARY! Here, have some party mode!');
+            playSound('party-sound');
+            partyMode();
+        }
+    });
+});
+
+// ================= RANDOM QUOTE GENERATOR =================
+function randomQuote() {
+    const quotes = [
+        "Hire Charlie. It's the right choice. 🎯",
+        "Good developers are rare. Great ones have retro websites. 🌟",
+        "Your project needs someone who codes AND has personality. 💎",
+        "404: Better candidate not found. ⚡",
+        "This could be the start of something legendary. 🚀",
+        "Why settle for good when you can have excellent? 💫",
+        "Competence + Creativity = Charlie. Simple math. 🧮",
+        "Your competitors are probably hiring right now. Just saying. ⏰",
+        "Plot twist: The perfect candidate was here all along. 🎬",
+        "Warning: Not hiring Charlie may result in severe FOMO. 😎"
+    ];
+    
+    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+    document.getElementById('quote').innerHTML = quote;
+    playSound('achievement-sound');
+}
+
+// ================= SKILL BARS ANIMATION =================
+function animateSkillBars() {
+    const skillBars = document.querySelectorAll('.skill-bar');
+    skillBars.forEach(bar => {
+        const width = bar.getAttribute('data-width');
+        setTimeout(() => {
+            bar.style.width = width + '%';
+        }, 100);
+    });
+}
+
+// Trigger skill bars animation when scrolling into view
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateSkillBars();
+            observer.unobserve(entry.target);
+        }
+    });
+});
+
+const skillSection = document.querySelector('.section:has(.skill-bar)');
+if (skillSection) {
+    observer.observe(skillSection);
+}
+
 // ================= CV =================
 let cvOpens = 0;
 
@@ -288,14 +479,24 @@ const splashInterval = setInterval(()=>{
 let scanCount = parseInt(localStorage.getItem('charlieScans') || '0') + 1;
 localStorage.setItem('charlieScans', scanCount);
 setTimeout(() => {
-    if (scanCount === 1) alert('🎉 First visit! Welcome to Charlie\'s world!');
-    else if (scanCount === 5) alert('⭐ 5th visit! Use code "SUPERFAN" in your email!');
-    else if (scanCount === 10) alert('🏆 10th visit! You are a "MEGAFAN"!');
+    if (scanCount === 1) {
+        alert('🎉 First visit! Welcome to Charlie\'s world!');
+        playSound('achievement-sound');
+    }
+    else if (scanCount === 5) {
+        alert('⭐ 5th visit! Use code "SUPERFAN" in your email!');
+        playSound('achievement-sound');
+    }
+    else if (scanCount === 10) {
+        alert('🏆 10th visit! You are a "MEGAFAN"!');
+        playSound('party-sound');
+    }
 }, 2000);
 
 // ================= OTHER =================
 function unlock(){
     document.getElementById("ach").innerHTML="🏆 Excellent Taste in Developers!";
+    playSound('achievement-sound');
 }
 
 function makeGlitter(){
@@ -307,6 +508,7 @@ function makeGlitter(){
     } else {
         output.className="glitter";
         output.innerText=text;
+        playSound('achievement-sound');
     }
 }
 
@@ -323,6 +525,7 @@ function shareWebsite() {
 // ================= PARTY MODE =================
 function partyMode() {
     document.querySelector('.header').classList.toggle('party');
+    playSound('party-sound');
 }
 
 // ================= FALLING STARS ANIMATION =================
@@ -348,6 +551,7 @@ document.addEventListener('keydown', (e) => {
     if (konamiCode.length > 10) konamiCode.shift();
     if (konamiCode.join(',') === code.join(',')) {
         alert('🎮 CHEAT CODE ACTIVATED! You found the Konami Code! +1000 hacker points!');
+        playSound('party-sound');
         partyMode(); // Auto-activate party mode as a reward!
     }
 });
@@ -392,7 +596,6 @@ setInterval(addDot, 2000);
 // start with a few
 for(let i=0;i<4;i++) addDot();
 </script>
-
 
 </body>
 </html>
