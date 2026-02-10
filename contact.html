@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📧 Contact Charlie!</title>
+    <link rel="stylesheet" href="elements.css">
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>📧 Contact Charlie</h1>
+    
+    <marquee behavior="alternate" scrollamount="5">
+        💼 HIRE ME 💼 LET'S WORK TOGETHER 💼 GET IN TOUCH 💼
+    </marquee>
+    
+    <p class="blink">Think I'm cool? Want to hire me? Let's talk!</p>
+    
+    <div class="box" style="background: rgba(0, 255, 0, 0.1); border-color: #00ff00;">
+        <p style="text-align: center; font-size: 16px;">
+            📨 Fill out the form below and I'll get back to you ASAP!<br>
+            <span style="font-size: 14px; color: #00ffff;">
+                (Your message goes straight to my inbox)
+            </span>
+        </p>
+    </div>
+
+    <div class="section">
+        <form id="contact-form" action="https://formspree.io/f/mlgwdzlw" method="POST">
+            <div style="margin: 15px 0;">
+                <label for="name" style="display: block; color: #ffff00; margin-bottom: 5px; font-weight: bold;">
+                    👤 Your Name *
+                </label>
+                <input type="text" id="name" name="name" placeholder="e.g., Steve Jobs" required maxlength="100">
+            </div>
+
+            <div style="margin: 15px 0;">
+                <label for="email" style="display: block; color: #ffff00; margin-bottom: 5px; font-weight: bold;">
+                    📧 Your Email *
+                </label>
+                <input type="email" id="email" name="email" placeholder="e.g., steve@apple.com" required maxlength="150">
+            </div>
+
+            <div style="margin: 15px 0;">
+                <label for="phone" style="display: block; color: #ffff00; margin-bottom: 5px; font-weight: bold;">
+                    📱 Your Phone (Optional)
+                </label>
+                <input type="tel" id="phone" name="phone" placeholder="e.g., +44 7711 249701" maxlength="20">
+            </div>
+
+            <div style="margin: 15px 0;">
+                <label for="company" style="display: block; color: #ffff00; margin-bottom: 5px; font-weight: bold;">
+                    🏢 Company/Organization (Optional)
+                </label>
+                <input type="text" id="company" name="company" placeholder="e.g., Apple Inc." maxlength="100">
+            </div>
+
+            <div style="margin: 15px 0;">
+                <label for="message" style="display: block; color: #ffff00; margin-bottom: 5px; font-weight: bold;">
+                    💬 Your Message *
+                </label>
+                <textarea id="message" name="message" placeholder="Tell me about the opportunity, project, or just say hi!" required maxlength="1000" style="min-height: 150px;"></textarea>
+            </div>
+
+            <div style="margin: 15px 0;">
+                <label for="hear-about" style="display: block; color: #ffff00; margin-bottom: 5px; font-weight: bold;">
+                    🔍 How did you find me?
+                </label>
+                <select id="hear-about" name="hear-about" style="padding: 10px; font-family: 'Comic Sans MS'; font-size: 16px; border: 3px inset #ccc; background: #fff; color: #000; width: 100%; max-width: 500px;">
+                    <option value="">Select one...</option>
+                    <option value="festival">At a festival/event</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="portfolio">Your portfolio</option>
+                    <option value="referral">Someone referred you</option>
+                    <option value="search">Google/Search</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button type="submit" class="button" style="font-size: 18px;">
+                    📨 Send Message
+                </button>
+                <button type="reset" class="button" style="background: linear-gradient(to bottom, #ff6600, #cc5500);">
+                    🔄 Clear Form
+                </button>
+            </div>
+        </form>
+
+        <div id="form-status" style="margin-top: 20px; text-align: center; font-size: 18px; min-height: 40px;"></div>
+    </div>
+
+    <hr>
+
+    <div class="box">
+        <h3 style="text-align: center; color: #00ffff;">📞 Other Ways to Reach Me:</h3>
+        <p style="text-align: center; font-size: 16px;">
+            📧 Email: <a href="mailto:hirecharlienow@yahoo.com">hirecharlienow@yahoo.com</a><br>
+                        💼 LinkedIn: <a href="https://linkedin.com/in/charliewoodhead7" target="_blank">linkedin.com/in/charliewoodhead7</a><br>
+            🎨 ArtStation: <a href="https://artstation.com/charliewoodhead7" target="_blank">artstation.com/charliewoodhead7</a>
+        </p>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a class="button" href="index.html">🏠 Back to Homepage</a>
+        <a class="button" href="cv.pdf" download>📄 Download My CV</a>
+    </div>
+</div>
+
+<script>
+// Form submission handling
+const form = document.getElementById('contact-form');
+const status = document.getElementById('form-status');
+
+form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    status.innerHTML = '<p class="blink" style="color: #ffff00;">📤 Sending your message...</p>';
+    
+    const formData = new FormData(form);
+    
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            status.innerHTML = '<p style="color: #00ff00; font-weight: bold;">✅ SUCCESS! Your message has been sent!<br>I\'ll get back to you soon! 🎉</p>';
+            form.reset();
+            
+            // Celebration effect
+            setTimeout(() => {
+                alert('🎉 Message sent successfully!\n\nThanks for reaching out! I\'ll respond as soon as possible.');
+            }, 500);
+        } else {
+            throw new Error('Form submission failed');
+        }
+    } catch (error) {
+        status.innerHTML = '<p style="color: #ff0000; font-weight: bold;">❌ Oops! Something went wrong.<br>Please email me directly at hirecharlienow@yahoo.com</p>';
+    }
+});
+
+// Character counter for message
+const messageField = document.getElementById('message');
+messageField.addEventListener('input', function() {
+    const remaining = 1000 - this.value.length;
+    const label = document.querySelector('label[for="message"]');
+    label.innerHTML = `💬 Your Message * <span style="color: #00ff00;">(${remaining} characters remaining)</span>`;
+});
+</script>
+
+<script src="mouse-trail.js"></script>
+
+</body>
+</html>
