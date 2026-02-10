@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🎮 Tetris - Charlie's Hiring Chances Increase!</title>
     <link rel="stylesheet" href="elements.css">
     <style>
@@ -64,6 +64,12 @@
             cursor: pointer;
             border-radius: 10px;
             box-shadow: 0 4px 0 #006600;
+            /* MOBILE FIX: Prevent zoom on tap */
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         .mobile-controls button:active {
@@ -72,9 +78,34 @@
             box-shadow: 0 2px 0 #006600;
         }
         
+        /* Control grid layout for better mobile experience */
+        .control-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+        }
+        
         @media (max-width: 768px) {
             .mobile-controls {
-                display: flex !important;
+                display: block !important;
+            }
+            
+            #game-canvas {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            .game-info {
+                gap: 20px;
+            }
+            
+            .info-box {
+                padding: 10px 15px;
+            }
+            
+            .info-value {
+                font-size: 24px;
             }
         }
     </style>
@@ -111,31 +142,37 @@
     
     <canvas id="game-canvas" width="300" height="600"></canvas>
     
-    <!-- MOBILE TOUCH CONTROLS -->
+    <!-- IMPROVED MOBILE TOUCH CONTROLS -->
     <div class="mobile-controls">
-        <button onclick="movePieceLeft()">⬅️</button>
-        <button onclick="rotatePiece()">🔄</button>
-        <button onclick="movePieceRight()">➡️</button>
-        <button onclick="softDrop()">⬇️</button>
-        <button onclick="hardDrop()">⏬</button>
+        <div class="control-row">
+            <button onclick="rotatePiece(); event.preventDefault();">🔄</button>
+        </div>
+        <div class="control-row">
+            <button onclick="movePieceLeft(); event.preventDefault();">⬅️</button>
+            <button onclick="softDrop(); event.preventDefault();">⬇️</button>
+            <button onclick="movePieceRight(); event.preventDefault();">➡️</button>
+        </div>
+        <div class="control-row">
+            <button onclick="hardDrop(); event.preventDefault();" style="width: 150px;">⏬ DROP</button>
+        </div>
     </div>
     
     <div class="box">
         <h3>🎮 Controls:</h3>
         <ul style="list-style: none; padding: 0;">
-            <li style="border: none;">⬅️ Arrow Left - Move Left</li>
-            <li style="border: none;">➡️ Arrow Right - Move Right</li>
-            <li style="border: none;">⬇️ Arrow Down - Soft Drop</li>
-            <li style="border: none;">⬆️ Arrow Up - Rotate</li>
-            <li style="border: none;">SPACE - Hard Drop</li>
+            <li style="border: none;">⬅️ Arrow Left / Left Button - Move Left</li>
+            <li style="border: none;">➡️ Arrow Right / Right Button - Move Right</li>
+            <li style="border: none;">⬇️ Arrow Down / Down Button - Soft Drop</li>
+            <li style="border: none;">⬆️ Arrow Up / Rotate Button - Rotate</li>
+            <li style="border: none;">SPACE / DROP Button - Hard Drop</li>
             <li style="border: none;">P - Pause</li>
         </ul>
     </div>
     
     <div style="text-align: center; margin: 20px 0;">
-        <button class="button" onclick="startGame()" id="start-btn">🎮 Start Game</button>
-        <button class="button" onclick="pauseGame()" id="pause-btn" style="display:none;">⏸️ Pause</button>
-        <button class="button" onclick="resetGame()" id="reset-btn" style="display:none;">🔄 Reset</button>
+        <button class="button" onclick="startGame(); event.preventDefault();" id="start-btn">🎮 Start Game</button>
+        <button class="button" onclick="pauseGame(); event.preventDefault();" id="pause-btn" style="display:none;">⏸️ Pause</button>
+        <button class="button" onclick="resetGame(); event.preventDefault();" id="reset-btn" style="display:none;">🔄 Reset</button>
     </div>
     
     <div id="achievement" style="text-align: center; margin: 20px 0; min-height: 40px; font-size: 18px; color: #00ff00;"></div>
@@ -193,6 +230,22 @@ let isPaused = false;
 let gameStarted = false;
 let dropSpeed = 1000;
 
+// Prevent double-tap zoom on the entire page
+document.addEventListener('touchstart', function(event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+
 // Initialize board
 function initBoard() {
     board = [];
@@ -222,7 +275,12 @@ function drawBlock(ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
     ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
     ctx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+    
+    // Add slight gradient for depth
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE / 2, BLOCK_SIZE / 2);
 }
 
 // Draw board
@@ -268,6 +326,7 @@ function drawNextPiece() {
                 nextCtx.fillStyle = nextPiece.color;
                 nextCtx.fillRect((offsetX + c) * 30, (offsetY + r) * 30, 30, 30);
                 nextCtx.strokeStyle = '#000';
+                nextCtx.lineWidth = 2;
                 nextCtx.strokeRect((offsetX + c) * 30, (offsetY + r) * 30, 30, 30);
             }
         }
@@ -333,6 +392,12 @@ function clearLines() {
         document.getElementById('lines').textContent = lines;
         document.getElementById('level').textContent = level;
         
+        // Restart game loop with new speed
+        if (gameLoop) {
+            clearInterval(gameLoop);
+            gameLoop = setInterval(update, dropSpeed);
+        }
+        
         // Achievements
         if (lines === 10) {
             showMessage('🎯 10 lines! Charlie is clearly competent!');
@@ -348,6 +413,8 @@ function clearLines() {
 
 // Rotate piece
 function rotatePiece() {
+    if (!gameStarted || isPaused) return;
+    
     const rotated = currentPiece.shape[0].map((_, i) =>
         currentPiece.shape.map(row => row[i]).reverse()
     );
@@ -358,6 +425,7 @@ function rotatePiece() {
     if (checkCollision(currentPiece)) {
         currentPiece.shape = original;
     }
+    draw();
 }
 
 // Move piece
@@ -405,6 +473,8 @@ function dropPiece() {
 
 // Hard drop
 function hardDrop() {
+    if (!gameStarted || isPaused) return;
+    
     while (!checkCollision(currentPiece, 0, 1)) {
         currentPiece.y++;
         score += 2;
@@ -419,6 +489,7 @@ function hardDrop() {
     if (checkCollision(currentPiece)) {
         gameOver();
     }
+    draw();
 }
 
 // Game loop
@@ -439,21 +510,23 @@ document.addEventListener('keydown', (e) => {
     if (!gameStarted || isPaused) return;
     
     if (e.key === 'ArrowLeft') {
+        e.preventDefault();
         movePiece(-1);
         draw();
     } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
         movePiece(1);
         draw();
     } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
         dropPiece();
         draw();
     } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
         rotatePiece();
-        draw();
     } else if (e.key === ' ') {
         e.preventDefault();
         hardDrop();
-        draw();
     } else if (e.key === 'p' || e.key === 'P') {
         pauseGame();
     }
