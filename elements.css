@@ -1,0 +1,609 @@
+/* ===== 90s GEOCITIES MADNESS ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Comic Sans MS", "Arial", sans-serif;
+    background: url('bg-90s.png') repeat;
+    background-size: 500px;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    /* Default 90s arrow cursor - cyan/magenta gradient */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><defs><linearGradient id="grad1" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%2300ffff;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23ff00ff;stop-opacity:1" /></linearGradient></defs><path d="M2 2 L2 16 L6 12 L9 18 L11 17 L8 11 L13 11 L2 2 Z" fill="url(%23grad1)" stroke="%23ffff00" stroke-width="1.2"/></svg>') 0 0, auto;
+}
+
+/* Background overlay for readability */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: -1;
+}
+
+/* Main container */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(180deg, #000033 0%, #000066 50%, #330066 100%);
+    min-height: 100vh;
+    border-left: 5px ridge #ff00ff;
+    border-right: 5px ridge #00ffff;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+}
+
+/* Header styles */
+.header {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+    background-size: 200% 200%;
+    animation: rainbowShift 3s linear infinite;
+    border: 5px outset #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.8);
+}
+
+@keyframes rainbowShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+h1 {
+    font-size: 48px;
+    color: #ffff00;
+    text-shadow: 
+        3px 3px #ff00ff,
+        6px 6px #00ffff,
+        0 0 10px #ffff00,
+        0 0 20px #ffff00;
+    margin: 10px 0;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-1deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+h2 {
+    color: #00ffff;
+    text-shadow: 2px 2px #ff00ff;
+    font-size: 32px;
+    margin: 20px 0 10px 0;
+    border-bottom: 3px dashed #ffff00;
+    padding-bottom: 10px;
+}
+
+h3 {
+    color: #ffff00;
+    text-shadow: 1px 1px #ff00ff;
+    font-size: 24px;
+    margin: 15px 0 10px 0;
+}
+
+/* Blink effect */
+.blink {
+    animation: blink 1s steps(2, start) infinite;
+    color: #00ff00;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+@keyframes blink {
+    to { visibility: hidden; }
+}
+
+/* Glitter text */
+.glitter {
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+    background-size: 200% 200%;
+    animation: glitterMove 1s linear infinite, shake 0.5s infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+    font-size: 36px;
+    display: inline-block;
+}
+
+@keyframes glitterMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+}
+
+/* Navigation bar */
+.navbar {
+    background: linear-gradient(to right, #ff00ff, #00ffff);
+    padding: 10px;
+    text-align: center;
+    border: 3px ridge #ffff00;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.navbar a {
+    text-decoration: none;
+}
+
+/* Buttons */
+.button {
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 5px;
+    background: linear-gradient(to bottom, #00ff00, #00cc00);
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    border: 3px outset #fff;
+    text-decoration: none;
+    /* 90s pointing finger UP cursor - yellow/magenta */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24"><defs><linearGradient id="finger" x1="0%25" y1="0%25" x2="0%25" y2="100%25"><stop offset="0%25" style="stop-color:%23ffff00;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23ff00ff;stop-opacity:1" /></linearGradient></defs><rect x="7" y="1" width="6" height="16" rx="3" fill="url(%23finger)" stroke="%2300ffff" stroke-width="1.2"/><ellipse cx="10" cy="1" rx="3" ry="2" fill="url(%23finger)" stroke="%2300ffff" stroke-width="1.2"/><rect x="4" y="14" width="12" height="8" rx="2" fill="url(%23finger)" stroke="%2300ffff" stroke-width="1.2"/><circle cx="10" cy="18" r="1.5" fill="%23fff" opacity="0.4"/></svg>') 10 0, pointer;
+    text-transform: uppercase;
+    box-shadow: 0 4px 0 #006600;
+    transition: all 0.1s;
+}
+
+.button:hover {
+    background: linear-gradient(to bottom, #ffff00, #ffcc00);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #cc6600;
+}
+
+.button:active {
+    border: 3px inset #fff;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #006600;
+}
+
+/* Content sections */
+.section {
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px ridge #00ffff;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+/* Lists */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul li {
+    padding: 8px 0;
+    border-bottom: 2px dotted #ff00ff;
+    font-size: 18px;
+}
+
+ul li:before {
+    content: "⭐ ";
+    color: #ffff00;
+}
+
+/* Links */
+a {
+    color: #00ffff;
+    text-decoration: underline;
+    font-weight: bold;
+    /* 90s pointing finger UP cursor - yellow/magenta */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24"><defs><linearGradient id="finger2" x1="0%25" y1="0%25" x2="0%25" y2="100%25"><stop offset="0%25" style="stop-color:%23ffff00;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23ff00ff;stop-opacity:1" /></linearGradient></defs><rect x="7" y="1" width="6" height="16" rx="3" fill="url(%23finger2)" stroke="%2300ffff" stroke-width="1.2"/><ellipse cx="10" cy="1" rx="3" ry="2" fill="url(%23finger2)" stroke="%2300ffff" stroke-width="1.2"/><rect x="4" y="14" width="12" height="8" rx="2" fill="url(%23finger2)" stroke="%2300ffff" stroke-width="1.2"/><circle cx="10" cy="18" r="1.5" fill="%23fff" opacity="0.4"/></svg>') 10 0, pointer;
+}
+
+a:hover {
+    color: #ffff00;
+    text-shadow: 0 0 5px #ffff00;
+}
+
+a:visited {
+    color: #ff00ff;
+}
+
+/* Marquee styling */
+marquee {
+    background: #000;
+    color: #00ff00;
+    font-weight: bold;
+    padding: 10px;
+    border: 2px solid #00ff00;
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+/* Boxes and containers */
+.box {
+    border: 3px dotted #ffff00;
+    padding: 15px;
+    margin: 15px 0;
+    background: rgba(255, 255, 0, 0.1);
+    box-shadow: inset 0 0 10px rgba(255, 255, 0, 0.3);
+}
+
+/* Under construction */
+.construction {
+    display: inline-block;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Visitor counter */
+.counter {
+    background: #000;
+    color: #00ff00;
+    padding: 10px;
+    border: 3px inset #00ff00;
+    font-family: "Courier New", monospace;
+    font-size: 16px;
+    text-align: center;
+    margin: 10px 0;
+    letter-spacing: 3px;
+}
+
+/* Retro counter digits */
+.retro-counter {
+    display: inline-flex;
+    gap: 3px;
+    justify-content: center;
+}
+
+.counter-digit {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #00ff00;
+    font-family: "Courier New", monospace;
+    font-size: 28px;
+    font-weight: bold;
+    width: 30px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 2px inset #444;
+    text-shadow: 0 0 8px #00ff00;
+    letter-spacing: 0;
+}
+
+/* Web rings */
+.webring {
+    background: linear-gradient(to right, #4169e1, #ff1493);
+    padding: 15px;
+    text-align: center;
+    border: 3px ridge #fff;
+    margin: 20px 0;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-top: 3px ridge #ff00ff;
+    margin-top: 30px;
+    font-size: 12px;
+    color: #888;
+}
+
+/* Achievement popup */
+.achievement {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #000;
+    padding: 20px;
+    border: 4px solid #ff00ff;
+    font-weight: bold;
+    box-shadow: 0 0 20px #ffd700;
+    animation: achievePulse 1s infinite;
+    max-width: 300px;
+    z-index: 9999;
+}
+
+@keyframes achievePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table td {
+    border: 2px solid #ff00ff;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Input fields */
+input, textarea {
+    padding: 10px;
+    font-family: "Comic Sans MS", Arial;
+    font-size: 16px;
+    border: 3px inset #ccc;
+    background: #fff;
+    color: #000;
+    width: 100%;
+    max-width: 500px;
+    margin: 5px 0;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Canvas for games */
+canvas {
+    border: 5px ridge #00ff00;
+    display: block;
+    margin: 20px auto;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+/* Wrapper for pages */
+.wrapper {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(180deg, #000033, #330066);
+    border: 5px ridge #ff00ff;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+}
+
+/* Guestbook posts */
+#posts p {
+    background: rgba(0, 255, 255, 0.1);
+    border-left: 4px solid #00ffff;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+/* Horizontal rules */
+hr {
+    border: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #ff00ff, #00ffff, #ffff00, transparent);
+    margin: 20px 0;
+}
+
+/* Paragraph spacing */
+p {
+    line-height: 1.8;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Special effects */
+.neon {
+    animation: neonGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neonGlow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00ff, 0 0 20px #ff00ff;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+    }
+}
+
+/* Easter egg invisible button */
+.easter-egg {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    /* Special sparkly star cursor for easter egg! */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><linearGradient id="star" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%23ffff00;stop-opacity:1" /><stop offset="50%25" style="stop-color:%23ff00ff;stop-opacity:1" /><stop offset="100%25" style="stop-color:%2300ffff;stop-opacity:1" /></linearGradient></defs><path d="M12 2 L14 9 L21 9 L15 14 L17 21 L12 16 L7 21 L9 14 L3 9 L10 9 Z" fill="url(%23star)" stroke="%23ffff00" stroke-width="1.5"/></svg>') 12 12, pointer;
+}
+
+.easter-egg:hover {
+    background: rgba(255, 255, 0, 0.3);
+}
+
+/* Best viewed in badge */
+.best-viewed {
+    background: #000;
+    color: #00ff00;
+    padding: 5px 10px;
+    border: 2px solid #00ff00;
+    font-size: 12px;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000033;
+    border: 2px solid #ff00ff;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #ff00ff, #00ffff);
+    border: 2px solid #ffff00;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #ffff00, #ff00ff);
+}
+
+/* ===== 90s LOADING/BUSY CURSOR ===== */
+/* Add this class to body when loading */
+body.loading,
+body.loading * {
+    /* Animated hourglass cursor - classic 90s! */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24"><defs><linearGradient id="hour" x1="0%25" y1="0%25" x2="0%25" y2="100%25"><stop offset="0%25" style="stop-color:%23ffff00;stop-opacity:1" /><stop offset="50%25" style="stop-color:%23ff00ff;stop-opacity:1" /><stop offset="100%25" style="stop-color:%2300ffff;stop-opacity:1" /></linearGradient></defs><rect x="3" y="1" width="14" height="3" fill="url(%23hour)" stroke="%23fff" stroke-width="1"/><path d="M5 4 L10 12 L15 4 Z" fill="url(%23hour)" stroke="%23fff" stroke-width="1"/><path d="M5 20 L10 12 L15 20 Z" fill="url(%23hour)" stroke="%23fff" stroke-width="1"/><rect x="3" y="20" width="14" height="3" fill="url(%23hour)" stroke="%23fff" stroke-width="1"/><circle cx="10" cy="14" r="2" fill="%2300ff00" opacity="0.8"/></svg>') 10 12, wait !important;
+}
+
+/* Text cursor for input fields */
+input[type="text"],
+input[type="email"],
+textarea {
+    /* I-beam text cursor with 90s flair */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20"><defs><linearGradient id="ibeam" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%2300ffff;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23ff00ff;stop-opacity:1" /></linearGradient></defs><rect x="5" y="0" width="2" height="20" fill="url(%23ibeam)"/><rect x="2" y="0" width="8" height="2" fill="url(%23ibeam)"/><rect x="2" y="18" width="8" height="2" fill="url(%23ibeam)"/></svg>') 6 10, text;
+}
+
+/* Move cursor for draggable elements */
+.draggable {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><linearGradient id="move" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%2300ff00;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23ffff00;stop-opacity:1" /></linearGradient></defs><path d="M12 2 L12 10 M12 14 L12 22 M2 12 L10 12 M14 12 L22 12" stroke="url(%23move)" stroke-width="2" fill="none"/><path d="M12 2 L9 5 L15 5 Z M12 22 L9 19 L15 19 Z M2 12 L5 9 L5 15 Z M22 12 L19 9 L19 15 Z" fill="url(%23move)" stroke="%23ff00ff" stroke-width="1"/></svg>') 12 12, move;
+}
+
+.title-icon{
+    height: 4em;          /* same size as text */
+    vertical-align: middle;
+    margin: 0 8px;
+}
+
+/* ===================================================== */
+/* =============== ULTIMATE TITLE ICON ================= */
+/* ===================================================== */
+
+/* ===== TITLE ICON ===== */
+.title-icon{
+    height: 1.2em;
+    vertical-align: middle;
+    margin: 0 10px;
+    image-rendering: pixelated;
+    animation: iconFloat 2s ease-in-out infinite, iconSpin 8s linear infinite;
+    filter: drop-shadow(0 0 6px #00ffff);
+    transition: transform .2s ease, filter .2s ease;
+}
+
+@keyframes iconFloat{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-4px); }
+}
+
+@keyframes iconSpin{
+    from{ rotate:0deg; }
+    to{ rotate:360deg; }
+}
+
+/* rainbow mode helper */
+@keyframes rainbow{
+    0%{ filter:hue-rotate(0); }
+    100%{ filter:hue-rotate(360deg); }
+}
+
+.title-icon:hover{
+    transform: scale(1.4) rotate(-10deg);
+    filter: drop-shadow(0 0 12px yellow);
+    cursor:pointer;
+}
+
+/* enable with class="title-icon rainbow" */
+.title-icon.rainbow{
+    animation: iconFloat 2s ease-in-out infinite,
+               iconSpin 8s linear infinite,
+               rainbow 3s linear infinite;
+}
+
+
+/* ===================================================== */
+/* ================== HEADER REACTION ================== */
+/* ===================================================== */
+
+.header.party{
+    animation: headerParty 0.4s linear infinite;
+}
+
+@keyframes headerParty{
+    0%{ filter:hue-rotate(0deg); transform: scale(1); }
+    50%{ filter:hue-rotate(180deg); transform: scale(1.02); }
+    100%{ filter:hue-rotate(360deg); transform: scale(1); }
+}
+
+
+/* ===================================================== */
+/* ================= SPARKLE PARTICLES ================= */
+/* ===================================================== */
+
+.sparkle{
+    position: fixed;
+    pointer-events: none;
+    font-size: 14px;
+    animation: sparkleFly 700ms ease-out forwards;
+    z-index: 99999;
+}
+
+@keyframes sparkleFly{
+    to{
+        transform: translateY(-20px) scale(0.5);
+        opacity: 0;
+    }
+}
+
+
+/* ===================================================== */
+/* ================= ICON EXPLOSION ==================== */
+/* ===================================================== */
+
+.icon-particle{
+    position: fixed;
+    pointer-events: none;
+    width: 8px;
+    height: 8px;
+    background: yellow;
+    box-shadow: 0 0 6px yellow;
+    z-index: 99999;
+    animation: particleBoom 900ms ease-out forwards;
+}
+
+@keyframes particleBoom{
+    to{
+        transform: translate(var(--x), var(--y));
+        opacity: 0;
+    }
+}
+
+
+/* ===================================================== */
+/* ================= ICON DUPLICATES =================== */
+/* ===================================================== */
+
+.title-icon.clone{
+    position: fixed;
+    animation: cloneFly 1s ease-out forwards, iconSpin 3s linear infinite;
+    z-index: 9999;
+}
+
+@keyframes cloneFly{
+    to{
+        transform: translateY(-80px) scale(0.6);
+        opacity: 0;
+    }
+}
+
+
