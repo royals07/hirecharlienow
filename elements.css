@@ -481,7 +481,7 @@ textarea {
 }
 
 .title-icon{
-    height: 4em;          /* same size as text */
+    height: 1.3em;          /* same size as text */
     vertical-align: middle;
     margin: 0 8px;
 }
