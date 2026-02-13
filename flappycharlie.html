@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎮 Flappy Charlie</title>
+    <link rel="stylesheet" href="elements.css">
+    <style>
+        body {
+            overflow: hidden;
+            touch-action: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #game-wrapper {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        #canvas {
+            border: 5px ridge #00ff00;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            background: #70c5ce;
+        }
+
+        .score-display {
+            font-size: 36px;
+            color: #ffff00;
+            font-weight: bold;
+            text-shadow: 3px 3px #ff00ff;
+            margin: 15px 0;
+        }
+
+        .high-score {
+            color: #00ffff;
+            font-size: 18px;
+        }
+
+        /* Start Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #000033, #330066);
+            border: 5px ridge #00ffff;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            color: #ffff00;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px #ff00ff;
+        }
+
+        .modal-content input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            font-size: 16px;
+            background: #000;
+            border: 3px inset #00ffff;
+            color: #00ff00;
+            font-family: "Comic Sans MS", Arial;
+            margin: 15px 0;
+        }
+
+        .festival-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .festival-btn {
+            padding: 10px 15px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: "Comic Sans MS", Arial;
+        }
+
+        .festival-btn.selected {
+            background: rgba(255, 255, 0, 0.4);
+            border-color: #ffff00;
+            color: #ffff00;
+        }
+
+        .instructions {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px dashed #00ffff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .instructions p {
+            color: #00ffff;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .button {
+            padding: 12px 24px;
+            font-size: 18px;
+            background: linear-gradient(to bottom, #00ff00, #00cc00);
+            border: 3px outset #00ff00;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: "Comic Sans MS", Arial;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background: linear-gradient(to bottom, #00cc00, #009900);
+        }
+
+        /* Leaderboard */
+        .leaderboard {
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px ridge #ffd700;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .leaderboard h3 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(0, 255, 255, 0.1);
+            border-left: 3px solid #00ffff;
+            border-radius: 5px;
+        }
+
+        .leaderboard-entry.top-1 {
+            background: rgba(255, 215, 0, 0.2);
+            border-left-color: #ffd700;
+        }
+
+        .leaderboard-entry.top-2 {
+            background: rgba(192, 192, 192, 0.2);
+            border-left-color: #c0c0c0;
+        }
+
+        .leaderboard-entry.top-3 {
+            background: rgba(205, 127, 50, 0.2);
+            border-left-color: #cd7f32;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+
+        .badge-latitude {
+            background: linear-gradient(135deg, #FF6B9D, #C06C84);
+            color: white;
+        }
+
+        .badge-leeds {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            color: white;
+        }
+
+        .badge-boomtown {
+            background: linear-gradient(135deg, #F2994A, #F2C94C);
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>🎮 FLAPPY CHARLIE</h1>
+    <marquee behavior="alternate" scrollamount="5">
+        ⚡ TAP TO FLAP ⚡ DODGE PIPES ⚡ GET HIGH SCORE ⚡
+    </marquee>
+
+    <div id="game-wrapper">
+        <div class="score-display">Score: <span id="current-score">0</span></div>
+        <div class="high-score">High Score: <span id="high-score">0</span></div>
+
+        <canvas id="canvas" width="320" height="480"></canvas>
+    </div>
+
+    <!-- START MODAL -->
+    <div id="start-modal" class="modal">
+        <div class="modal-content">
+            <h2>🎮 FLAPPY CHARLIE 🎮</h2>
+
+            <div class="instructions">
+                <p><strong>📱 HOW TO PLAY:</strong></p>
+                <p>👆 TAP or SPACEBAR to flap</p>
+                <p>🚫 Avoid the pipes</p>
+                <p>🏆 Beat the high score!</p>
+            </div>
+
+            <input type="text" id="player-name" placeholder="Your name..." maxlength="20">
+
+            <div class="festival-options">
+                <button class="festival-btn" onclick="selectFestival('latitude', this)">
+                    🎪 Latitude
+                </button>
+                <button class="festival-btn" onclick="selectFestival('leeds', this)">
+                    🎵 Leeds
+                </button>
+                <button class="festival-btn" onclick="selectFestival('boomtown', this)">
+                    💥 Boomtown
+                </button>
+                <button class="festival-btn selected" onclick="selectFestival('none', this)">
+                    🌐 None
+                </button>
+            </div>
+
+            <button class="button" onclick="startGame()" style="margin-top: 15px; font-size: 20px;">
+                🚀 START GAME
+            </button>
+
+            <p style="color: #888; font-size: 12px; margin-top: 15px;">
+                Built by Charlie • hirecharlienow.com
+            </p>
+        </div>
+    </div>
+
+    <!-- GAME OVER MODAL -->
+    <div id="gameover-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 style="color: #ff0000;">GAME OVER!</h2>
+
+            <div style="font-size: 28px; color: #ffff00; margin: 20px 0;">
+                Final Score: <span id="final-score">0</span>
+            </div>
+
+            <div style="background: rgba(255, 0, 0, 0.2); border: 3px solid #ff0000; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <p style="color: #00ffff; font-size: 14px; margin: 10px 0;">
+                    🎮 You just played a game built by Charlie.<br>
+                    Clearly he has skills.<br>
+                    <strong style="color: #ffff00;">Maybe you should hire him? 🤔</strong>
+                </p>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <button class="button" onclick="playAgain()">🔄 Play Again</button>
+                <a href="contact.html" class="button" style="background: linear-gradient(to bottom, #ff0000, #cc0000);">
+                    🚨 HIRE CHARLIE
+                </a>
+            </div>
+
+            <button class="button" onclick="shareScore()" style="margin-top: 10px; background: linear-gradient(to bottom, #800080, #4b0082);">
+                📤 Share Score
+            </button>
+        </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="leaderboard">
+        <h3>🏆 TOP 10 HIGH SCORES 🏆</h3>
+        <div id="leaderboard-list">
+            <p style="text-align: center; color: #888;">Loading scores...</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a class="button" href="index.html">🏠 Back to Homepage</a>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+"use strict";
+
+// Firebase Config
+const firebaseConfig = {
+   apiKey: "AIzaSyAVLUuQhdJ8Co80X4k8YylvrzRAM1bPTXs",
+  authDomain: "charlie-guestbook.firebaseapp.com",
+  databaseURL: "https://charlie-guestbook-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "charlie-guestbook",
+  storageBucket: "charlie-guestbook.firebasestorage.app",
+  messagingSenderId: "40421298596",
+  appId: "1:40421298596:web:0426fdef8f4f3b1c1b3131"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const scoresRef = database.ref('flappyCharlieScores');
+
+// Player info
+let playerName = '';
+let playerFestival = 'none';
+
+// Canvas setup
+var cvs = document.getElementById("canvas");
+var ctx = cvs.getContext("2d");
+
+// Load images
+var bird = new Image();
+var bg = new Image();
+var fg = new Image();
+var pipeNorth = new Image();
+var pipeSouth = new Image();
+
+bird.src = "charlie.png"; // YOUR FACE!
+bg.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M/wHwAEBgIApD5fRAAAAABJRU5ErkJggg=="; // Sky blue placeholder
+fg.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="; // Ground placeholder
+
+// Create simple pipe images programmatically
+pipeNorth.src = createPipeImage();
+pipeSouth.src = createPipeImage();
+
+function createPipeImage() {
+    const pipeCanvas = document.createElement('canvas');
+    pipeCanvas.width = 52;
+    pipeCanvas.height = 320;
+    const pipeCtx = pipeCanvas.getContext('2d');
+    pipeCtx.fillStyle = '#00ff00';
+    pipeCtx.fillRect(0, 0, 52, 320);
+    pipeCtx.strokeStyle = '#000';
+    pipeCtx.lineWidth = 3;
+    pipeCtx.strokeRect(0, 0, 52, 320);
+    return pipeCanvas.toDataURL();
+}
+
+// Game variables
+var gap = 120;
+var constant;
+var bX = 50;
+var bY = 150;
+var gravity = 1.2;
+var score = 0;
+var highScore = parseInt(localStorage.getItem('flappyCharlieHighScore') || '0');
+var gameStarted = false;
+var gameOver = false;
+var animationId = null;
+
+// Pipe coordinates
+var pipe = [];
+pipe[0] = {
+    x: cvs.width,
+    y: 0
+};
+
+// Festival selection
+function selectFestival(festival, btn) {
+    playerFestival = festival;
+    document.querySelectorAll('.festival-btn').forEach(b => {
+        b.classList.remove('selected');
+    });
+    btn.classList.add('selected');
+}
+
+// Start game
+function startGame() {
+    const nameInput = document.getElementById('player-name');
+    playerName = nameInput.value.trim();
+
+    if (playerName.length < 2) {
+        alert('⚠️ Name must be at least 2 characters!');
+        return;
+    }
+
+    document.getElementById('start-modal').style.display = 'none';
+    
+    // Reset game state
+    gameStarted = true;
+    gameOver = false;
+    score = 0;
+    bY = 150;
+    pipe = [];
+    pipe[0] = {
+        x: cvs.width,
+        y: 0
+    };
+    
+    document.getElementById('current-score').textContent = '0';
+    
+    // Start game loop
+    draw();
+}
+
+// Move up function
+function moveUp() {
+    if (gameStarted && !gameOver) {
+        bY -= 35;
+    }
+}
+
+// Event listeners
+document.addEventListener("keydown", function(e) {
+    if (e.code === 'Space') {
+        e.preventDefault();
+        moveUp();
+    }
+});
+
+cvs.addEventListener("click", moveUp);
+cvs.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveUp();
+});
+
+// Draw function
+function draw() {
+    if (!gameStarted || gameOver) return;
+
+    // Background
+    ctx.fillStyle = "#70c5ce";
+    ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+    // Pipes
+    for (var i = 0; i < pipe.length; i++) {
+        constant = pipeNorth.height + gap;
+
+        ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
+        ctx.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
+
+        pipe[i].x--;
+
+        if (pipe[i].x == 125) {
+            pipe.push({
+                x: cvs.width,
+                y: Math.floor(Math.random() * pipeNorth.height) - pipeNorth.height
+            });
+        }
+
+        // Improved collision detection - only check if bird is near the pipe
+        if (bX + 40 >= pipe[i].x && bX <= pipe[i].x + 52) {
+            // Check collision with top pipe or bottom pipe
+            if (bY <= pipe[i].y + pipeNorth.height || bY + 40 >= pipe[i].y + constant) {
+                if (!gameOver) {
+                    handleGameOver();
+                }
+            }
+        }
+        
+        // Check ground collision
+        if (bY + 40 >= cvs.height - 50) {
+            if (!gameOver) {
+                handleGameOver();
+            }
+        }
+        
+        // Check ceiling collision
+        if (bY < 0) {
+            if (!gameOver) {
+                handleGameOver();
+            }
+        }
+
+        // Score - only count once per pipe
+        if (pipe[i].x == 5 && !pipe[i].scored) {
+            pipe[i].scored = true;
+            score++;
+            document.getElementById('current-score').textContent = score;
+
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('flappyCharlieHighScore', highScore.toString());
+                document.getElementById('high-score').textContent = highScore;
+            }
+        }
+    }
+
+    // Ground
+    ctx.fillStyle = "#8B4513";
+    ctx.fillRect(0, cvs.height - 50, cvs.width, 50);
+    
+    // Grass
+    ctx.fillStyle = "#00ff00";
+    ctx.fillRect(0, cvs.height - 50, cvs.width, 5);
+
+    // Bird (your face!)
+    if (bird.complete) {
+        ctx.drawImage(bird, bX, bY, 40, 40);
+    } else {
+        // Fallback if image doesn't load
+        ctx.fillStyle = "#ffff00";
+        ctx.fillRect(bX, bY, 40, 40);
+    }
+
+    // Gravity
+    bY += gravity;
+
+    // Continue animation loop
+    if (!gameOver) {
+        animationId = requestAnimationFrame(draw);
+    }
+}
+
+// Game over
+function handleGameOver() {
+    gameOver = true;
+    gameStarted = false;
+    
+    // Cancel animation loop
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+    }
+
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('gameover-modal').style.display = 'flex';
+
+    // Submit score with error handling
+    submitScore(playerName, score, playerFestival);
+}
+
+// Play again
+function playAgain() {
+    document.getElementById('gameover-modal').style.display = 'none';
+
+    // Reset game
+    bY = 150;
+    pipe = [];
+    pipe[0] = {
+        x: cvs.width,
+        y: 0
+    };
+    score = 0;
+    document.getElementById('current-score').textContent = '0';
+
+    gameStarted = true;
+    gameOver = false;
+    draw();
+}
+
+// Share score
+function shareScore() {
+    const text = `🎮 I scored ${score} points in Flappy Charlie! Can you beat that? hirecharlienow.com`;
+
+    if (navigator.share) {
+        navigator.share({ title: 'Flappy Charlie', text: text }).catch(err => {
+            // Fallback if share fails
+            navigator.clipboard.writeText(text);
+            alert('📋 Score copied! Share it with your friends!');
+        });
+    } else {
+        navigator.clipboard.writeText(text);
+        alert('📋 Score copied! Share it with your friends!');
+    }
+}
+
+// Submit score with error handling
+function submitScore(name, finalScore, festival) {
+    scoresRef.push({
+        name: name,
+        score: finalScore,
+        festival: festival,
+        timestamp: Date.now()
+    }).then(() => {
+        console.log('Score submitted successfully!');
+        loadLeaderboard();
+    }).catch((error) => {
+        console.error('Error submitting score:', error);
+        console.log('Game continues without leaderboard submission');
+        // Don't show error to user - game still works
+    });
+}
+
+// Load leaderboard with error handling
+function loadLeaderboard() {
+    scoresRef.orderByChild('score').limitToLast(10).once('value')
+        .then((snapshot) => {
+            const scores = [];
+            snapshot.forEach(child => {
+                scores.push(child.val());
+            });
+
+            scores.reverse();
+
+            const listDiv = document.getElementById('leaderboard-list');
+            listDiv.innerHTML = '';
+
+            if (scores.length === 0) {
+                listDiv.innerHTML = '<p style="text-align: center; color: #888;">No scores yet! Be the first!</p>';
+                return;
+            }
+
+            scores.forEach((score, index) => {
+                const entry = document.createElement('div');
+                entry.className = 'leaderboard-entry';
+                if (index === 0) entry.classList.add('top-1');
+                if (index === 1) entry.classList.add('top-2');
+                if (index === 2) entry.classList.add('top-3');
+
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+                const badge = getFestivalBadge(score.festival);
+
+                entry.innerHTML = `
+                    <span style="font-weight: bold; color: #ffff00; min-width: 30px;">${medal} #${index + 1}</span>
+                    <span style="flex: 1; color: #00ffff;">${escapeHtml(score.name)}${badge}</span>
+                    <span style="color: #00ff00; font-weight: bold;">${score.score}</span>
+                `;
+
+                listDiv.appendChild(entry);
+            });
+        })
+        .catch((error) => {
+            console.error('Error loading leaderboard:', error);
+            const listDiv = document.getElementById('leaderboard-list');
+            listDiv.innerHTML = '<p style="text-align: center; color: #ff6600;">⚠️ Leaderboard temporarily unavailable</p>';
+        });
+}
+
+function getFestivalBadge(festival) {
+    const badges = {
+        'latitude': '<span class="badge badge-latitude">🎪</span>',
+        'leeds': '<span class="badge badge-leeds">🎵</span>',
+        'boomtown': '<span class="badge badge-boomtown">💥</span>',
+        'none': ''
+    };
+    return badges[festival] || '';
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Initialize
+document.getElementById('high-score').textContent = highScore;
+loadLeaderboard();
+setInterval(loadLeaderboard, 30000);
+</script>
+
+<script src="mouse-trail.js"></script>
+
+</body>
+</html>
