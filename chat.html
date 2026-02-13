@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💬 Live Chat - Charlie's Site</title>
+    <link rel="stylesheet" href="elements.css">
+    <style>
+        .chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px ridge #00ffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: linear-gradient(to right, #ff00ff, #00ffff);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 3px ridge #ffff00;
+        }
+        
+        .chat-header h2 {
+            margin: 0;
+            color: #000;
+            text-shadow: 1px 1px #fff;
+        }
+        
+        .online-count {
+            background: #00ff00;
+            color: #000;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #000;
+        }
+        
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.1);
+            border-left: 3px solid #00ffff;
+            border-radius: 5px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .chat-message.own-message {
+            background: rgba(255, 255, 0, 0.1);
+            border-left-color: #ffff00;
+        }
+        
+        .chat-message.charlie-message {
+            background: rgba(255, 0, 255, 0.2);
+            border-left-color: #ff00ff;
+            border-width: 4px;
+        }
+        
+        .message-author {
+            font-weight: bold;
+            color: #00ffff;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .charlie-badge {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        
+        /* Festival Badges */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .badge-latitude {
+            background: linear-gradient(135deg, #FF6B9D, #C06C84);
+            color: white;
+        }
+        
+        .badge-leeds {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            color: white;
+        }
+        
+        .badge-boomtown {
+            background: linear-gradient(135deg, #F2994A, #F2C94C);
+            color: #000;
+        }
+        
+        .badge-visitor {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .message-text {
+            color: #fff;
+            font-size: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .chat-input-area {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 3px ridge #00ff00;
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+        
+        #chat-input {
+            flex: 1;
+            padding: 12px;
+            background: #000;
+            border: 3px inset #00ffff;
+            color: #00ff00;
+            font-family: "Comic Sans MS", Arial;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        
+        #send-btn {
+            padding: 12px 25px;
+            background: linear-gradient(to bottom, #00ff00, #00cc00);
+            color: #000;
+            border: 3px outset #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: "Comic Sans MS", Arial;
+        }
+        
+        #send-btn:active {
+            border: 3px inset #fff;
+        }
+        
+        .username-setup {
+            padding: 30px 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px ridge #00ffff;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .form-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #ffff00;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        #username-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            background: #000;
+            border: 3px inset #00ffff;
+            color: #00ff00;
+            font-family: "Comic Sans MS", Arial;
+            border-radius: 5px;
+        }
+        
+        .festival-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .festival-option {
+            position: relative;
+        }
+        
+        .festival-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .festival-label {
+            display: block;
+            padding: 12px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 3px solid #00ffff;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .festival-option input[type="radio"]:checked + .festival-label {
+            background: rgba(0, 255, 255, 0.3);
+            border-color: #ffff00;
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .festival-label:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ff00;
+        }
+        
+        .typing-indicator {
+            padding: 10px 15px;
+            color: #888;
+            font-style: italic;
+            font-size: 13px;
+        }
+        
+        .stats-bar {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-top: 2px solid #00ffff;
+            display: flex;
+            justify-content: space-around;
+            font-size: 12px;
+        }
+        
+        .stat {
+            color: #00ffff;
+        }
+        
+        .stat strong {
+            color: #ffff00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>💬 Live Chat</h1>
+    <marquee behavior="alternate" scrollamount="5">
+        🌐 REAL-TIME CHAT 🌐 FESTIVAL COMMUNITY 🌐 90s IRC VIBES 🌐
+    </marquee>
+    
+    <p class="blink">Chat with other visitors in real-time!</p>
+    
+    <!-- Username Setup (shown first) -->
+    <div id="username-setup" class="username-setup">
+        <h2 style="color: #00ffff; margin-bottom: 20px;">Join The Chat!</h2>
+        
+        <div class="form-group">
+            <label for="username-input">👤 Choose Your Username:</label>
+            <input type="text" id="username-input" placeholder="Enter username..." maxlength="20">
+        </div>
+        
+        <div class="form-group">
+            <label>📍 Where Did You Find Me?</label>
+            <div class="festival-options">
+                <div class="festival-option">
+                    <input type="radio" id="fest-latitude" name="festival" value="latitude">
+                    <label for="fest-latitude" class="festival-label">
+                        🎪 Latitude<br>Festival
+                    </label>
+                </div>
+                
+                <div class="festival-option">
+                    <input type="radio" id="fest-leeds" name="festival" value="leeds">
+                    <label for="fest-leeds" class="festival-label">
+                        🎵 Leeds<br>Festival
+                    </label>
+                </div>
+                
+                <div class="festival-option">
+                    <input type="radio" id="fest-boomtown" name="festival" value="boomtown">
+                    <label for="fest-boomtown" class="festival-label">
+                        💥 Boomtown<br>Festival
+                    </label>
+                </div>
+                
+                <div class="festival-option">
+                    <input type="radio" id="fest-visitor" name="festival" value="visitor" checked>
+                    <label for="fest-visitor" class="festival-label">
+                        🌐 Just<br>Visiting
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <button class="button" onclick="setUsername()" style="margin-top: 20px; font-size: 18px; padding: 12px 30px;">
+            🚀 Join Chat Room
+        </button>
+        
+        <p style="font-size: 12px; color: #888; margin-top: 15px;">
+            Festival badges will appear next to your name! 🎉
+        </p>
+    </div>
+    
+    <!-- Chat Container (hidden until username set) -->
+    <div id="chat-container" class="chat-container" style="display: none;">
+        <div class="chat-header">
+            <h2>💬 Charlie's Chat Room</h2>
+            <div class="online-count">
+                🟢 <span id="online-count">1</span> online
+            </div>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                💬 <strong id="total-messages">0</strong> messages
+            </div>
+            <div class="stat">
+                🎪 <strong id="festival-count">0</strong> festival visitors
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages appear here -->
+        </div>
+        
+        <div class="typing-indicator" id="typing-indicator" style="display: none;">
+            <span class="blink">Someone is typing...</span>
+        </div>
+        
+        <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+                <input 
+                    type="text" 
+                    id="chat-input" 
+                    placeholder="Type a message..." 
+                    maxlength="200"
+                    disabled
+                >
+                <button id="send-btn" onclick="sendMessage()" disabled>
+                    📤 Send
+                </button>
+            </div>
+            <p style="font-size: 11px; color: #888; margin-top: 8px; text-align: center;">
+                Messages are public and moderated. Be respectful! 🤝
+            </p>
+        </div>
+    </div>
+    
+    <div class="box" style="margin-top: 20px;">
+        <h3>💡 Chat Tips:</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li style="border: none;">✅ Be friendly and respectful</li>
+            <li style="border: none;">✅ Chat is moderated for profanity</li>
+            <li style="border: none;">✅ Messages are public to all visitors</li>
+            <li style="border: none;">✅ Your festival badge shows where you found me!</li>
+            <li style="border: none;">✅ Charlie might pop in to say hi! 👋</li>
+        </ul>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a class="button" href="index.html">🏠 Back to Homepage</a>
+        <button class="button" onclick="changeUsername()" style="background: linear-gradient(to bottom, #ff00ff, #cc00cc);">🔄 Change Username</button>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+// Firebase Config
+const firebaseConfig = {
+   apiKey: "AIzaSyAVLUuQhdJ8Co80X4k8YylvrzRAM1bPTXs",
+  authDomain: "charlie-guestbook.firebaseapp.com",
+  databaseURL: "https://charlie-guestbook-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "charlie-guestbook",
+  storageBucket: "charlie-guestbook.firebasestorage.app",
+  messagingSenderId: "40421298596",
+  appId: "1:40421298596:web:0426fdef8f4f3b1c1b3131"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const chatRef = database.ref('chat');
+const presenceRef = database.ref('presence');
+
+let myUsername = '';
+let myUserId = '';
+let myFestival = 'visitor';
+let typingTimeout = null;
+
+// Profanity filter
+const badWords = [
+    'fuck', 'shit', 'ass', 'bitch', 'damn', 'hell', 'crap', 'piss',
+    'dick', 'cock', 'bastard', 'whore', 'slut', 'fag', 'cunt',
+    'asshole', 'pussy', 'nigger', 'nigga', 'retard', 'wanker', 'bollocks'
+];
+
+function filterProfanity(text) {
+    let filtered = text;
+    badWords.forEach(word => {
+        const regex = new RegExp(word, 'gi');
+        filtered = filtered.replace(regex, '*'.repeat(word.length));
+    });
+    return filtered;
+}
+
+function containsProfanity(text) {
+    const lowerText = text.toLowerCase();
+    return badWords.some(word => lowerText.includes(word));
+}
+
+// Set Username
+function setUsername() {
+    const input = document.getElementById('username-input');
+    const username = input.value.trim();
+    
+    // Get selected festival
+    const festivalInputs = document.getElementsByName('festival');
+    let selectedFestival = 'visitor';
+    for (const radio of festivalInputs) {
+        if (radio.checked) {
+            selectedFestival = radio.value;
+            break;
+        }
+    }
+    
+    if (username.length < 2) {
+        alert('⚠️ Username must be at least 2 characters!');
+        return;
+    }
+    
+    if (username.length > 20) {
+        alert('⚠️ Username too long! Max 20 characters.');
+        return;
+    }
+    
+    // Check profanity
+    if (containsProfanity(username)) {
+        alert('🚫 Please choose a friendly username!');
+        return;
+    }
+    
+    myUsername = filterProfanity(username);
+    myFestival = selectedFestival;
+    myUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    // Save to localStorage
+    localStorage.setItem('chatUsername', myUsername);
+    localStorage.setItem('chatUserId', myUserId);
+    localStorage.setItem('chatFestival', myFestival);
+    
+    // Show chat, hide setup
+    document.getElementById('username-setup').style.display = 'none';
+    document.getElementById('chat-container').style.display = 'block';
+    document.getElementById('chat-input').disabled = false;
+    document.getElementById('send-btn').disabled = false;
+    
+    // Set up presence
+    setupPresence();
+    
+    // Load messages
+    loadMessages();
+    
+    // Update stats
+    updateStats();
+    
+    // Focus input
+    document.getElementById('chat-input').focus();
+    
+    // Send join message
+    sendSystemMessage(`${myUsername} joined the chat! ${getFestivalEmoji(myFestival)}`);
+}
+
+// Change Username
+function changeUsername() {
+    if (confirm('🔄 Change your username? This will refresh the chat.')) {
+        localStorage.removeItem('chatUsername');
+        localStorage.removeItem('chatUserId');
+        localStorage.removeItem('chatFestival');
+        location.reload();
+    }
+}
+
+// Get Festival Emoji
+function getFestivalEmoji(festival) {
+    const emojis = {
+        'latitude': '🎪',
+        'leeds': '🎵',
+        'boomtown': '💥',
+        'visitor': '🌐'
+    };
+    return emojis[festival] || '🌐';
+}
+
+// Get Festival Badge HTML
+function getFestivalBadge(festival) {
+    const badges = {
+        'latitude': '<span class="badge badge-latitude">🎪 Latitude</span>',
+        'leeds': '<span class="badge badge-leeds">🎵 Leeds</span>',
+        'boomtown': '<span class="badge badge-boomtown">💥 Boomtown</span>',
+        'visitor': '<span class="badge badge-visitor">🌐 Visitor</span>'
+    };
+    return badges[festival] || '';
+}
+
+// Setup Presence Tracking
+function setupPresence() {
+    const myPresenceRef = presenceRef.child(myUserId);
+    
+    myPresenceRef.set({
+        username: myUsername,
+        festival: myFestival,
+        online: true,
+        lastSeen: Date.now()
+    });
+    
+    myPresenceRef.onDisconnect().remove();
+    
+    presenceRef.on('value', (snapshot) => {
+        const count = snapshot.numChildren();
+        document.getElementById('online-count').textContent = count;
+    });
+}
+
+// Send Message
+function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    if (message.length > 200) {
+        alert('⚠️ Message too long! Max 200 characters.');
+        return;
+    }
+    
+    // Check profanity
+    if (containsProfanity(message)) {
+        alert('🚫 Please keep it friendly! No profanity allowed.');
+        return;
+    }
+    
+    // Check cooldown
+    const lastMessage = localStorage.getItem('lastChatMessage');
+    if (lastMessage) {
+        const timeSince = Date.now() - parseInt(lastMessage);
+        if (timeSince < 2000) {
+            alert('⏰ Slow down! Wait a moment between messages.');
+            return;
+        }
+    }
+    
+    const chatMessage = {
+        username: myUsername,
+        userId: myUserId,
+        festival: myFestival,
+        message: filterProfanity(message),
+        timestamp: Date.now(),
+        type: 'user'
+    };
+    
+    chatRef.push(chatMessage);
+    
+    input.value = '';
+    localStorage.setItem('lastChatMessage', Date.now().toString());
+}
+
+// Send System Message
+function sendSystemMessage(text) {
+    const systemMessage = {
+        message: text,
+        timestamp: Date.now(),
+        type: 'system'
+    };
+    chatRef.push(systemMessage);
+}
+
+// Load Messages
+function loadMessages() {
+    chatRef.orderByChild('timestamp').limitToLast(50).on('child_added', (snapshot) => {
+        const data = snapshot.val();
+        displayMessage(data);
+    });
+}
+
+// Display Message
+function displayMessage(data) {
+    const messagesDiv = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    
+    // System messages (join/leave)
+    if (data.type === 'system') {
+        messageDiv.className = 'typing-indicator';
+        messageDiv.style.display = 'block';
+        messageDiv.innerHTML = `<span style="color: #00ff00;">${escapeHtml(data.message)}</span>`;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        return;
+    }
+    
+    const isOwnMessage = data.userId === myUserId;
+    const isCharlie = data.username.toLowerCase().includes('charlie');
+    
+    messageDiv.className = 'chat-message';
+    if (isOwnMessage) messageDiv.className += ' own-message';
+    if (isCharlie) messageDiv.className += ' charlie-message';
+    
+    const time = new Date(data.timestamp).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    
+    const charlieBadge = isCharlie ? '<span class="charlie-badge">👑 CHARLIE</span>' : '';
+    const festivalBadge = data.festival ? getFestivalBadge(data.festival) : '';
+    
+    messageDiv.innerHTML = `
+        <div class="message-author">${escapeHtml(data.username)}${charlieBadge}${festivalBadge}</div>
+        <div class="message-text">${escapeHtml(data.message)}</div>
+        <div class="message-time">${time}</div>
+    `;
+    
+    messagesDiv.appendChild(messageDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Update Stats
+async function updateStats() {
+    try {
+        const snapshot = await chatRef.once('value');
+        const messages = [];
+        let festivalCount = 0;
+        
+        snapshot.forEach(child => {
+            const data = child.val();
+            if (data.type === 'user') {
+                messages.push(data);
+                if (data.festival && data.festival !== 'visitor') {
+                    festivalCount++;
+                }
+            }
+        });
+        
+        document.getElementById('total-messages').textContent = messages.length;
+        document.getElementById('festival-count').textContent = festivalCount;
+    } catch (error) {
+        console.error('Stats error:', error);
+    }
+}
+
+// Escape HTML
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Enter key to send
+document.addEventListener('DOMContentLoaded', () => {
+    const usernameInput = document.getElementById('username-input');
+    const chatInput = document.getElementById('chat-input');
+    
+    if (usernameInput) {
+        usernameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') setUsername();
+        });
+    }
+    
+    if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    }
+    
+    // Check for saved username
+    const savedUsername = localStorage.getItem('chatUsername');
+    const savedUserId = localStorage.getItem('chatUserId');
+    const savedFestival = localStorage.getItem('chatFestival');
+    
+    if (savedUsername && savedUserId) {
+        myUsername = savedUsername;
+        myUserId = savedUserId;
+        myFestival = savedFestival || 'visitor';
+        
+        document.getElementById('username-setup').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'block';
+        document.getElementById('chat-input').disabled = false;
+        document.getElementById('send-btn').disabled = false;
+        
+        setupPresence();
+        loadMessages();
+        updateStats();
+    }
+});
+
+// Clean up old messages (keep last 100)
+setInterval(() => {
+    chatRef.orderByChild('timestamp').limitToLast(100).once('value', (snapshot) => {
+        const count = snapshot.numChildren();
+        if (count > 100) {
+            chatRef.orderByChild('timestamp').limitToFirst(count - 100).once('value', (oldSnap) => {
+                oldSnap.forEach((child) => {
+                    child.ref.remove();
+                });
+            });
+        }
+    });
+}, 60000);
+
+// Update stats periodically
+setInterval(updateStats, 30000);
+</script>
+
+<script src="mouse-trail.js"></script>
+
+</body>
+</html>
