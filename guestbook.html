@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 Guestbook - Sign Here!</title>
+    <link rel="stylesheet" href="elements.css">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 3px ridge #00ffff;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffff00;
+            text-shadow: 2px 2px #ff00ff;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #00ffff;
+            margin-top: 5px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        
+        .badge-latitude {
+            background: linear-gradient(135deg, #FF6B9D, #C06C84);
+            color: white;
+        }
+        
+        .badge-leeds {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            color: white;
+        }
+        
+        .badge-boomtown {
+            background: linear-gradient(135deg, #F2994A, #F2C94C);
+            color: white;
+        }
+        
+        .badge-online {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .badge-qr {
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: white;
+        }
+        
+        .badge-other {
+            background: linear-gradient(135deg, #888, #555);
+            color: white;
+        }
+        
+        .visitor-badge {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+            border: 2px solid #ff00ff;
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #ffff00;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .radio-option {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .radio-option input[type="radio"] {
+            margin-right: 5px;
+        }
+        
+        .radio-option label {
+            color: #00ffff !important;
+            font-weight: normal !important;
+            cursor: pointer;
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>📖 Real Guestbook</h1>
+    <marquee behavior="scroll" scrollamount="5">
+        ✍️ LEAVE YOUR MARK ✍️ SIGN THE GUESTBOOK ✍️ BE LEGENDARY ✍️
+    </marquee>
+    
+    <p class="blink">Leave praise for Charlie. (or just say hi)</p>
+    
+    <!-- STATS SECTION -->
+    <div class="stats-grid" id="stats">
+        <div class="stat-box">
+            <div class="stat-number" id="total-messages">...</div>
+            <div class="stat-label">Total Messages</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="visitor-number">...</div>
+            <div class="stat-label">You Are Visitor</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="festival-count">...</div>
+            <div class="stat-label">Festival Visitors</div>
+        </div>
+    </div>
+    
+    <!-- FORM -->
+    <div class="box">
+        <div class="form-group">
+            <label for="name">👤 Your Name *</label>
+            <input id="name" placeholder="e.g. Festival Friend" maxlength="30">
+        </div>
+        
+        <div class="form-group">
+            <label for="location">📍 Where did you find me? *</label>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" id="loc-latitude" name="location" value="latitude">
+                    <label for="loc-latitude">🎪 Latitude Festival</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="loc-leeds" name="location" value="leeds">
+                    <label for="loc-leeds">🎵 Leeds Festival</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="loc-boomtown" name="location" value="boomtown">
+                    <label for="loc-boomtown">💥 Boomtown</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="loc-qr" name="location" value="qr">
+                    <label for="loc-qr">📱 Scanned QR</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="loc-online" name="location" value="online">
+                    <label for="loc-online">🌐 Found Online</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="loc-other" name="location" value="other">
+                    <label for="loc-other">🤷 Other</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="msg">💬 Your Message *</label>
+            <textarea id="msg" placeholder="write something legendary..." maxlength="200"></textarea>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="button" onclick="post()">📝 Post Message</button>
+        </div>
+        
+        <p id="status" style="margin-top: 10px; text-align: center; color: #00ffff; font-size: 14px;"></p>
+    </div>
+    
+    <hr>
+    
+    <h2>💬 Messages from Visitors</h2>
+    <div id="loading" style="text-align: center; color: #ffff00;">
+        <p class="blink">📡 Loading messages...</p>
+    </div>
+    <div id="posts">
+        <!-- Messages load here from Firebase -->
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a class="button" href="index.html">🏠 Back to Homepage</a>
+        <button class="button" onclick="refreshMessages()" style="background: linear-gradient(to bottom, #00ffff, #00cccc);">🔄 Refresh</button>
+    </div>
+    
+    <div class="footer">
+        <p style="font-size: 12px; color: #888;">
+            💡 Messages are stored in the cloud and visible to everyone!<br>
+            Please keep it friendly - profanity is automatically filtered 🤖
+        </p>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+// ============== FIREBASE CONFIG ==============
+const firebaseConfig = {
+   apiKey: "AIzaSyAVLUuQhdJ8Co80X4k8YylvrzRAM1bPTXs",
+  authDomain: "charlie-guestbook.firebaseapp.com",
+  databaseURL: "https://charlie-guestbook-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "charlie-guestbook",
+  storageBucket: "charlie-guestbook.firebasestorage.app",
+  messagingSenderId: "40421298596",
+  appId: "1:40421298596:web:0426fdef8f4f3b1c1b3131"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const messagesRef = database.ref('guestbook');
+const statsRef = database.ref('stats');
+
+// ============== PROFANITY FILTER ==============
+const badWords = [
+    'fuck', 'shit', 'ass', 'bitch', 'damn', 'hell', 'crap', 'piss',
+    'dick', 'cock', 'bastard', 'whore', 'slut', 'fag', 'cunt',
+    'asshole', 'pussy', 'nigger', 'nigga', 'retard', 'wanker', 'bollocks'
+];
+
+function filterProfanity(text) {
+    let filtered = text;
+    badWords.forEach(word => {
+        const regex = new RegExp(word, 'gi');
+        filtered = filtered.replace(regex, '*'.repeat(word.length));
+    });
+    return filtered;
+}
+
+function containsProfanity(text) {
+    const lowerText = text.toLowerCase();
+    return badWords.some(word => lowerText.includes(word));
+}
+
+// ============== SPAM PROTECTION ==============
+function canPost() {
+    const lastPost = localStorage.getItem('lastGuestbookPost');
+    if (!lastPost) return true;
+    
+    const timeSince = Date.now() - parseInt(lastPost);
+    const cooldown = 30000; // 30 seconds
+    
+    if (timeSince < cooldown) {
+        const waitTime = Math.ceil((cooldown - timeSince) / 1000);
+        alert(`⏰ Please wait ${waitTime} seconds before posting again!`);
+        return false;
+    }
+    return true;
+}
+
+// ============== VISITOR TRACKING ==============
+let myVisitorNumber = 0;
+
+async function getVisitorNumber() {
+    const hasVisited = localStorage.getItem('charlieGuestbookVisitor');
+    
+    if (hasVisited) {
+        myVisitorNumber = parseInt(hasVisited);
+        return myVisitorNumber;
+    }
+    
+    try {
+        const snapshot = await statsRef.child('totalVisitors').once('value');
+        const current = snapshot.val() || 0;
+        const newNumber = current + 1;
+        
+        await statsRef.child('totalVisitors').set(newNumber);
+        localStorage.setItem('charlieGuestbookVisitor', newNumber.toString());
+        myVisitorNumber = newNumber;
+        
+        return newNumber;
+    } catch (error) {
+        return Math.floor(Math.random() * 1000) + 100;
+    }
+}
+
+// ============== STATS ==============
+async function updateStats() {
+    try {
+        // Get total messages
+        const messagesSnapshot = await messagesRef.once('value');
+        const totalMessages = messagesSnapshot.numChildren();
+        document.getElementById('total-messages').textContent = totalMessages;
+        
+        // Get visitor number
+        const visitorNum = await getVisitorNumber();
+        document.getElementById('visitor-number').textContent = '#' + visitorNum;
+        
+        // Count festival visitors
+        let festivalCount = 0;
+        messagesSnapshot.forEach(child => {
+            const loc = child.val().location;
+            if (loc === 'latitude' || loc === 'leeds' || loc === 'boomtown') {
+                festivalCount++;
+            }
+        });
+        document.getElementById('festival-count').textContent = festivalCount;
+        
+    } catch (error) {
+        console.error('Error loading stats:', error);
+    }
+}
+
+// ============== POST MESSAGE ==============
+async function post() {
+    const nameInput = document.getElementById("name");
+    const msgInput = document.getElementById("msg");
+    const locationInputs = document.getElementsByName("location");
+    const status = document.getElementById("status");
+    
+    const name = nameInput.value.trim();
+    const msg = msgInput.value.trim();
+    
+    let location = null;
+    for (const input of locationInputs) {
+        if (input.checked) {
+            location = input.value;
+            break;
+        }
+    }
+    
+    // Validation
+    if (name === "" || msg === "") {
+        alert("⚠️ Please fill in name and message!");
+        return;
+    }
+    
+    if (!location) {
+        alert("⚠️ Please select where you found me!");
+        return;
+    }
+    
+    if (name.length < 2) {
+        alert("⚠️ Name must be at least 2 characters!");
+        return;
+    }
+    
+    if (msg.length < 3) {
+        alert("⚠️ Message must be at least 3 characters!");
+        return;
+    }
+    
+    // Spam protection
+    if (!canPost()) {
+        return;
+    }
+    
+    // Profanity check
+    if (containsProfanity(name) || containsProfanity(msg)) {
+        alert("🚫 Please keep it friendly! Profanity is not allowed.");
+        return;
+    }
+    
+    const filteredName = filterProfanity(name);
+    const filteredMsg = filterProfanity(msg);
+    
+    status.innerHTML = '<span class="blink">📤 Posting message...</span>';
+    
+    try {
+        const message = {
+            name: filteredName,
+            message: filteredMsg,
+            location: location,
+            timestamp: Date.now(),
+            visitorNumber: myVisitorNumber,
+            emoji: ["⭐", "💎", "🔥", "✨", "🎯", "🚀", "💫", "🌟"][Math.floor(Math.random() * 8)]
+        };
+        
+        await messagesRef.push(message);
+        
+        // Clear inputs
+        nameInput.value = "";
+        msgInput.value = "";
+        for (const input of locationInputs) {
+            input.checked = false;
+        }
+        
+        status.innerHTML = '<span style="color: #00ff00;">✅ Posted successfully!</span>';
+        setTimeout(() => status.innerHTML = '', 3000);
+        
+        localStorage.setItem('lastGuestbookPost', Date.now().toString());
+        
+        // Update stats
+        updateStats();
+        
+        alert("🎉 Thank you for signing the guestbook! You now have +10 excellent taste points!");
+        
+    } catch (error) {
+        console.error("Error posting message:", error);
+        status.innerHTML = '<span style="color: #ff0000;">❌ Error posting. Please try again!</span>';
+    }
+}
+
+// ============== LOCATION BADGES ==============
+function getLocationBadge(location) {
+    const badges = {
+        'latitude': '<span class="badge badge-latitude">🎪 Latitude</span>',
+        'leeds': '<span class="badge badge-leeds">🎵 Leeds</span>',
+        'boomtown': '<span class="badge badge-boomtown">💥 Boomtown</span>',
+        'qr': '<span class="badge badge-qr">📱 QR Code</span>',
+        'online': '<span class="badge badge-online">🌐 Online</span>',
+        'other': '<span class="badge badge-other">🤷 Other</span>'
+    };
+    return badges[location] || '';
+}
+
+// ============== LOAD MESSAGES ==============
+function loadMessages() {
+    document.getElementById("loading").style.display = "block";
+    
+    messagesRef.orderByChild('timestamp').limitToLast(50).once('value', (snapshot) => {
+        const postsDiv = document.getElementById("posts");
+        postsDiv.innerHTML = '';
+        
+        const messages = [];
+        snapshot.forEach((childSnapshot) => {
+            messages.push(childSnapshot.val());
+        });
+        
+        messages.reverse();
+        
+        if (messages.length === 0) {
+            postsDiv.innerHTML = '<p style="text-align: center; color: #888;">No messages yet! Be the first to sign! 🎉</p>';
+        } else {
+            messages.forEach((data) => {
+                const p = document.createElement("p");
+                const badge = getLocationBadge(data.location);
+                const visitorBadge = data.visitorNumber ? `<span class="visitor-badge">Visitor #${data.visitorNumber}</span>` : '';
+                
+                p.innerHTML = `<strong>${data.emoji} ${escapeHtml(data.name)}</strong> ${badge}<br>${escapeHtml(data.message)}`;
+                
+                if (visitorBadge) {
+                    p.innerHTML += `<br>${visitorBadge}`;
+                }
+                
+                p.style.animation = "achievePulse 0.5s";
+                postsDiv.appendChild(p);
+            });
+        }
+        
+        document.getElementById("loading").style.display = "none";
+        updateStats();
+    });
+}
+
+// ============== REAL-TIME UPDATES ==============
+let isFirstLoad = true;
+
+function setupRealtime() {
+    messagesRef.orderByChild('timestamp').limitToLast(1).on('child_added', (snapshot) => {
+        if (isFirstLoad) {
+            isFirstLoad = false;
+            return;
+        }
+        
+        const data = snapshot.val();
+        const postsDiv = document.getElementById("posts");
+        
+        const p = document.createElement("p");
+        const badge = getLocationBadge(data.location);
+        const visitorBadge = data.visitorNumber ? `<span class="visitor-badge">Visitor #${data.visitorNumber}</span>` : '';
+        
+        p.innerHTML = `<strong>${data.emoji} ${escapeHtml(data.name)}</strong> ${badge}<br>${escapeHtml(data.message)}`;
+        
+        if (visitorBadge) {
+            p.innerHTML += `<br>${visitorBadge}`;
+        }
+        
+        p.style.animation = "achievePulse 1s";
+        p.style.background = "rgba(0, 255, 0, 0.1)";
+        postsDiv.insertBefore(p, postsDiv.firstChild);
+        
+        setTimeout(() => {
+            p.style.background = "";
+        }, 3000);
+        
+        updateStats();
+    });
+}
+
+// ============== UTILITY ==============
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function refreshMessages() {
+    loadMessages();
+    alert("🔄 Messages refreshed!");
+}
+
+// ============== KEYBOARD SUPPORT ==============
+document.getElementById("name").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        document.querySelector('input[name="location"]').focus();
+    }
+});
+
+document.getElementById("msg").addEventListener("keypress", function(e) {
+    if (e.key === "Enter" && e.ctrlKey) {
+        post();
+    }
+});
+
+// ============== INITIALIZE ==============
+window.addEventListener('load', async () => {
+    await getVisitorNumber();
+    loadMessages();
+    setupRealtime();
+});
+</script>
+
+</body>
+</html>
