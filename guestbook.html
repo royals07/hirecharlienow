@@ -418,18 +418,21 @@ function loadMessages() {
         postsDiv.innerHTML = '';
         
         const messages = [];
-        snapshot.forEach((childSnapshot) => {
-            messages.push(childSnapshot.val());
+        // CORRECTED: Store both the key and the value for each message
+        snapshot.forEach((childSnap) => { // Using 'childSnap' to avoid confusion
+            messages.push({ key: childSnap.key, val: childSnap.val() }); 
         });
         
-        messages.reverse();
+        messages.reverse(); // Display newest first
         
         if (messages.length === 0) {
             postsDiv.innerHTML = '<p style="text-align: center; color: #888;">No messages yet! Be the first to sign! 🎉</p>';
         } else {
-            messages.forEach((data) => {
+            messages.forEach((messageEntry) => { // Now messageEntry has 'key' and 'val'
                 const p = document.createElement("p");
-p.setAttribute('data-key', childSnapshot.key);
+                p.setAttribute('data-key', messageEntry.key); // Use the stored key here!
+                
+                const data = messageEntry.val; // Extract the actual message data
                 const badge = getLocationBadge(data.location);
                 const visitorBadge = data.visitorNumber ? `<span class="visitor-badge">Visitor #${data.visitorNumber}</span>` : '';
                 const moderatedBadge = data.moderated ? '<span class="badge" style="background: #ff6600;">🛡️ Filtered</span>' : '';
@@ -449,6 +452,7 @@ p.setAttribute('data-key', childSnapshot.key);
         updateStats();
     });
 }
+
 
 // ============== REAL-TIME UPDATES ==============
 let isFirstLoad = true;
