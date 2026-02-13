@@ -470,23 +470,6 @@ const splashInterval = setInterval(()=>{
     }
 }, 50);
 
-// 8. SCAN COUNT EASTER EGG
-let scanCount = parseInt(localStorage.getItem('charlieScans') || '0') + 1;
-localStorage.setItem('charlieScans', scanCount);
-setTimeout(() => {
-    if (scanCount === 1) {
-        alert('🎉 First visit! Welcome to Charlie\'s world!');
-        playSound('achievement-sound');
-    }
-    else if (scanCount === 5) {
-        alert('⭐ 5th visit! Use code "SUPERFAN" in your email!');
-        playSound('achievement-sound');
-    }
-    else if (scanCount === 10) {
-        alert('🏆 10th visit! You are a "MEGAFAN"!');
-        playSound('party-sound');
-    }
-}, 2000);
 
 // ================= OTHER =================
 function unlock(){
