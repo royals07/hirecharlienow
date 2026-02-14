@@ -382,6 +382,20 @@ function submitScore() {
 
 function closeScoreSubmit() {
     document.getElementById('score-submit').style.display = 'none';
+    
+    // Scroll to leaderboards so player can see the rankings
+    document.querySelector('.leaderboard-container').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+    });
+    
+    // Show a message
+    setTimeout(() => {
+        const message = currentGameScore > personalBest 
+            ? `🎉 New personal best! Your score: ${currentGameScore}` 
+            : `Good try! Your score: ${currentGameScore}. Best: ${personalBest}`;
+        alert(message + '\n\nCheck out the leaderboard below! 👇');
+    }, 500);
 }
 
 function restartGameAndLeaderboards() {
