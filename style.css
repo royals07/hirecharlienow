@@ -1,0 +1,105 @@
+#canvas
+{
+    background-color:#30c0df;
+    border: 2px solid black;
+    display: block;
+    margin: auto;
+    padding: auto;
+    
+}
+
+body {
+    background-color: #222; /* Darker background for game page */
+    color: #eee;
+    font-family: 'Squada One', cursive; /* Use game's font */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center horizontally */
+    margin: 0;
+    padding: 20px;
+}
+
+#canvas {
+    margin-bottom: 20px; /* Space between canvas and leaderboard */
+}
+
+#leaderboard-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #555;
+    border-radius: 8px;
+    padding: 15px 25px;
+    width: 276px; /* Match canvas width */
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+#leaderboard-container h2 {
+    color: #00ffff; /* Highlight title */
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+#leaderboard table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+#leaderboard th, #leaderboard td {
+    padding: 8px 5px;
+    border-bottom: 1px dashed #444;
+    text-align: left;
+}
+
+#leaderboard th:first-child, #leaderboard td:first-child {
+    width: 10%; /* Rank */
+    text-align: center;
+}
+
+#leaderboard th:nth-child(2), #leaderboard td:nth-child(2) {
+    width: 55%; /* Name */
+}
+
+#leaderboard th:last-child, #leaderboard td:last-child {
+    width: 35%; /* Score */
+    text-align: right;
+    color: #ffff00; /* Highlight scores */
+}
+
+#leaderboard tr:last-child td {
+    border-bottom: none;
+}
+
+#leaderboard tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#submitScoreButton, #refreshLeaderboardButton {
+    background-color: #4CAF50; /* Green for submit */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Squada One', cursive;
+    font-size: 18px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    width: calc(100% - 30px); /* Adjust for padding */
+}
+
+#submitScoreButton:hover {
+    background-color: #45a049;
+}
+
+#refreshLeaderboardButton {
+    background-color: #007bff; /* Blue for refresh */
+    margin-top: 5px;
+}
+
+#refreshLeaderboardButton:hover {
+    background-color: #0056b3;
+}
