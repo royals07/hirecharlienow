@@ -8,25 +8,24 @@
     <link rel="stylesheet" href="elements.css">
     <link href="https://fonts.googleapis.com/css?family=Squada+One&display=swap" rel="stylesheet">
     <style>
-        /* Your existing custom styles for Flappy Charlie */
         body {
             margin: 0;
             padding: 0;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            background-color: #222; /* Darker background for game page */
+            overflow-x: hidden;
+            background-color: #222;
             color: #eee;
-            font-family: 'Squada One', cursive; /* Use game's font */
-            display: flex; /* Use flexbox for layout */
-            flex-direction: column; /* Stack items vertically */
-            align-items: center; /* Center horizontally */
-            min-height: 100vh; /* Ensure body takes full viewport height */
+            font-family: 'Squada One', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .game-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            box-sizing: border-box; /* Include padding in width calculation */
+            box-sizing: border-box;
         }
 
         #canvas {
@@ -141,7 +140,8 @@
             font-weight: bold;
             text-shadow: 2px 2px #000;
         }
-        .button { /* Ensure your general button style is here or from elements.css */
+        
+        .button {
             display: inline-block;
             margin: 5px;
             padding: 10px 20px;
@@ -154,10 +154,10 @@
             background: linear-gradient(to bottom, #00ffff, #00cccc);
             transition: background 0.3s ease;
         }
+        
         .button:hover {
             background: linear-gradient(to bottom, #00cccc, #009999);
         }
-
 
         @media (max-width: 768px) {
             .leaderboard-container {
@@ -203,7 +203,6 @@
             </ul>
         </div>
 
-        <!-- ONLY ONE CANVAS ELEMENT -->
         <canvas id="canvas" width="276" height="414"></canvas>
 
         <div id="score-submit" class="score-input-container" style="display: none;">
@@ -250,13 +249,10 @@
     </div>
 </div>
 
-<!-- Firebase SDKs - Load FIRST -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
-<!-- Firebase Configuration and Initialization - Before game logic -->
 <script>
-// Firebase Config
 const firebaseConfig = {
    apiKey: "AIzaSyAVLUuQhdJ8Co80X4k8YylvrzRAM1bPTXs",
   authDomain: "charlie-guestbook.firebaseapp.com",
@@ -267,15 +263,143 @@ const firebaseConfig = {
   appId: "1:40421298596:web:0426fdef8f4f3b1c1b3131"
 };
 
-// Initialize Firebase once
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-const scoresRef = database.ref('flappyCharlieScores'); // Changed path to directly under root
+const scoresRef = database.ref('flappyCharlieScores');
+
+let currentGameScore = 0;
+let personalBest = parseInt(localStorage.getItem('flappyCharlieBest') || '0');
+
+document.getElementById('your-best').textContent = personalBest;
+
+function loadLeaderboards() {
+    loadAllTimeLeaderboard();
+    loadTodayLeaderboard();
+}
+
+function loadAllTimeLeaderboard() {
+    scoresRef.orderByChild('score').limitToLast(10).once('value', (snapshot) => {
+        const scores = [];
+        snapshot.forEach((child) => {
+            scores.push(child.val());
+        });
+        
+        scores.reverse();
+        
+        const list = document.getElementById('alltime-leaderboard');
+        list.innerHTML = '';
+        
+        if (scores.length === 0) {
+            list.innerHTML = '<li style="text-align: center; color: #888;">No scores yet! Be the first!</li>';
+            return;
+        }
+        
+        scores.forEach((score, index) => {
+            const li = document.createElement('li');
+            li.className = 'leaderboard-item' + (index < 3 ? ' top-3' : '');
+            
+            const rank = index + 1;
+            const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+            
+            li.innerHTML = `
+                <span class="player-rank">${medal}</span>
+                <span class="player-name">${escapeHtml(score.name)}</span>
+                <span class="player-score">${score.score}</span>
+            `;
+            
+            list.appendChild(li);
+        });
+    });
+}
+
+function loadTodayLeaderboard() {
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const todayTimestamp = todayStart.getTime();
+    
+    scoresRef.orderByChild('timestamp').startAt(todayTimestamp).once('value', (snapshot) => {
+        const scores = [];
+        snapshot.forEach((child) => {
+            scores.push(child.val());
+        });
+        
+        scores.sort((a, b) => b.score - a.score);
+        scores.splice(10);
+        
+        const list = document.getElementById('today-leaderboard');
+        list.innerHTML = '';
+        
+        if (scores.length === 0) {
+            list.innerHTML = '<li style="text-align: center; color: #888;">No scores today yet!</li>';
+            return;
+        }
+        
+        scores.forEach((score, index) => {
+            const li = document.createElement('li');
+            li.className = 'leaderboard-item' + (index < 3 ? ' top-3' : '');
+            
+            const rank = index + 1;
+            const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+            
+            li.innerHTML = `
+                <span class="player-rank">${medal}</span>
+                <span class="player-name">${escapeHtml(score.name)}</span>
+                <span class="player-score">${score.score}</span>
+            `;
+            
+            list.appendChild(li);
+        });
+    });
+}
+
+function submitScore() {
+    const nameInput = document.getElementById('player-name');
+    const name = nameInput.value.trim();
+    
+    if (!name) {
+        alert('⚠️ Please enter your name!');
+        return;
+    }
+    
+    if (name.length < 2) {
+        alert('⚠️ Name must be at least 2 characters!');
+        return;
+    }
+    
+    const scoreData = {
+        name: name,
+        score: currentGameScore,
+        timestamp: Date.now()
+    };
+    
+    scoresRef.push(scoreData);
+    
+    document.getElementById('score-submit').style.display = 'none';
+    alert('🎉 Score submitted! Check the leaderboard!');
+    
+    loadLeaderboards();
+}
+
+function closeScoreSubmit() {
+    document.getElementById('score-submit').style.display = 'none';
+}
+
+function restartGameAndLeaderboards() {
+    location.reload();
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+loadLeaderboards();
+setInterval(loadLeaderboards, 30000);
 </script>
 
-<!-- Game Logic - Load AFTER Firebase setup -->
 <script src="flappycharlie.js"></script>
-<script src="mouse-trail.js"></script> <!-- Keep if you want the mouse trail -->
+<script src="mouse-trail.js"></script>
 
 </body>
 </html>
