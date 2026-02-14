@@ -211,7 +211,7 @@
             <input type="text" id="player-name" placeholder="Enter your name..." maxlength="20" style="width: 200px;">
             <br>
             <button class="button" onclick="submitScore()">🏆 Submit to Leaderboard</button>
-            <button class="button" onclick="closeScoreSubmit()" style="background: linear-gradient(to bottom, #ff6600, #cc5500);">❌ Skip</button>
+            <button class="button" onclick="restartGameAndLeaderboards()" style="background: linear-gradient(to bottom, #ff00ff, #cc00cc);">🔄 Restart Game</button>
         </div>
 
         <div class="your-best">
@@ -378,23 +378,10 @@ function submitScore() {
     alert('🎉 Score submitted! Check the leaderboard!');
     
     loadLeaderboards();
-}
-
-function closeScoreSubmit() {
-    document.getElementById('score-submit').style.display = 'none';
     
-    // Scroll to leaderboards so player can see the rankings
-    document.querySelector('.leaderboard-container').scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center' 
-    });
-    
-    // Show a message
+    // Restart game after submission
     setTimeout(() => {
-        const message = currentGameScore > personalBest 
-            ? `🎉 New personal best! Your score: ${currentGameScore}` 
-            : `Good try! Your score: ${currentGameScore}. Best: ${personalBest}`;
-        alert(message + '\n\nCheck out the leaderboard below! 👇');
+        restartGameAndLeaderboards();
     }, 500);
 }
 
