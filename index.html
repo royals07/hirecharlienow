@@ -147,9 +147,14 @@
 
         </p>
 
-        <div style="text-align:center;margin:20px 0;">
-            <button class="button" onclick="openCV()">📄 View CV</button>
-        </div>
+       <div style="text-align:center;margin:20px 0;">
+    <button class="button" onclick="openCV('cyber')" style="background: linear-gradient(to bottom, #ff00ff, #cc00cc);">
+        🔒 View Cybersecurity/IT CV
+    </button>
+    <button class="button" onclick="openCV('game')">
+        🎮 View Game Design CV
+    </button>
+</div>
 
    <!-- Visitor Map Section -->
 <div class="section visitor-map">
@@ -347,11 +352,21 @@ function randomQuote() {
 // ================= CV =================
 let cvOpens = 0;
 
-function openCV(){
-    cvOpens++;
+function openCV(type) {
     const overlay = document.getElementById("cv-overlay");
     const win = document.getElementById("cv-window");
     const sound = document.getElementById("cv-sound");
+    const cvFrame = document.getElementById("cv-frame");
+
+    // Choose which CV to show
+    let cvSrc;
+    if (type === 'cyber') {
+        cvSrc = 'cv-cybersecurity.png';
+        document.getElementById("cv-drag").innerHTML = 'cv-cybersecurity.png <span style="float:right;"><button onclick="printCV(\'cyber\')">🖨</button><button onclick="emailCharlie()">📧</button><button onclick="closeCV()">❌</button></span>';
+    } else {
+        cvSrc = 'cv-gamedesign.png';
+        document.getElementById("cv-drag").innerHTML = 'cv-gamedesign.png <span style="float:right;"><button onclick="printCV(\'game\')">🖨</button><button onclick="emailCharlie()">📧</button><button onclick="closeCV()">❌</button></span>';
+    }
 
     overlay.style.display = "block";
     setTimeout(()=>{
@@ -363,7 +378,7 @@ function openCV(){
     sound.play().catch(()=>{});
 
     document.getElementById("loading").style.display = "block";
-    document.getElementById("cv-frame").style.display = "none";
+    cvFrame.style.display = "none";
 
     let width = 0;
     const bar = document.getElementById("bar");
@@ -375,7 +390,8 @@ function openCV(){
         if(width >= 100){
             clearInterval(load);
             document.getElementById("loading").style.display = "none";
-            document.getElementById("cv-frame").style.display = "block";
+            cvFrame.innerHTML = `<img src="${cvSrc}" style="max-width:100%; height:auto;">`;
+            cvFrame.style.display = "block";
         }
     }, 100);
 }
