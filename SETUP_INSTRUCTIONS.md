@@ -1,118 +1,59 @@
-# 🚀 Charlie's 90s Website - Setup Guide
+# Hire Charlie Now — Australia edition
 
-## 📧 Setting Up the Contact Form (FREE!)
+The public site is a set of HTML, CSS, JavaScript and asset files in the repository root. GitHub Pages publishes the existing `main` branch to `hirecharlienow.com` using the root `CNAME` file.
 
-The contact form uses **Formspree** - a free service that sends form submissions to your email.
+## Preview a change
 
-### Steps to Activate:
+From the repository root, run:
 
-1. **Go to Formspree:**
-   - Visit: https://formspree.io
-   - Click "Get Started" (it's FREE!)
+```sh
+python3 -m http.server 8000
+```
 
-2. **Sign Up:**
-   - Use your email: `hirecharlienow@yahoo.com` OR `charliewoodhead28@gmail.com`
-   - Verify your email
+Open <http://localhost:8000>. No frontend build or npm installation is required. The existing root and `functions/` npm packages belong to the Firebase backend, not the website preview.
 
-3. **Create a Form:**
-   - Click "+ New Form"
-   - Name it: "Website Contact Form"
-   - Click "Create Form"
+Forms and Firebase features connect to the existing live services, including when the HTML is served locally. Submitting a form, chat message, pixel or score writes real data.
 
-4. **Get Your Form ID:**
-   - You'll see something like: `https://formspree.io/f/xyzabc123`
-   - Copy the part after `/f/` (e.g., `xyzabc123`)
+## Files to edit
 
-5. **Update contact.html:**
-   - Open `contact.html`
-   - Find this line (around line 27):
-     ```html
-     <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-     ```
-   - Replace `YOUR_FORM_ID` with your actual form ID:
-     ```html
-     <form id="contact-form" action="https://formspree.io/f/xyzabc123" method="POST">
-     ```
+| Content                            | Files                                                                  |
+| ---------------------------------- | ---------------------------------------------------------------------- |
+| Homepage, work and Australia plans | `index.html`                                                           |
+| Main styles and shared controls    | `site.css`, `site.js`                                                  |
+| Contact form                       | `contact.html`                                                         |
+| Public chat                        | `chat.html`, `chat.js`                                                 |
+| Game and leaderboards              | `flappycharlie.html`, `flappycharlie.js`                               |
+| Shared pixel canvas                | `pixelart.html`                                                        |
+| Game and canvas styling            | `legacy-refresh.css`                                                   |
+| Existing CV images                 | `Charlie Woodhead CV.png`, `Charlie Woodhead CV - Cyber.png`           |
+| Portfolio previews                 | `assets/stray-robot.jpg`, `assets/gremloblin.jpg`, `assets/pyroow.jpg` |
 
-6. **Upload to GitHub:**
-   - Upload the updated `contact.html` file
-   - Done! Now when people fill out the form, you'll get an email! 📧
+The CV links currently use the original images already in this repository. Updated printable pages and PDF versions are prepared separately, pending approval to publish those new CV files. Update Australia location and availability copy as plans become confirmed.
 
----
+## Existing service connections
 
-## 📄 CV File
+- **Email:** the contact form posts to the existing Formspree endpoint `https://formspree.io/f/mlgwdzlw`. Check the Formspree dashboard for delivery and recipient settings if an email is missing; the site cannot verify inbox delivery.
+- **Firebase:** the project remains `charlie-guestbook`, with the same Realtime Database. Chat uses `chat` and `presence`; the game uses `flappyCharlieScores`; the pixel canvas uses `pixelCanvas` and `canvasStats`. Existing content is retained.
+- **Backend:** `firebase.json` points to `functions/`. These frontend changes do not redeploy Functions or modify database rules. The public chat uses visitor-chosen names, not authenticated identities.
+- **Domain:** retain the existing `CNAME`, GitHub Pages settings and DNS records.
 
-Your CV (`Charlie_Woodhead_-_CV.pdf`) should be renamed to `cv.pdf` and uploaded to GitHub alongside your HTML files.
+Do not put private service credentials in HTML or browser JavaScript. Firebase's existing client configuration is public; database access is controlled by the project's rules.
 
-**Steps:**
-1. Rename your CV file to: `cv.pdf`
-2. Upload it to your GitHub repository (same folder as index.html)
-3. The "Download CV" buttons will work automatically!
+## Automated interaction checks
 
----
+The isolated `tests/` package exercises the pages with jsdom and mocked Formspree/Firebase services. It covers failed and successful submissions, duplicate-write prevention, chat updates, keyboard controls, and motion/sound preferences without sending data to the live services.
 
-## 🎨 Files to Upload to GitHub:
+```sh
+npm --prefix tests ci
+npm --prefix tests test
+```
 
-1. index.html
-2. contact.html ← NEW!
-3. guestbook.html
-4. tetris.html
-5. secret.html
-6. 404.html
-7. elements.css ← Updated with new cursor!
-8. bg-90s.png
-9. cv.pdf ← Rename your CV to this!
+These checks do not render layouts or verify real email delivery, Firebase permissions, game animation or mobile browser behavior. Use the manual review below for those checks.
 
----
+## Review and publish
 
-## 🌐 Your Contact Form Features:
+1. Review the pull request and preview the branch locally. Check desktop and mobile layouts, CV downloads, keyboard navigation, and the content of the Australia plans.
+2. When ready to perform live checks, send a contact-form message and confirm its arrival in the intended inbox. Check chat, a game score and a pixel placement against the existing services.
+3. Merge the reviewed pull request into `main` to publish through the existing GitHub Pages deployment. Check the Pages workflow in GitHub Actions and then the public domain.
 
-✅ Name field (required)
-✅ Email field (required)
-✅ Phone field (optional)
-✅ Company field (optional)
-✅ Message field (required, max 1000 chars)
-✅ "How did you find me?" dropdown
-✅ Character counter for message
-✅ Success/error messages
-✅ Email sent to: hirecharlienow@yahoo.com
-
----
-
-## 💡 Formspree Free Plan:
-
-- **50 submissions/month** (more than enough!)
-- **Unlimited forms**
-- **Email notifications**
-- **No credit card required**
-
-If you need more submissions, upgrade to Pro ($10/month) for 1000 submissions.
-
----
-
-## 🎯 Quick Test:
-
-After setting up:
-1. Visit your website
-2. Click "Contact Me" button
-3. Fill out the form
-4. Submit
-5. Check your email! 📧
-
----
-
-## 🆘 Troubleshooting:
-
-**Form not working?**
-- Make sure you replaced `YOUR_FORM_ID` with your actual Formspree ID
-- Check your Formspree dashboard - did the submission appear there?
-- Verify your email in Formspree settings
-
-**Not getting emails?**
-- Check spam folder
-- Make sure you verified your email with Formspree
-- Check Formspree dashboard for submissions
-
----
-
-Made with 💜 and Comic Sans!
+To roll back, revert the merge commit and allow GitHub Pages to publish the reverted version. A frontend rollback does not undo messages, scores or pixels written to Firebase.

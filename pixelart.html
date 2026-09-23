@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,14 +103,14 @@
             max-width: 600px;
         }
     </style>
-</head>
-<body>
+<meta name="description" content="Play with Charlie: games and a shared pixel canvas."><link rel="icon" href="charlie.png"><link rel="stylesheet" href="legacy-refresh.css"><script src="site.js" defer></script></head>
+<body><a class="skip-link" href="#main">Skip to content</a><nav class="legacy-nav" aria-label="Main navigation"><a href="index.html">✦ CharlieOS / Australia edition</a><a href="index.html#play">← Back to the playground</a></nav><main id="main">
 
 <div class="wrapper">
     <h1>🎨 Collaborative Pixel Art</h1>
-    <marquee behavior="alternate" scrollamount="5">
+    <div class="legacy-strip">
         ✨ CREATE TOGETHER ✨ ONE PIXEL AT A TIME ✨ r/place STYLE ✨
-    </marquee>
+    </div>
     
     <p class="blink">Every visitor can place pixels. What will we create together?</p>
     
@@ -132,7 +132,7 @@
     
     <!-- Canvas -->
     <div class="canvas-container">
-        <canvas id="pixel-canvas" width="800" height="800"></canvas>
+        <canvas id="pixel-canvas" width="800" height="800" tabindex="0" aria-label="Shared pixel canvas. Use arrow keys to choose a cell and Enter to place a pixel."></canvas><p id="selected-cell" role="status">Keyboard cell: column 1, row 1. Arrow keys to move, Enter to paint.</p>
     </div>
     
     <!-- Cooldown Timer -->
@@ -161,7 +161,7 @@
     
     <div class="box" style="background: rgba(0, 255, 255, 0.1);">
         <p style="text-align: center; font-style: italic;">
-            💡 This canvas is persistent! Your pixels will stay here forever.<br>
+            💡 This canvas is persistent! Your pixels are saved to the shared canvas.<br>
             You're contributing to a collective masterpiece! 🎨
         </p>
     </div>
@@ -235,7 +235,10 @@ function initColorPalette() {
     const palette = document.getElementById('color-palette');
     
     COLORS.forEach((color, index) => {
-        const btn = document.createElement('div');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Choose colour ' + color);
+        btn.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
         btn.className = 'color-btn' + (index === 0 ? ' selected' : '');
         btn.style.backgroundColor = color;
         btn.onclick = () => selectColor(color, btn);
@@ -248,8 +251,10 @@ function selectColor(color, element) {
     selectedColor = color;
     document.querySelectorAll('.color-btn').forEach(btn => {
         btn.classList.remove('selected');
+        btn.setAttribute('aria-pressed', 'false');
     });
     element.classList.add('selected');
+    element.setAttribute('aria-pressed', 'true');
 }
 
 // Draw Grid
@@ -294,11 +299,26 @@ canvas.addEventListener('click', (e) => {
     }
 });
 
+let keyboardCell = {x:0,y:0};
+canvas.addEventListener('keydown', e => {
+ if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' '].includes(e.key))return;
+ e.preventDefault();
+ if(e.key==='ArrowLeft') keyboardCell.x=Math.max(0,keyboardCell.x-1);
+ if(e.key==='ArrowRight') keyboardCell.x=Math.min(GRID_SIZE-1,keyboardCell.x+1);
+ if(e.key==='ArrowUp') keyboardCell.y=Math.max(0,keyboardCell.y-1);
+ if(e.key==='ArrowDown') keyboardCell.y=Math.min(GRID_SIZE-1,keyboardCell.y+1);
+ if((e.key==='Enter'||e.key===' ')&&canPlacePixel)placePixel(keyboardCell.x,keyboardCell.y,selectedColor);
+ document.getElementById('selected-cell').textContent='Keyboard cell: column '+(keyboardCell.x+1)+', row '+(keyboardCell.y+1)+'. Arrow keys to move, Enter to paint.';
+});
+
 // Place Pixel in Firebase
-function placePixel(x, y, color) {
+async function placePixel(x, y, color) {
+    if (!canPlacePixel) return;
+    canPlacePixel = false;
+    try {
     const pixelKey = `${x}_${y}`;
     
-    canvasRef.child('pixels').child(pixelKey).set({
+    await canvasRef.child('pixels').child(pixelKey).set({
         color: color,
         userId: myUserId,
         timestamp: Date.now()
@@ -310,11 +330,12 @@ function placePixel(x, y, color) {
     
     statsRef.child('totalPixels').transaction((current) => {
         return (current || 0) + 1;
-    });
+    }).catch(() => {});
     
-    statsRef.child('artists').child(myUserId).set(true);
+    statsRef.child('artists').child(myUserId).set(true).catch(() => {});
     
     startCooldown();
+    } catch {canPlacePixel=true;document.getElementById('cooldown-timer').textContent='Could not save that pixel. Please try again.';}
 }
 
 // Draw Pixel on Canvas
@@ -396,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<script src="mouse-trail.js"></script>
 
-</body>
+
+</main><div class="taskbar" aria-label="Site controls"><a class="start-button" href="index.html">✦ Start</a><span class="taskbar-label">charlie-australia.exe</span><button type="button" data-sound-toggle aria-pressed="false">Sound: off</button><button type="button" data-motion-toggle aria-pressed="true">Motion: on</button><button type="button" data-party aria-pressed="false">Party ✧</button><button type="button" data-share aria-label="Share this page">Share</button><span class="taskbar-clock" data-clock aria-label="Current time in Melbourne"></span></div><div class="toast" id="toast" role="status" aria-live="polite"></div></body>
 </html>
