@@ -248,15 +248,15 @@
             }
         }
     </style>
-</head>
-<body>
+<meta name="description" content="Play with Charlie: games and a shared pixel canvas."><link rel="icon" href="charlie.png"><link rel="stylesheet" href="legacy-refresh.css"><script src="site.js" defer></script></head>
+<body><a class="skip-link" href="#main">Skip to content</a><nav class="legacy-nav" aria-label="Main navigation"><a href="index.html">✦ CharlieOS / Australia edition</a><a href="index.html#play">← Back to the playground</a></nav><main id="main">
 
 <div class="game-container">
     <div class="wrapper">
         <h1>🐦 Flappy Charlie</h1>
-        <marquee behavior="alternate" scrollamount="5">
+        <div class="legacy-strip">
             🎮 PLAY THE GAME 🎮 BEAT THE HIGH SCORE 🎮 PROVE YOUR SKILLS 🎮
-        </marquee>
+        </div>
         
         <p class="blink">Can you beat the leaderboard? Click or press Space to flap!</p>
 
@@ -270,14 +270,14 @@
             </ul>
         </div>
 
-        <canvas id="canvas" width="276" height="414"></canvas>
+        <canvas id="canvas" width="276" height="414" aria-label="Flappy Charlie game. Click or press Space to flap."></canvas>
 
         <div id="score-submit" class="score-input-container" style="display: none;">
             <h3 style="color: #ffff00;">🎉 Game Over! Submit Your Score!</h3>
             <p style="color: #00ffff;">Your Score: <span id="final-score" style="color: #ffff00; font-size: 24px; font-weight: bold;">0</span></p>
             <input type="text" id="player-name" placeholder="Enter your name..." maxlength="20" style="width: 200px;">
             <br>
-            <button class="button" onclick="submitScore()">🏆 Submit to Leaderboard</button>
+            <button id="submit-score-button" class="button" onclick="submitScore()">🏆 Submit to Leaderboard</button>
             <button class="button" onclick="restartGameAndLeaderboards()" style="background: linear-gradient(to bottom, #ff00ff, #cc00cc);">🔄 Restart Game</button>
         </div>
 
@@ -309,7 +309,7 @@
 
         <div class="box" style="background: rgba(0, 255, 255, 0.1);">
             <p style="text-align: center; font-style: italic;">
-                💡 Your scores are saved locally and submitted to the global leaderboard!<br>
+                💡 Your best is saved on this device. Submit a score to join the public leaderboard.<br>
                 Compete with visitors from around the world! 🌍
             </p>
         </div>
@@ -339,6 +339,7 @@ const database = firebase.database();
 const scoresRef = database.ref('flappyCharlieScores');
 
 let currentGameScore = 0;
+let scoreSubmitting = false;
 let personalBest = parseInt(localStorage.getItem('flappyCharlieBest') || '0');
 
 document.getElementById('your-best').textContent = personalBest;
@@ -375,7 +376,7 @@ function loadAllTimeLeaderboard() {
             li.innerHTML = `
                 <span class="player-rank">${medal}</span>
                 <span class="player-name">${escapeHtml(score.name)}</span>
-                <span class="player-score">${score.score}</span>
+                <span class="player-score">${Number(score.score) || 0}</span>
             `;
             
             list.appendChild(li);
@@ -415,7 +416,7 @@ function loadTodayLeaderboard() {
             li.innerHTML = `
                 <span class="player-rank">${medal}</span>
                 <span class="player-name">${escapeHtml(score.name)}</span>
-                <span class="player-score">${score.score}</span>
+                <span class="player-score">${Number(score.score) || 0}</span>
             `;
             
             list.appendChild(li);
@@ -423,7 +424,8 @@ function loadTodayLeaderboard() {
     });
 }
 
-function submitScore() {
+async function submitScore() {
+    if (scoreSubmitting) return;
     const nameInput = document.getElementById('player-name');
     const name = nameInput.value.trim();
     
@@ -443,7 +445,20 @@ function submitScore() {
         timestamp: Date.now()
     };
     
-    scoresRef.push(scoreData);
+    const button = document.getElementById('submit-score-button');
+    scoreSubmitting = true;
+    button.disabled = true;
+    button.textContent = 'Submitting…';
+    try {
+        await scoresRef.push(scoreData);
+    } catch {
+        alert('Your score could not be submitted. Please try again.');
+        return;
+    } finally {
+        scoreSubmitting = false;
+        button.disabled = false;
+        button.textContent = '🏆 Submit to Leaderboard';
+    }
     
     document.getElementById('score-submit').style.display = 'none';
     alert('🎉 Score submitted! Check the leaderboard!');
@@ -484,7 +499,7 @@ setInterval(loadLeaderboards, 30000);
 </script>
 
 <script src="flappycharlie.js"></script>
-<script src="mouse-trail.js"></script>
 
-</body>
+
+</main><div class="taskbar" aria-label="Site controls"><a class="start-button" href="index.html">✦ Start</a><span class="taskbar-label">charlie-australia.exe</span><button type="button" data-sound-toggle aria-pressed="false">Sound: off</button><button type="button" data-motion-toggle aria-pressed="true">Motion: on</button><button type="button" data-party aria-pressed="false">Party ✧</button><button type="button" data-share aria-label="Share this page">Share</button><span class="taskbar-clock" data-clock aria-label="Current time in Melbourne"></span></div><div class="toast" id="toast" role="status" aria-live="polite"></div></body>
 </html>
