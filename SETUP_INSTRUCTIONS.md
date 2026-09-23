@@ -16,19 +16,20 @@ Forms and Firebase features connect to the existing live services, including whe
 
 ## Files to edit
 
-| Content                            | Files                                                                  |
-| ---------------------------------- | ---------------------------------------------------------------------- |
-| Homepage, work and Australia plans | `index.html`                                                           |
-| Main styles and shared controls    | `site.css`, `site.js`                                                  |
-| Contact form                       | `contact.html`                                                         |
-| Public chat                        | `chat.html`, `chat.js`                                                 |
-| Game and leaderboards              | `flappycharlie.html`, `flappycharlie.js`                               |
-| Shared pixel canvas                | `pixelart.html`                                                        |
-| Game and canvas styling            | `legacy-refresh.css`                                                   |
-| Existing CV images                 | `Charlie Woodhead CV.png`, `Charlie Woodhead CV - Cyber.png`           |
-| Portfolio previews                 | `assets/stray-robot.jpg`, `assets/gremloblin.jpg`, `assets/pyroow.jpg` |
+| Content                            | Files                                                                         |
+| ---------------------------------- | ----------------------------------------------------------------------------- |
+| Homepage, work and Australia plans | `index.html`                                                                  |
+| Main styles and shared controls    | `site.css`, `site.js`                                                         |
+| Contact form                       | `contact.html`                                                                |
+| Public chat                        | `chat.html`, `chat.js`                                                        |
+| Game and leaderboards              | `flappycharlie.html`, `flappycharlie.js`                                      |
+| Shared pixel canvas                | `pixelart.html`                                                               |
+| Game and canvas styling            | `legacy-refresh.css`                                                          |
+| Printable CV pages                 | `cv-general.html`, `cv-it.html`                                               |
+| Downloadable CVs                   | `assets/charlie-woodhead-general-cv.pdf`, `assets/charlie-woodhead-it-cv.pdf` |
+| Portfolio previews                 | `assets/stray-robot.jpg`, `assets/gremloblin.jpg`, `assets/pyroow.jpg`        |
 
-The CV links currently use the original images already in this repository. Updated printable pages and PDF versions are prepared separately, pending approval to publish those new CV files. Update Australia location and availability copy as plans become confirmed.
+Keep the HTML CVs and PDFs in sync when changing experience or qualifications. Update Australia location and availability copy as plans become confirmed.
 
 ## Existing service connections
 
