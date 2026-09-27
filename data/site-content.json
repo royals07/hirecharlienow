@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "availability": {
+    "location": "South Devon, UK",
+    "next": "Melbourne",
+    "status": "Planning Australia",
+    "start": "Ask me about availability",
+    "remote": "Open to freelance and remote conversations.",
+    "updated": "2026-09-23"
+  },
+  "tapes": [
+    {
+      "id": "bantham-2026-09-20",
+      "title": "Before the flight: a day by the sea",
+      "date": "2026-09-20",
+      "location": "Bantham Beach, Devon",
+      "summary": "A day out with my Sony DCR-PC110. A little camera test close to home before taking it on the Australia adventure.",
+      "video": "",
+      "poster": ""
+    }
+  ]
+}

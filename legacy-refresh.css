@@ -1,0 +1,255 @@
+@import url("site.css");
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #10152e;
+  background-image: radial-gradient(#42476b 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: #eff0f5;
+  padding-bottom: 65px;
+}
+body::before {
+  display: none;
+}
+.legacy-nav {
+  background: #10152e;
+  border-bottom: 1px solid #393e5a;
+  padding: 20px 26px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+  font:
+    13px "Courier New",
+    monospace;
+}
+.legacy-nav a {
+  color: #79f3db;
+  text-decoration: none;
+}
+.wrapper {
+  max-width: 980px;
+  margin: 32px auto;
+  padding: 25px;
+  background: #171d36;
+  border: 1px solid #444d70;
+  box-shadow: 6px 6px #05091a;
+}
+.container {
+  background: #171d36;
+}
+.wrapper h1 {
+  font:
+    900 clamp(30px, 6vw, 48px) / 1.1 Arial,
+    sans-serif;
+  color: #eff0f5;
+  text-shadow: none;
+  animation: none;
+  letter-spacing: -1.5px;
+}
+.wrapper h2 {
+  font:
+    700 23px/1.2 Arial,
+    sans-serif;
+  color: #79f3db;
+  text-shadow: none;
+  border-color: #52577a;
+}
+.wrapper h3 {
+  font:
+    700 20px/1.3 Arial,
+    sans-serif;
+  color: #ff83ce;
+  text-shadow: none;
+}
+.wrapper p {
+  font-size: 16px;
+}
+.blink {
+  animation: none !important;
+  color: #cdd3e7;
+  font-size: 16px;
+}
+.legacy-strip {
+  font:
+    12px/1.8 "Courier New",
+    monospace;
+  color: #ab9bff;
+  padding: 15px 0;
+}
+.button {
+  background: #d6d9e3 !important;
+  color: #171c37 !important;
+  border: 2px outset white !important;
+  box-shadow: 3px 3px #05091a !important;
+  font:
+    700 13px/1.5 "Courier New",
+    monospace !important;
+  text-transform: none;
+  padding: 10px 14px;
+}
+.button:hover {
+  background: #79f3db !important;
+}
+.wrapper a:visited {
+  color: #79f3db;
+}
+.wrapper .button:visited {
+  color: #171c37;
+}
+.box,
+.info-box,
+.your-best,
+.skin-selector {
+  border: 1px solid #535d7b !important;
+  background: #222942 !important;
+  box-shadow: none !important;
+}
+.canvas-container {
+  max-width: 100%;
+  padding: 0 !important;
+}
+.wrapper canvas {
+  max-width: 100%;
+  height: auto;
+  border: 3px ridge #79f3db;
+  box-shadow: 4px 4px #070d1f;
+}
+#canvas {
+  width: 276px;
+  min-height: 0;
+  touch-action: manipulation;
+}
+#pixel-canvas {
+  width: 100%;
+  height: auto;
+  touch-action: manipulation;
+}
+.leaderboard-container {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 16px !important;
+}
+.leaderboard-box {
+  min-width: 0 !important;
+  border: 1px solid #535d7b !important;
+  background: #151b33 !important;
+  padding: 16px !important;
+}
+.leaderboard-item {
+  font-size: 14px !important;
+}
+.leaderboard-list li:before {
+  content: none;
+}
+.player-name {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.stats-container {
+  flex-wrap: wrap;
+  gap: 10px !important;
+}
+.stat-box {
+  background: #222942 !important;
+  border: 1px solid #535d7b !important;
+  min-width: 0;
+  flex: 1;
+}
+.color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px !important;
+}
+.color-btn {
+  border: 3px solid #787d94 !important;
+  min-width: 36px;
+  min-height: 36px;
+}
+.color-btn.selected {
+  border-color: #fff !important;
+  outline: 2px solid #ff83ce;
+  outline-offset: 2px;
+}
+.skin-list {
+  flex-wrap: wrap;
+}
+.wrapper input {
+  max-width: 100%;
+  font-family: Arial, sans-serif;
+}
+.wrapper li {
+  font-size: 15px;
+}
+.wrapper ul li:before {
+  content: none;
+}
+.taskbar a,
+.taskbar a:visited {
+  color: #17182b;
+}
+.taskbar button {
+  font-size: 12px;
+}
+.taskbar {
+  letter-spacing: 0;
+}
+#selected-cell {
+  font:
+    12px/1.6 "Courier New",
+    monospace;
+  color: #c5cde4;
+  margin-top: 15px;
+}
+.toast {
+  line-height: 1.5;
+}
+@media (max-width: 650px) {
+  .wrapper {
+    padding: 15px;
+    margin: 20px 12px;
+  }
+  .leaderboard-container {
+    grid-template-columns: 1fr !important;
+  }
+  .stat-box {
+    padding: 12px 6px !important;
+  }
+  .stat-number {
+    font-size: 24px !important;
+  }
+  .stat-label {
+    font-size: 12px !important;
+  }
+  .wrapper canvas {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .legacy-nav {
+    padding: 17px;
+  }
+  .wrapper h1 {
+    font-size: 33px;
+  }
+  .game-container {
+    max-width: 100%;
+    padding: 0 !important;
+  }
+  .your-best {
+    padding: 15px !important;
+  }
+  .color-btn {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .wrapper .stats-container {
+    gap: 6px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

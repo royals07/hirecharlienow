@@ -1,561 +1,234 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📖 Guestbook - Sign Here!</title>
-    <link rel="stylesheet" href="elements.css">
-    <style>
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .stat-box {
-            background: rgba(0, 0, 0, 0.6);
-            border: 3px ridge #00ffff;
-            padding: 15px;
-            text-align: center;
-            border-radius: 8px;
-        }
-        
-        .stat-number {
-            font-size: 36px;
-            font-weight: bold;
-            color: #ffff00;
-            text-shadow: 2px 2px #ff00ff;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #00ffff;
-            margin-top: 5px;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-        
-        .badge-latitude {
-            background: linear-gradient(135deg, #FF6B9D, #C06C84);
-            color: white;
-        }
-        
-        .badge-leeds {
-            background: linear-gradient(135deg, #4ECDC4, #44A08D);
-            color: white;
-        }
-        
-        .badge-boomtown {
-            background: linear-gradient(135deg, #F2994A, #F2C94C);
-            color: white;
-        }
-        
-        .badge-online {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        
-        .badge-qr {
-            background: linear-gradient(135deg, #00ffff, #ff00ff);
-            color: white;
-        }
-        
-        .badge-other {
-            background: linear-gradient(135deg, #888, #555);
-            color: white;
-        }
-        
-        .visitor-badge {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #000;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-            display: inline-block;
-            margin: 10px 0;
-            border: 2px solid #ff00ff;
-        }
-        
-        .form-group {
-            margin: 15px 0;
-        }
-        
-        .form-group label {
-            display: block;
-            color: #ffff00;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 8px;
-        }
-        
-        .radio-option {
-            flex: 1;
-            min-width: 120px;
-        }
-        
-        .radio-option input[type="radio"] {
-            margin-right: 5px;
-        }
-        
-        .radio-option label {
-            color: #00ffff !important;
-            font-weight: normal !important;
-            cursor: pointer;
-            display: inline;
-        }
-    </style>
-</head>
-<body>
-
-<div class="wrapper">
-    <h1>📖 Real Guestbook</h1>
-    <marquee behavior="scroll" scrollamount="5">
-        ✍️ LEAVE YOUR MARK ✍️ SIGN THE GUESTBOOK ✍️ BE LEGENDARY ✍️
-    </marquee>
-    
-    <p class="blink">Leave praise for Charlie. (or just say hi)</p>
-    
-    <!-- STATS SECTION -->
-    <div class="stats-grid" id="stats">
-        <div class="stat-box">
-            <div class="stat-number" id="total-messages">...</div>
-            <div class="stat-label">Total Messages</div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Australia postcard guestbook · Charlie Woodhead</title>
+    <meta
+      name="description"
+      content="Leave Charlie a public postcard, a hello or a recommendation for Melbourne and the east coast."
+    />
+    <meta name="theme-color" content="#10152e" />
+    <link rel="icon" type="image/png" href="charlie.png" />
+    <link rel="apple-touch-icon" href="charlie.png" />
+    <link rel="stylesheet" href="site.css" />
+    <script src="site.js" defer></script>
+    <link rel="stylesheet" href="chapter.css" />
+    <script src="content.js" defer></script>
+    <link rel="canonical" href="https://hirecharlienow.com/guestbook.html" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="The Australia postcard guestbook · Charlie Woodhead"
+    />
+    <meta
+      property="og:description"
+      content="Leave Charlie a public postcard, a hello or a recommendation for Melbourne and the east coast."
+    />
+    <meta
+      property="og:url"
+      content="https://hirecharlienow.com/guestbook.html"
+    />
+    <meta
+      property="og:image"
+      content="https://hirecharlienow.com/assets/charlie-social.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script
+      src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"
+      defer
+    ></script>
+    <script src="postcards.js" defer></script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="topbar">
+      <nav class="shell nav" aria-label="Main navigation">
+        <a class="brand" href="index.html"
+          ><img src="charlie.png" width="36" height="42" alt="" />
+          <div>
+            <strong>CharlieOS<span aria-hidden="true">_</span></strong
+            ><small>AUSTRALIA EDITION</small>
+          </div></a
+        ><button
+          class="menu-toggle"
+          type="button"
+          data-menu
+          aria-controls="navlinks"
+          aria-expanded="false"
+        >
+          Menu ☰
+        </button>
+        <div class="navlinks" id="navlinks">
+          <a href="index.html#hire">Work with me</a
+          ><a href="index.html#work">Portfolio</a
+          ><a href="archive.html">Tape Archive</a
+          ><a href="index.html#play">Play</a><a href="index.html#cv">CVs</a
+          ><a class="nav-contact" href="contact.html">Say hello ↗</a>
         </div>
-        <div class="stat-box">
-            <div class="stat-number" id="visitor-number">...</div>
-            <div class="stat-label">You Are Visitor</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-number" id="festival-count">...</div>
-            <div class="stat-label">Festival Visitors</div>
-        </div>
-    </div>
-    
-    <!-- FORM -->
-    <div class="box">
-        <div class="form-group">
-            <label for="name">👤 Your Name *</label>
-            <input id="name" placeholder="e.g. Festival Friend" maxlength="30">
-        </div>
-        
-        <div class="form-group">
-            <label for="location">📍 Where did you find me? *</label>
-            <div class="radio-group">
-                <div class="radio-option">
-                    <input type="radio" id="loc-latitude" name="location" value="latitude">
-                    <label for="loc-latitude">🎪 Latitude Festival</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="loc-leeds" name="location" value="leeds">
-                    <label for="loc-leeds">🎵 Leeds Festival</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="loc-boomtown" name="location" value="boomtown">
-                    <label for="loc-boomtown">💥 Boomtown</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="loc-qr" name="location" value="qr">
-                    <label for="loc-qr">📱 Scanned QR</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="loc-online" name="location" value="online">
-                    <label for="loc-online">🌐 Found Online</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="loc-other" name="location" value="other">
-                    <label for="loc-other">🤷 Other</label>
-                </div>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="msg">💬 Your Message *</label>
-            <textarea id="msg" placeholder="write something legendary..." maxlength="200"></textarea>
-        </div>
-        
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="button" onclick="post()">📝 Post Message</button>
-        </div>
-        
-        <p id="status" style="margin-top: 10px; text-align: center; color: #00ffff; font-size: 14px;"></p>
-    </div>
-    
-    <hr>
-    
-    <h2>💬 Messages from Visitors</h2>
-    <div id="loading" style="text-align: center; color: #ffff00;">
-        <p class="blink">📡 Loading messages...</p>
-    </div>
-    <div id="posts">
-        <!-- Messages load here from Firebase -->
-    </div>
-    
-    <div style="text-align: center; margin-top: 30px;">
-        <a class="button" href="index.html">🏠 Back to Homepage</a>
-        <button class="button" onclick="refreshMessages()" style="background: linear-gradient(to bottom, #00ffff, #00cccc);">🔄 Refresh</button>
-    </div>
-    
-    <div class="footer">
-        <p style="font-size: 12px; color: #888;">
-            💡 Messages are stored securely in the cloud and moderated automatically!<br>
-            Profanity is filtered server-side 🛡️
+      </nav>
+    </header>
+    <main class="shell chapter-main" id="main">
+      <div class="page-header">
+        <p class="eyebrow">POSTCARDS / FROM YOU, TO CHARLIE</p>
+        <h1>Leave a little postcard.</h1>
+        <p>
+          A hello, a Melbourne recommendation, a café worth finding or a place
+          to take the camera.
         </p>
+      </div>
+      <div class="postcard-layout">
+        <section class="window postcard-compose">
+          <div class="titlebar">
+            <span>new-postcard.txt</span><span aria-hidden="true">_ □ ×</span>
+          </div>
+          <form id="postcard-form" class="form-body">
+            <div class="postcard-heading">
+              <span class="eyebrow">DEAR CHARLIE,</span
+              ><span class="postage" aria-hidden="true"
+                >AIR<br />MAIL<br />✦</span
+              >
+            </div>
+            <div class="field">
+              <label for="postcard-name">Your display name</label
+              ><input
+                id="postcard-name"
+                name="name"
+                required
+                minlength="2"
+                maxlength="30"
+                autocomplete="nickname"
+              />
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="postcard-location"
+                  >Where are you writing from?</label
+                ><select id="postcard-location" name="location">
+                  <option value="online">Somewhere online</option>
+                  <option value="melbourne">Melbourne</option>
+                  <option value="east-coast">Australia’s east coast</option>
+                  <option value="australia">Elsewhere in Australia</option>
+                  <option value="devon">Devon / the UK</option>
+                  <option value="other">Somewhere else</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="postcard-kind">What’s on your mind?</label
+                ><select id="postcard-kind" name="kind">
+                  <option value="hello">Just saying hello</option>
+                  <option value="coffee">A café recommendation</option>
+                  <option value="music">Music or a venue</option>
+                  <option value="place">A place to visit</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="postcard-message">Your postcard</label
+              ><textarea
+                id="postcard-message"
+                name="message"
+                required
+                minlength="3"
+                maxlength="180"
+                placeholder="There’s a little café you should try…"
+              ></textarea
+              ><small><span id="postcard-count">0</span>/180 characters</small>
+            </div>
+            <div class="honey-field" aria-hidden="true">
+              <label for="postcard-website">Leave this field blank</label
+              ><input
+                id="postcard-website"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </div>
+            <p class="form-note">
+              Postcards are public and display names are chosen by visitors. For
+              work enquiries or a private conversation,
+              <a href="contact.html">send me a message</a>.
+            </p>
+            <button class="btn primary" type="submit">
+              Post my postcard ↗
+            </button>
+            <p
+              id="postcard-status"
+              class="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </section>
+        <aside class="postcard-aside">
+          <p class="eyebrow">A GOOD PLACE TO START</p>
+          <h2>Your local knowledge.<br />My next detour.</h2>
+          <p>
+            Tell me about your favourite Melbourne café, a small music venue, or
+            somewhere on the east coast that deserves a stop.
+          </p>
+          <p>
+            Notes from earlier chapters live here too. Thanks for being part of
+            the journey.
+          </p>
+          <a href="chat.html">Fancy a live chat instead? ↗</a>
+        </aside>
+      </div>
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">THE POSTBAG</p>
+            <h2>Notes from visitors.</h2>
+          </div>
+          <button class="btn ghost" id="refresh-postcards" type="button">
+            Refresh ↻
+          </button>
+        </div>
+        <p id="postcard-load-status" role="status">Opening the postbag…</p>
+        <div class="postcard-grid" id="postcard-list"></div>
+      </section>
+    </main>
+    <footer class="shell footer">
+      <div>
+        © 2026 Charlie Woodhead<br />Made of pixels, curiosity &amp; a little
+        nostalgia.
+      </div>
+      <div>
+        <a
+          href="https://www.artstation.com/charliewoodhead7"
+          target="_blank"
+          rel="noopener noreferrer"
+          >ArtStation ↗</a
+        >
+        &nbsp;
+        <a
+          href="https://www.linkedin.com/in/charliewoodhead7"
+          target="_blank"
+          rel="noopener noreferrer"
+          >LinkedIn ↗</a
+        ><br />Australia edition · September 2026
+      </div>
+    </footer>
+    <div class="taskbar" aria-label="Site controls">
+      <a class="start-button" href="index.html">✦ Start</a
+      ><span class="taskbar-label">charlie-australia.exe</span
+      ><button type="button" data-sound-toggle aria-pressed="false">
+        Sound: off</button
+      ><button type="button" data-motion-toggle aria-pressed="true">
+        Motion: on</button
+      ><button type="button" data-party aria-pressed="false">Party ✧</button
+      ><button type="button" data-share aria-label="Share this page">
+        Share</button
+      ><span
+        class="taskbar-clock"
+        data-clock
+        aria-label="Current time in Melbourne"
+      ></span>
     </div>
-</div>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-<script>
-// ============== FIREBASE CONFIG ==============
-const firebaseConfig = {
-   apiKey: "AIzaSyAVLUuQhdJ8Co80X4k8YylvrzRAM1bPTXs",
-  authDomain: "charlie-guestbook.firebaseapp.com",
-  databaseURL: "https://charlie-guestbook-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "charlie-guestbook",
-  storageBucket: "charlie-guestbook.firebasestorage.app",
-  messagingSenderId: "40421298596",
-  appId: "1:40421298596:web:0426fdef8f4f3b1c1b3131"
-};
-
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-const messagesRef = database.ref('guestbook');
-const statsRef = database.ref('stats');
-
-// ============== SPAM PROTECTION ==============
-function canPost() {
-    const lastPost = localStorage.getItem('lastGuestbookPost');
-    if (!lastPost) return true;
-    
-    const timeSince = Date.now() - parseInt(lastPost);
-    const cooldown = 30000; // 30 seconds
-    
-    if (timeSince < cooldown) {
-        const waitTime = Math.ceil((cooldown - timeSince) / 1000);
-        alert(`⏰ Please wait ${waitTime} seconds before posting again!`);
-        return false;
-    }
-    return true;
-}
-
-// ============== VISITOR TRACKING ==============
-let myVisitorNumber = 0;
-
-async function getVisitorNumber() {
-    const hasVisited = localStorage.getItem('charlieGuestbookVisitor');
-    
-    if (hasVisited) {
-        myVisitorNumber = parseInt(hasVisited);
-        return myVisitorNumber;
-    }
-    
-    try {
-        const snapshot = await statsRef.child('totalVisitors').once('value');
-        const current = snapshot.val() || 0;
-        const newNumber = current + 1;
-        
-        await statsRef.child('totalVisitors').set(newNumber);
-        localStorage.setItem('charlieGuestbookVisitor', newNumber.toString());
-        myVisitorNumber = newNumber;
-        
-        return newNumber;
-    } catch (error) {
-        return Math.floor(Math.random() * 1000) + 100;
-    }
-}
-
-// ============== STATS ==============
-async function updateStats() {
-    try {
-        // Get total messages
-        const messagesSnapshot = await messagesRef.once('value');
-        const totalMessages = messagesSnapshot.numChildren();
-        document.getElementById('total-messages').textContent = totalMessages;
-        
-        // Get visitor number
-        const visitorNum = await getVisitorNumber();
-        document.getElementById('visitor-number').textContent = '#' + visitorNum;
-        
-        // Count festival visitors
-        let festivalCount = 0;
-        messagesSnapshot.forEach(child => {
-            const loc = child.val().location;
-            if (loc === 'latitude' || loc === 'leeds' || loc === 'boomtown') {
-                festivalCount++;
-            }
-        });
-        document.getElementById('festival-count').textContent = festivalCount;
-        
-    } catch (error) {
-        console.error('Error loading stats:', error);
-    }
-}
-
-// ============== POST MESSAGE ==============
-// NOTE: Profanity filtering is now handled server-side by Cloud Functions!
-// The Cloud Function will automatically filter any profanity before saving to database.
-async function post() {
-    const nameInput = document.getElementById("name");
-    const msgInput = document.getElementById("msg");
-    const locationInputs = document.getElementsByName("location");
-    const status = document.getElementById("status");
-    
-    const name = nameInput.value.trim();
-    const msg = msgInput.value.trim();
-    
-    let location = null;
-    for (const input of locationInputs) {
-        if (input.checked) {
-            location = input.value;
-            break;
-        }
-    }
-    
-    // Basic validation
-    if (name === "" || msg === "") {
-        alert("⚠️ Please fill in name and message!");
-        return;
-    }
-    
-    if (!location) {
-        alert("⚠️ Please select where you found me!");
-        return;
-    }
-    
-    if (name.length < 2) {
-        alert("⚠️ Name must be at least 2 characters!");
-        return;
-    }
-    
-    if (msg.length < 3) {
-        alert("⚠️ Message must be at least 3 characters!");
-        return;
-    }
-    
-    // Spam protection
-    if (!canPost()) {
-        return;
-    }
-    
-    // NOTE: No client-side profanity filtering needed!
-    // Cloud Functions will handle this securely on the server
-    
-    status.innerHTML = '<span class="blink">📤 Posting message...</span>';
-    
-    try {
-        const message = {
-            name: name, // Send as-is, server will filter
-            message: msg, // Send as-is, server will filter
-            location: location,
-            timestamp: Date.now(),
-            visitorNumber: myVisitorNumber,
-            emoji: ["⭐", "💎", "🔥", "✨", "🎯", "🚀", "💫", "🌟"][Math.floor(Math.random() * 8)]
-        };
-        
-        await messagesRef.push(message);
-        
-        // Clear inputs
-        nameInput.value = "";
-        msgInput.value = "";
-        for (const input of locationInputs) {
-            input.checked = false;
-        }
-        
-        status.innerHTML = '<span style="color: #00ff00;">✅ Posted successfully! (Profanity auto-filtered)</span>';
-        setTimeout(() => status.innerHTML = '', 3000);
-        
-        localStorage.setItem('lastGuestbookPost', Date.now().toString());
-        
-        // Update stats
-        updateStats();
-        
-        alert("🎉 Thank you for signing the guestbook! You now have +10 excellent taste points!");
-        
-    } catch (error) {
-        console.error("Error posting message:", error);
-        status.innerHTML = '<span style="color: #ff0000;">❌ Error posting. Please try again!</span>';
-    }
-}
-
-// ============== LOCATION BADGES ==============
-function getLocationBadge(location) {
-    const badges = {
-        'latitude': '<span class="badge badge-latitude">🎪 Latitude</span>',
-        'leeds': '<span class="badge badge-leeds">🎵 Leeds</span>',
-        'boomtown': '<span class="badge badge-boomtown">💥 Boomtown</span>',
-        'qr': '<span class="badge badge-qr">📱 QR Code</span>',
-        'online': '<span class="badge badge-online">🌐 Online</span>',
-        'other': '<span class="badge badge-other">🤷 Other</span>'
-    };
-    return badges[location] || '';
-}
-
-// ============== LOAD MESSAGES ==============
-function loadMessages() {
-    document.getElementById("loading").style.display = "block";
-    
-    messagesRef.orderByChild('timestamp').limitToLast(50).once('value', (snapshot) => {
-        const postsDiv = document.getElementById("posts");
-        postsDiv.innerHTML = '';
-        
-        const messages = [];
-        snapshot.forEach((childSnapshot) => {
-            messages.push(childSnapshot.val());
-        });
-        
-        messages.reverse();
-        
-        if (messages.length === 0) {
-            postsDiv.innerHTML = '<p style="text-align: center; color: #888;">No messages yet! Be the first to sign! 🎉</p>';
-        } else {
-            messages.forEach((data) => {
-                const p = document.createElement("p");
-p.setAttribute('data-key', childSnapshot.key);
-                const badge = getLocationBadge(data.location);
-                const visitorBadge = data.visitorNumber ? `<span class="visitor-badge">Visitor #${data.visitorNumber}</span>` : '';
-                const moderatedBadge = data.moderated ? '<span class="badge" style="background: #ff6600;">🛡️ Filtered</span>' : '';
-                
-                p.innerHTML = `<strong>${data.emoji} ${escapeHtml(data.name)}</strong> ${badge} ${moderatedBadge}<br>${escapeHtml(data.message)}`;
-                
-                if (visitorBadge) {
-                    p.innerHTML += `<br>${visitorBadge}`;
-                }
-                
-                p.style.animation = "achievePulse 0.5s";
-                postsDiv.appendChild(p);
-            });
-        }
-        
-        document.getElementById("loading").style.display = "none";
-        updateStats();
-    });
-}
-
-// ============== REAL-TIME UPDATES ==============
-let isFirstLoad = true;
-
-function setupRealtime() {
-    // This is your existing child_added listener.
-    // It handles displaying new messages as they first appear in the database.
-    messagesRef.orderByChild('timestamp').limitToLast(1).on('child_added', (snapshot) => {
-        if (isFirstLoad) {
-            isFirstLoad = false;
-            return;
-        }
-        
-        const data = snapshot.val();
-        const postsDiv = document.getElementById("posts");
-        
-        const p = document.createElement("p");
-        p.setAttribute('data-key', snapshot.key); // Critical for tracking messages
-        const badge = getLocationBadge(data.location);
-        const visitorBadge = data.visitorNumber ? `<span class="visitor-badge">Visitor #${data.visitorNumber}</span>` : '';
-        const moderatedBadge = data.moderated ? '<span class="badge" style="background: #ff6600;">🛡️ Filtered</span>' : '';
-        
-        p.innerHTML = `<strong>${data.emoji} ${escapeHtml(data.name)}</strong> ${badge} ${moderatedBadge}<br>${escapeHtml(data.message)}`;
-        
-        if (visitorBadge) {
-            p.innerHTML += `<br>${visitorBadge}`;
-        }
-        
-        p.style.animation = "achievePulse 1s";
-        p.style.background = "rgba(0, 255, 0, 0.1)";
-        postsDiv.insertBefore(p, postsDiv.firstChild);
-        
-        setTimeout(() => {
-            p.style.background = "";
-        }, 3000);
-        
-        updateStats();
-    });
-
-    // THIS IS THE NEW LISTENER YOU NEED TO ADD.
-    // It listens for changes to existing messages, which happens when the Cloud Function filters them.
-    messagesRef.on('child_changed', (snapshot) => {
-        const changedKey = snapshot.key; // Get the key of the changed message
-        const newData = snapshot.val();   // Get the new data for the message
-
-        const postsDiv = document.getElementById("posts");
-        // Find the corresponding <p> element on the page using its data-key
-        const messageElement = postsDiv.querySelector(`p[data-key="${changedKey}"]`);
-
-        if (messageElement) {
-            // Reconstruct the message HTML with the new, filtered data
-            const badge = getLocationBadge(newData.location);
-            const visitorBadge = newData.visitorNumber ? `<span class="visitor-badge">Visitor #${newData.visitorNumber}</span>` : '';
-            // The moderatedBadge will correctly show if 'moderated: true' was set by the function
-            const moderatedBadge = newData.moderated ? '<span class="badge" style="background: #ff6600;">🛡️ Filtered</span>' : '';
-
-            messageElement.innerHTML = `<strong>${newData.emoji} ${escapeHtml(newData.name)}</strong> ${badge} ${moderatedBadge}<br>${escapeHtml(newData.message)}`;
-
-            if (visitorBadge) {
-                messageElement.innerHTML += `<br>${visitorBadge}`;
-            }
-
-            // Optional: Add a visual cue that the message was updated
-            messageElement.style.transition = 'background 0.5s ease-in-out';
-            messageElement.style.background = 'rgba(255, 255, 0, 0.2)'; // Highlight yellow for change
-            setTimeout(() => {
-                messageElement.style.background = ''; // Fade back after 3 seconds
-            }, 3000);
-
-            console.log(`Message with key ${changedKey} updated in UI.`);
-        }
-        updateStats(); // Update stats as well, in case a moderated message affects counts
-    });
-}
-
-// ============== UTILITY ==============
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function refreshMessages() {
-    loadMessages();
-    alert("🔄 Messages refreshed!");
-}
-
-// ============== KEYBOARD SUPPORT ==============
-document.getElementById("name").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-        document.querySelector('input[name="location"]').focus();
-    }
-});
-
-document.getElementById("msg").addEventListener("keypress", function(e) {
-    if (e.key === "Enter" && e.ctrlKey) {
-        post();
-    }
-});
-
-// ============== INITIALIZE ==============
-window.addEventListener('load', async () => {
-    await getVisitorNumber();
-    loadMessages();
-    setupRealtime();
-});
-</script>
-
-</body>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
 </html>

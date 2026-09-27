@@ -1,0 +1,11 @@
+{
+  "name": "hirecharlienow-site-checks",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node site.test.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

@@ -1,7 +1,8 @@
+function playGameSound(audio) { try { if (localStorage.getItem('charlie.sound') === 'on') audio.play().catch(() => {}); } catch {} }
 const RAD = Math.PI / 180;
 const scrn = document.getElementById("canvas");
 const sctx = scrn.getContext("2d");
-scrn.tabIndex = 1;
+scrn.tabIndex = 0;
 
 function isScoreSubmitOpen() {
   const box = document.getElementById('score-submit');
@@ -12,7 +13,7 @@ scrn.addEventListener("click", () => {
   switch (state.curr) {
     case state.getReady:
       state.curr = state.Play;
-      SFX.start.play();
+      playGameSound(SFX.start);
       break;
     case state.Play:
       bird.flap();
@@ -41,11 +42,12 @@ scrn.addEventListener("click", () => {
 
 scrn.onkeydown = function keyDown(e) {
   if (e.keyCode == 32 || e.keyCode == 87 || e.keyCode == 38) {
+    e.preventDefault();
     // Space Key or W key or arrow up
     switch (state.curr) {
       case state.getReady:
         state.curr = state.Play;
-        SFX.start.play();
+        playGameSound(SFX.start);
         break;
       case state.Play:
         bird.flap();
@@ -201,7 +203,7 @@ function updateEnemy() {
   const ddx = bird.x - enemyState.x;
   const ddy = bird.y - enemyState.y;
   if (Math.sqrt(ddx * ddx + ddy * ddy) < br + 12) {
-    SFX.hit.play();
+    playGameSound(SFX.hit);
     state.curr = state.gameOver;
   }
 
@@ -554,7 +556,7 @@ const bird = {
           this.y = gnd.y - r;
           this.rotatation = 90;
           if (!SFX.played) {
-            SFX.die.play();
+            playGameSound(SFX.die);
             SFX.played = true;
             
             // FIREBASE INTEGRATION: Show score submission popup
@@ -568,7 +570,7 @@ const bird = {
   },
   flap: function () {
     if (this.y > 0) {
-      SFX.flap.play();
+      playGameSound(SFX.flap);
       this.speed = -this.thrust;
     }
   },
@@ -591,12 +593,12 @@ const bird = {
     if (this.x + r >= x) {
       if (this.x + r < x + w) {
         if (this.y - r <= roof || this.y + r >= floor) {
-          SFX.hit.play();
+          playGameSound(SFX.hit);
           return true;
         }
       } else if (pipe.moved) {
         UI.score.curr++;
-        SFX.score.play();
+        playGameSound(SFX.score);
         pipe.moved = false;
       }
     }

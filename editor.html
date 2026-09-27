@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Site update desk · Charlie Woodhead</title>
+    <meta
+      name="description"
+      content="A phone-friendly content editor for Charlie’s availability and Tape Archive."
+    />
+    <meta name="theme-color" content="#10152e" />
+    <link rel="icon" type="image/png" href="charlie.png" />
+    <link rel="apple-touch-icon" href="charlie.png" />
+    <link rel="stylesheet" href="site.css" />
+    <script src="site.js" defer></script>
+    <link rel="stylesheet" href="chapter.css" />
+    <script src="content.js" defer></script>
+    <link rel="canonical" href="https://hirecharlienow.com/editor.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Site update desk · Charlie Woodhead" />
+    <meta
+      property="og:description"
+      content="A phone-friendly content editor for Charlie’s availability and Tape Archive."
+    />
+    <meta property="og:url" content="https://hirecharlienow.com/editor.html" />
+    <meta
+      property="og:image"
+      content="https://hirecharlienow.com/assets/charlie-social.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="noindex, nofollow" />
+    <script src="editor.js" defer></script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="topbar">
+      <nav class="shell nav" aria-label="Main navigation">
+        <a class="brand" href="index.html"
+          ><img src="charlie.png" width="36" height="42" alt="" />
+          <div>
+            <strong>CharlieOS<span aria-hidden="true">_</span></strong
+            ><small>AUSTRALIA EDITION</small>
+          </div></a
+        ><button
+          class="menu-toggle"
+          type="button"
+          data-menu
+          aria-controls="navlinks"
+          aria-expanded="false"
+        >
+          Menu ☰
+        </button>
+        <div class="navlinks" id="navlinks">
+          <a href="index.html#hire">Work with me</a
+          ><a href="index.html#work">Portfolio</a
+          ><a href="archive.html">Tape Archive</a
+          ><a href="index.html#play">Play</a><a href="index.html#cv">CVs</a
+          ><a class="nav-contact" href="contact.html">Say hello ↗</a>
+        </div>
+      </nav>
+    </header>
+    <main class="shell chapter-main" id="main">
+      <div class="page-header">
+        <p class="eyebrow">CHARLIE’S DESK / SITE UPDATES</p>
+        <h1>A little update goes a long way.</h1>
+        <p>
+          Change your availability and add archive entries from your phone.
+          Preview here, then publish through your GitHub account.
+        </p>
+      </div>
+      <div class="editor-note">
+        <strong>Drafts stay on this device.</strong> This page cannot change the
+        public site by itself. Publishing requires access to your GitHub
+        repository.
+      </div>
+      <p id="editor-status" role="status" aria-live="polite">
+        Loading current content…
+      </p>
+      <form id="editor-form">
+        <fieldset class="editor-section">
+          <legend>Availability</legend>
+          <div class="form-grid">
+            <div class="field">
+              <label for="edit-location">Current city / region</label
+              ><input
+                id="edit-location"
+                name="location"
+                maxlength="100"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="edit-next">Next stop</label
+              ><input id="edit-next" name="next" maxlength="100" required />
+            </div>
+            <div class="field">
+              <label for="edit-status">Trip / work status</label
+              ><input id="edit-status" name="status" maxlength="100" required />
+            </div>
+            <div class="field">
+              <label for="edit-start">Start date / availability</label
+              ><input id="edit-start" name="start" maxlength="160" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="edit-remote">Remote-work note</label
+            ><input id="edit-remote" name="remote" maxlength="220" required />
+          </div>
+        </fieldset>
+        <fieldset class="editor-section">
+          <legend>Tape Archive</legend>
+          <p>
+            Add a field note now, or attach a film using a direct MP4/WebM link
+            or a YouTube/Vimeo link. The editor saves links; it does not upload
+            video files.
+          </p>
+          <div id="editor-tapes"></div>
+          <button class="btn" id="add-tape" type="button">
+            + Add an entry
+          </button>
+        </fieldset>
+        <div class="actions">
+          <button class="btn primary" type="submit">
+            Preview &amp; download update ↓</button
+          ><button class="btn" id="restore-draft" type="button" hidden>
+            Restore saved draft</button
+          ><button class="btn ghost" id="reset-editor" type="button">
+            Reload published content
+          </button>
+        </div>
+      </form>
+      <section id="editor-preview" class="editor-section" hidden>
+        <h2>Your update, at a glance.</h2>
+        <div id="editor-summary"></div>
+        <div class="tape-grid" id="editor-tape-preview"></div>
+      </section>
+      <section class="editor-section">
+        <h2>Put your update on the site.</h2>
+        <ol>
+          <li>
+            Fill in the form, then choose
+            <strong>Preview &amp; download update</strong>.
+          </li>
+          <li>
+            Keep the downloaded filename as <strong>site-content.json</strong>.
+          </li>
+          <li>
+            Open GitHub below, select that file and confirm the commit to
+            <strong>main</strong>. GitHub will publish your update to the live
+            site, usually within a few minutes.
+          </li>
+        </ol>
+        <a
+          class="btn"
+          id="publish-github"
+          href="https://github.com/royals07/hirecharlienow/upload/main/data"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Open GitHub upload ↗</a
+        >
+        <p class="form-note">
+          Only authorised repository users can publish. No password or access
+          token is stored in this editor.
+        </p>
+      </section>
+    </main>
+    <footer class="shell footer">
+      <div>
+        © 2026 Charlie Woodhead<br />Made of pixels, curiosity &amp; a little
+        nostalgia.
+      </div>
+      <div>
+        <a
+          href="https://www.artstation.com/charliewoodhead7"
+          target="_blank"
+          rel="noopener noreferrer"
+          >ArtStation ↗</a
+        >
+        &nbsp;
+        <a
+          href="https://www.linkedin.com/in/charliewoodhead7"
+          target="_blank"
+          rel="noopener noreferrer"
+          >LinkedIn ↗</a
+        ><br />Australia edition · September 2026
+      </div>
+    </footer>
+    <div class="taskbar" aria-label="Site controls">
+      <a class="start-button" href="index.html">✦ Start</a
+      ><span class="taskbar-label">charlie-australia.exe</span
+      ><button type="button" data-sound-toggle aria-pressed="false">
+        Sound: off</button
+      ><button type="button" data-motion-toggle aria-pressed="true">
+        Motion: on</button
+      ><button type="button" data-party aria-pressed="false">Party ✧</button
+      ><button type="button" data-share aria-label="Share this page">
+        Share</button
+      ><span
+        class="taskbar-clock"
+        data-clock
+        aria-label="Current time in Melbourne"
+      ></span>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
