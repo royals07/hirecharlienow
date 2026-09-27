@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Hospitality CV · Charlie Woodhead</title>
+    <meta name="description" content="View or download Charlie Woodhead's hospitality and customer service CV." />
+    <meta name="theme-color" content="#10152e" />
+
+    <link rel="icon" type="image/png" href="charlie.png" />
+    <link rel="apple-touch-icon" href="charlie.png" />
+    <link rel="stylesheet" href="site.css" />
+    <link rel="stylesheet" href="chapter.css" />
+
+    <script src="site.js" defer></script>
+    <script src="content.js" defer></script>
+
+    <link rel="canonical" href="https://hirecharlienow.com/cv-hospitality.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hospitality CV · Charlie Woodhead" />
+    <meta property="og:description" content="View or download Charlie Woodhead's hospitality and customer service CV." />
+    <meta property="og:url" content="https://hirecharlienow.com/cv-hospitality.html" />
+    <meta
+      property="og:image"
+      content="https://hirecharlienow.com/assets/charlie-social.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+      /* Self-contained CV viewer styles. No site.css changes required. */
+      .cv-window {
+        width: 100% !important;
+        max-width: 1100px !important;
+        margin: 0 auto 70px !important;
+      }
+
+      .cv-viewer {
+        width: 100%;
+        box-sizing: border-box;
+        background: #d9dce5;
+        padding: 22px;
+      }
+
+      .cv-pages {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+      }
+
+      .cv-page {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .cv-page canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 900px;
+        background: #fff;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.24);
+      }
+
+      .cv-loading,
+      .cv-error {
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: 30px;
+        text-align: center;
+        color: #10152e;
+      }
+
+      .cv-loading strong {
+        font-size: 1rem;
+      }
+
+      .cv-error {
+        display: none;
+      }
+
+      @media (max-width: 700px) {
+        .cv-window {
+          margin-bottom: 90px !important;
+        }
+
+        .cv-viewer {
+          padding: 8px;
+        }
+
+        .cv-pages {
+          gap: 10px;
+        }
+
+        .cv-page canvas {
+          max-width: none;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+        }
+
+        .cv-loading,
+        .cv-error {
+          min-height: 300px;
+          padding: 20px 12px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="topbar">
+      <nav class="shell nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">
+          <img src="charlie.png" width="36" height="42" alt="" />
+          <div>
+            <strong>CharlieOS<span aria-hidden="true">_</span></strong>
+            <small>AUSTRALIA EDITION</small>
+          </div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          data-menu
+          aria-controls="navlinks"
+          aria-expanded="false"
+        >
+          Menu ☰
+        </button>
+
+        <div class="navlinks" id="navlinks">
+          <a href="index.html#hire">Work with me</a>
+          <a href="index.html#work">Portfolio</a>
+          <a href="archive.html">Tape Archive</a>
+          <a href="index.html#play">Play</a>
+          <a href="index.html#cv">CVs</a>
+          <a class="nav-contact" href="contact.html">Say hello ↗</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="shell" id="main">
+      <div class="page-header">
+        <p class="eyebrow">CV FOLDER / HOSPITALITY</p>
+        <h1>Hospitality CV</h1>
+
+        <div class="actions">
+          <a
+            class="btn primary"
+            href="assets/charlie-woodhead-hospitality-cv.pdf"
+            download
+          >
+            Download PDF ↓
+          </a>
+
+          <a
+            class="btn"
+            href="assets/charlie-woodhead-hospitality-cv.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open PDF ↗
+          </a>
+
+          <a class="btn ghost" href="index.html#cv">
+            Back to CV folder
+          </a>
+        </div>
+      </div>
+
+      <article class="window resume cv-window">
+        <div class="titlebar">
+          <span>charlie-woodhead-hospitality-cv.pdf</span>
+          <span class="window-controls" aria-hidden="true">
+            <span>_</span><span>□</span><span>×</span>
+          </span>
+        </div>
+
+        <div class="cv-viewer">
+          <div class="cv-loading" id="cv-loading">
+            <strong>Opening CV…</strong>
+            <span>Rendering the PDF for this screen.</span>
+          </div>
+
+          <div class="cv-error" id="cv-error">
+            <strong>The embedded CV could not be loaded.</strong>
+            <a
+              class="btn primary"
+              href="assets/charlie-woodhead-hospitality-cv.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open PDF ↗
+            </a>
+          </div>
+
+          <div class="cv-pages" id="cv-pages" aria-label="Charlie Woodhead Hospitality CV"></div>
+        </div>
+      </article>
+    </main>
+
+    <footer class="shell footer">
+      <div>
+        © 2026 Charlie Woodhead<br />
+        Made of pixels, curiosity &amp; a little nostalgia.
+      </div>
+
+      <div>
+        <a
+          href="https://www.artstation.com/charliewoodhead7"
+          target="_blank"
+          rel="noopener noreferrer"
+        >ArtStation ↗</a>
+        &nbsp;
+        <a
+          href="https://www.linkedin.com/in/charliewoodhead7"
+          target="_blank"
+          rel="noopener noreferrer"
+        >LinkedIn ↗</a>
+        <br />
+        Australia edition · September 2026 ·
+        <a href="share.html">Keep in touch ↗</a>
+      </div>
+    </footer>
+
+    <div class="taskbar" aria-label="Site controls">
+      <a class="start-button" href="index.html">✦ Start</a>
+      <span class="taskbar-label">charlie-australia.exe</span>
+
+      <button type="button" data-sound-toggle aria-pressed="false">
+        Sound: off
+      </button>
+
+      <button type="button" data-motion-toggle aria-pressed="true">
+        Motion: on
+      </button>
+
+      <button type="button" data-party aria-pressed="false">
+        Party ✧
+      </button>
+
+      <button type="button" data-share aria-label="Share this page">
+        Share
+      </button>
+
+      <span
+        class="taskbar-clock"
+        data-clock
+        aria-label="Current time in Melbourne"
+      ></span>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- PDF.js renders the real PDF into canvases so it works on Android/iPhone too. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+      (() => {
+        const pdfUrl = "assets/charlie-woodhead-hospitality-cv.pdf";
+        const pagesEl = document.getElementById("cv-pages");
+        const loadingEl = document.getElementById("cv-loading");
+        const errorEl = document.getElementById("cv-error");
+
+        async function renderPdf() {
+          try {
+            if (!window.pdfjsLib) {
+              throw new Error("PDF.js did not load");
+            }
+
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+              "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+            const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+            const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+              const page = await pdf.getPage(pageNumber);
+              const baseViewport = page.getViewport({ scale: 1 });
+
+              const availableWidth = Math.min(
+                pagesEl.clientWidth || 900,
+                900
+              );
+
+              const cssScale = availableWidth / baseViewport.width;
+              const renderViewport = page.getViewport({
+                scale: cssScale * pixelRatio
+              });
+
+              const wrapper = document.createElement("div");
+              wrapper.className = "cv-page";
+
+              const canvas = document.createElement("canvas");
+              const context = canvas.getContext("2d", { alpha: false });
+
+              canvas.width = Math.floor(renderViewport.width);
+              canvas.height = Math.floor(renderViewport.height);
+              canvas.style.width = `${Math.floor(renderViewport.width / pixelRatio)}px`;
+              canvas.style.height = `${Math.floor(renderViewport.height / pixelRatio)}px`;
+
+              wrapper.appendChild(canvas);
+              pagesEl.appendChild(wrapper);
+
+              await page.render({
+                canvasContext: context,
+                viewport: renderViewport
+              }).promise;
+            }
+
+            loadingEl.style.display = "none";
+          } catch (error) {
+            console.error("CV PDF render failed:", error);
+            loadingEl.style.display = "none";
+            errorEl.style.display = "flex";
+          }
+        }
+
+        renderPdf();
+      })();
+    </script>
+  </body>
+</html>
