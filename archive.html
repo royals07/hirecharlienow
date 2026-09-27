@@ -1,13 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <base href="/" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Page not found · Charlie Woodhead</title>
+    <title>The Tape Archive · Charlie Woodhead</title>
     <meta
       name="description"
-      content="This page could not be found. Return to Charlie Woodhead’s portfolio."
+      content="Charlie’s camcorder films and field notes, from Devon to Australia."
     />
     <meta name="theme-color" content="#10152e" />
     <link rel="icon" type="image/png" href="charlie.png" />
@@ -16,6 +15,19 @@
     <script src="site.js" defer></script>
     <link rel="stylesheet" href="chapter.css" />
     <script src="content.js" defer></script>
+    <link rel="canonical" href="https://hirecharlienow.com/archive.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="The Tape Archive · Charlie Woodhead" />
+    <meta
+      property="og:description"
+      content="Charlie’s camcorder films and field notes, from Devon to Australia."
+    />
+    <meta property="og:url" content="https://hirecharlienow.com/archive.html" />
+    <meta
+      property="og:image"
+      content="https://hirecharlienow.com/assets/charlie-social.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -45,16 +57,63 @@
         </div>
       </nav>
     </header>
-    <main class="shell" id="main">
-      <section class="page-header section">
-        <p class="eyebrow">404 / WRONG TURN</p>
-        <h1>This page took a detour.</h1>
-        <p>Let’s get you back to the good stuff.</p>
-        <div class="actions">
-          <a class="btn primary" href="index.html">Back to CharlieOS →</a
-          ><a class="btn" href="index.html#work">Explore my work</a
-          ><a class="btn" href="contact.html">Say hello</a>
+    <main class="shell chapter-main" id="main">
+      <div class="page-header">
+        <p class="eyebrow">FIELD NOTES / DEVON → AUSTRALIA</p>
+        <h1>The Tape Archive.</h1>
+        <p>
+          Little films, places and moments worth keeping. A camcorder in the
+          bag, and a new chapter on the way.
+        </p>
+      </div>
+      <div class="archive-intro">
+        <p>
+          Starting in Devon. Next stop, Melbourne. This is where I’ll collect
+          the journey—one tape and a few notes at a time.
+        </p>
+        <a class="section-link" href="guestbook.html"
+          >Recommend a place for the next tape ↗</a
+        >
+      </div>
+      <div class="tape-filters" aria-label="Filter archive">
+        <button
+          class="btn"
+          type="button"
+          data-tape-filter="all"
+          aria-pressed="true"
+        >
+          All entries</button
+        ><button
+          class="btn"
+          type="button"
+          data-tape-filter="film"
+          aria-pressed="false"
+        >
+          Films</button
+        ><button
+          class="btn"
+          type="button"
+          data-tape-filter="note"
+          aria-pressed="false"
+        >
+          Field notes
+        </button>
+      </div>
+      <div class="tape-grid" data-tape-list>
+        <p class="empty-state">Loading the archive…</p>
+      </div>
+      <noscript
+        ><p>
+          Before the flight: a camcorder test at Bantham Beach, Devon, on 20
+          September 2026. Films and new entries appear here as they’re added.
+        </p></noscript
+      >
+      <section class="contact-banner section">
+        <div>
+          <h2>Got a good local tip?</h2>
+          <p>A café, a music venue or somewhere worth taking the camera.</p>
         </div>
+        <a class="btn" href="guestbook.html">Leave a postcard ↗</a>
       </section>
     </main>
     <footer class="shell footer">
@@ -75,8 +134,7 @@
           target="_blank"
           rel="noopener noreferrer"
           >LinkedIn ↗</a
-        ><br />Australia edition · September 2026 ·
-        <a href="share.html">Keep in touch ↗</a>
+        ><br />Australia edition · September 2026
       </div>
     </footer>
     <div class="taskbar" aria-label="Site controls">

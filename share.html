@@ -1,13 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <base href="/" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Page not found · Charlie Woodhead</title>
+    <title>Keep in touch · Charlie Woodhead</title>
     <meta
       name="description"
-      content="This page could not be found. Return to Charlie Woodhead’s portfolio."
+      content="Save Charlie’s site link or scan the QR contact card."
     />
     <meta name="theme-color" content="#10152e" />
     <link rel="icon" type="image/png" href="charlie.png" />
@@ -16,6 +15,20 @@
     <script src="site.js" defer></script>
     <link rel="stylesheet" href="chapter.css" />
     <script src="content.js" defer></script>
+    <link rel="canonical" href="https://hirecharlienow.com/share.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Keep in touch · Charlie Woodhead" />
+    <meta
+      property="og:description"
+      content="Save Charlie’s site link or scan the QR contact card."
+    />
+    <meta property="og:url" content="https://hirecharlienow.com/share.html" />
+    <meta
+      property="og:image"
+      content="https://hirecharlienow.com/assets/charlie-social.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script src="sharing.js" defer></script>
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -45,17 +58,58 @@
         </div>
       </nav>
     </header>
-    <main class="shell" id="main">
-      <section class="page-header section">
-        <p class="eyebrow">404 / WRONG TURN</p>
-        <h1>This page took a detour.</h1>
-        <p>Let’s get you back to the good stuff.</p>
-        <div class="actions">
-          <a class="btn primary" href="index.html">Back to CharlieOS →</a
-          ><a class="btn" href="index.html#work">Explore my work</a
-          ><a class="btn" href="contact.html">Say hello</a>
+    <main class="shell chapter-main" id="main">
+      <div class="page-header">
+        <p class="eyebrow">PASS IT ON / NICE TO MEET YOU</p>
+        <h1>Keep in touch.</h1>
+        <p>
+          One little link for work, a coffee recommendation or the next chapter
+          of the journey.
+        </p>
+      </div>
+      <section class="share-layout">
+        <div class="window qr-card">
+          <div class="titlebar">
+            <span>charlie-contact-card.png</span
+            ><span aria-hidden="true">_ □ ×</span>
+          </div>
+          <div>
+            <img
+              src="assets/hirecharlienow-qr.png"
+              width="330"
+              height="330"
+              alt="QR code linking to https://hirecharlienow.com"
+            />
+            <h2>Charlie Woodhead</h2>
+            <p>3D artist · Coffee maker · Australia plans</p>
+            <a href="https://hirecharlienow.com/">hirecharlienow.com</a>
+          </div>
+        </div>
+        <div class="body-copy">
+          <h2>A link you can take with you.</h2>
+          <p>Scan the code to open my site, or save a copy for later.</p>
+          <div class="actions">
+            <button class="btn primary" type="button" data-copy-home>
+              Copy site link</button
+            ><a class="btn" href="assets/hirecharlienow-qr.png" download
+              >Save QR image ↓</a
+            ><button class="btn" type="button" onclick="window.print()">
+              Print contact card
+            </button>
+          </div>
+          <p id="share-status" role="status" aria-live="polite"></p>
+          <p><a href="contact.html">Send me a message ↗</a></p>
         </div>
       </section>
+      <div class="share-preview">
+        <img
+          src="assets/charlie-social.jpg"
+          width="1734"
+          height="907"
+          alt="Charlie Woodhead social card: 3D artist, coffee maker, next stop Australia"
+          loading="lazy"
+        />
+      </div>
     </main>
     <footer class="shell footer">
       <div>
@@ -75,8 +129,7 @@
           target="_blank"
           rel="noopener noreferrer"
           >LinkedIn ↗</a
-        ><br />Australia edition · September 2026 ·
-        <a href="share.html">Keep in touch ↗</a>
+        ><br />Australia edition · September 2026
       </div>
     </footer>
     <div class="taskbar" aria-label="Site controls">

@@ -13,6 +13,21 @@
     <link rel="apple-touch-icon" href="charlie.png" />
     <link rel="stylesheet" href="site.css" />
     <script src="site.js" defer></script>
+    <link rel="stylesheet" href="chapter.css" />
+    <script src="content.js" defer></script>
+    <link rel="canonical" href="https://hirecharlienow.com/contact.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Say hello · Charlie Woodhead" />
+    <meta
+      property="og:description"
+      content="Contact Charlie Woodhead about creative work, IT, hospitality or Australia."
+    />
+    <meta property="og:url" content="https://hirecharlienow.com/contact.html" />
+    <meta
+      property="og:image"
+      content="https://hirecharlienow.com/assets/charlie-social.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -34,8 +49,9 @@
           Menu ☰
         </button>
         <div class="navlinks" id="navlinks">
-          <a href="index.html#work">Work</a><a href="index.html#about">About</a
-          ><a href="index.html#australia">Australia</a
+          <a href="index.html#hire">Work with me</a
+          ><a href="index.html#work">Portfolio</a
+          ><a href="archive.html">Tape Archive</a
           ><a href="index.html#play">Play</a><a href="index.html#cv">CVs</a
           ><a class="nav-contact" href="contact.html">Say hello ↗</a>
         </div>
@@ -125,6 +141,19 @@
               </select>
             </div>
             <div class="field">
+              <label for="enquiry-topic"
+                >What would you like to talk about?</label
+              ><select id="enquiry-topic" name="enquiry-topic">
+                <option value="general">Something else / say hello</option>
+                <option value="creative">3D or creative work</option>
+                <option value="hospitality">Hospitality or café work</option>
+                <option value="it">IT support or security opportunities</option>
+                <option value="travel">
+                  Australia / a local recommendation
+                </option>
+              </select>
+            </div>
+            <div class="field">
               <label for="message">Your message</label
               ><textarea
                 id="message"
@@ -182,7 +211,8 @@
           target="_blank"
           rel="noopener noreferrer"
           >LinkedIn ↗</a
-        ><br />Australia edition · September 2026
+        ><br />Australia edition · September 2026 ·
+        <a href="share.html">Keep in touch ↗</a>
       </div>
     </footer>
     <div class="taskbar" aria-label="Site controls">

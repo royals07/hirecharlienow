@@ -104,14 +104,14 @@ function mockFirebase() {
   return control;
 }
 
-function page(file, setup = () => {}) {
+function page(file, setup = () => {}, query = "") {
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on("jsdomError", (e) => {
     if (e.type !== "css parsing") errors.push(e);
   });
   const dom = new JSDOM(fs.readFileSync(path.join(root, file), "utf8"), {
-    url: "https://hirecharlienow.com/" + file,
+    url: "https://hirecharlienow.com/" + file + query,
     runScripts: "outside-only",
     virtualConsole,
   });
@@ -174,17 +174,17 @@ const submit = (p, selector) =>
       new p.w.Event("submit", { bubbles: true, cancelable: true }),
     );
 const key = (p, selector, value) =>
-  p
-    .$(selector)
-    .dispatchEvent(
-      new p.w.KeyboardEvent("keydown", {
-        key: value,
-        bubbles: true,
-        cancelable: true,
-      }),
-    );
+  p.$(selector).dispatchEvent(
+    new p.w.KeyboardEvent("keydown", {
+      key: value,
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
 let passed = 0;
+let attempted = 0;
 async function test(name, run) {
+  attempted++;
   try {
     await run();
     passed++;
@@ -438,7 +438,260 @@ async function test(name, run) {
     assert.deepEqual(p.errors, []);
     p.close();
   });
+  const fixture = () =>
+    JSON.parse(
+      fs.readFileSync(path.join(root, "data/site-content.json"), "utf8"),
+    );
+  const contentSetup =
+    (data = fixture()) =>
+    (w) => {
+      w.fetch = async () => ({ ok: true, json: async () => data });
+    };
+  await test("work enquiries select the correct topic and ignore unknown values", async () => {
+    const p = page("contact.html", () => {}, "?topic=creative");
+    assert.equal(p.$("#enquiry-topic").value, "creative");
+    p.close();
+    const bad = page("contact.html", () => {}, "?topic=%3Cscript%3E");
+    assert.equal(bad.$("#enquiry-topic").value, "general");
+    bad.close();
+  });
+  await test("shared availability and latest archive entry load from one content file", async () => {
+    const data = fixture();
+    data.availability.location = "Melbourne";
+    data.availability.status = "Available for work";
+    const p = page("index.html", contentSetup(data));
+    await p.w.charlieContentReady;
+    assert.equal(p.$("[data-availability=location]").textContent, "Melbourne");
+    assert.equal(
+      p.$("[data-availability=status]").textContent,
+      "Available for work",
+    );
+    assert.equal(p.$("[data-latest-tape] h3").textContent, data.tapes[0].title);
+    assert.deepEqual(p.errors, []);
+    p.close();
+  });
+  await test("archive filters films and notes; embedded films load only when requested", async () => {
+    const data = fixture();
+    data.tapes.push({
+      ...data.tapes[0],
+      id: "film-test",
+      title: "<img src=x onerror=alert(1)>",
+      video: "https://youtu.be/abcdefghijk",
+      date: "2026-09-22",
+    });
+    const p = page("archive.html", contentSetup(data));
+    await p.w.charlieContentReady;
+    assert.equal(p.w.document.querySelectorAll(".tape-card").length, 2);
+    assert.equal(p.$(".tape-card img"), null);
+    assert.equal(p.$("iframe"), null);
+    p.$("[data-tape-filter=film]").click();
+    assert.equal(p.w.document.querySelectorAll(".tape-card").length, 1);
+    p.$(".embed-load").click();
+    assert.equal(
+      p.$("iframe").src,
+      "https://www.youtube-nocookie.com/embed/abcdefghijk",
+    );
+    p.$("[data-tape-filter=note]").click();
+    assert.equal(p.$("iframe"), null);
+    assert.equal(p.$(".tape-copy h3").textContent, data.tapes[0].title);
+    assert.deepEqual(p.errors, []);
+    p.close();
+  });
+  await test("content updates reject unsafe URLs, invalid dates and duplicate entries", async () => {
+    const p = page("archive.html", contentSetup());
+    await p.w.charlieContentReady;
+    for (const value of [
+      "javascript:alert(1)",
+      "data:text/html,<script>alert(1)</script>",
+      "http://example.test/film.mp4",
+    ]) {
+      const data = fixture();
+      data.tapes[0].video = value;
+      assert.throws(() => p.w.CharlieContent.validate(data));
+    }
+    let data = fixture();
+    data.tapes[0].date = "2026-02-30";
+    assert.throws(() => p.w.CharlieContent.validate(data));
+    data = fixture();
+    data.tapes.push({ ...data.tapes[0] });
+    assert.throws(() => p.w.CharlieContent.validate(data));
+    assert.equal(
+      p.w.CharlieContent.safeMedia("assets/film.mp4", "film"),
+      "assets/film.mp4",
+    );
+    assert.throws(() =>
+      p.w.CharlieContent.safeMedia("assets/../secret.png", "image"),
+    );
+    p.close();
+  });
+  await test("mobile editor saves a local draft, exports valid content, and requires GitHub to publish", async () => {
+    let blob;
+    const downloads = [];
+    const requests = [];
+    const p = page("editor.html", (w) => {
+      w.fetch = async (url, options) => {
+        requests.push({ url, options });
+        return { ok: true, json: async () => fixture() };
+      };
+      w.URL.createObjectURL = (value) => ((blob = value), "blob:preview");
+      w.URL.revokeObjectURL = () => {};
+      w.HTMLAnchorElement.prototype.click = function () {
+        downloads.push(this.download);
+      };
+    });
+    await p.w.charlieContentReady;
+    await flush();
+    assert.equal(p.$("[type=submit]").disabled, false);
+    p.$("#edit-location").value = "Melbourne";
+    p.$("#edit-location").dispatchEvent(
+      new p.w.Event("input", { bubbles: true }),
+    );
+    assert.equal(
+      JSON.parse(p.w.localStorage.getItem("charlie.editor.draft.v1"))
+        .availability.location,
+      "Melbourne",
+    );
+    p.$("#add-tape").click();
+    const row = p.$("#editor-tapes").lastElementChild;
+    row.querySelector("[data-field=title]").value = "First Melbourne walk";
+    row.querySelector("[data-field=location]").value = "Melbourne";
+    row.querySelector("[data-field=summary]").value = "A new field note.";
+    submit(p, "#editor-form");
+    assert.deepEqual(downloads, ["site-content.json"]);
+    const exported = await new Promise((resolve, reject) => {
+      const reader = new p.w.FileReader();
+      reader.onload = () => resolve(JSON.parse(reader.result));
+      reader.onerror = reject;
+      reader.readAsText(blob);
+    });
+    assert.equal(exported.availability.location, "Melbourne");
+    assert.equal(exported.tapes.length, 2);
+    assert.equal(p.$("#editor-preview").hidden, false);
+    assert.equal(requests.length, 1);
+    assert.equal(requests[0].url, "data/site-content.json");
+    assert.equal(
+      p.$("#publish-github").href,
+      "https://github.com/royals07/hirecharlienow/upload/main/data",
+    );
+    row.querySelector("[data-field=video]").value = "javascript:alert(1)";
+    submit(p, "#editor-form");
+    assert.equal(downloads.length, 1);
+    assert.match(p.$("#editor-status").textContent, /HTTPS/);
+    assert.deepEqual(p.errors, []);
+    p.close();
+  });
+  await test("editor blocks exporting when current content cannot load", async () => {
+    const p = page("editor.html", (w) => {
+      w.fetch = async () => ({ ok: false });
+    });
+    await p.w.charlieContentReady;
+    await flush();
+    assert.equal(p.$("[type=submit]").disabled, true);
+    assert.match(p.$("#editor-status").textContent, /Could not load/);
+    p.close();
+  });
+  await test("postcards preserve legacy data safely and never create visitor counts on page load", async () => {
+    const f = mockFirebase();
+    const p = page("guestbook.html", (w) => {
+      w.firebase = f.firebase;
+    });
+    assert.equal(f.writes.length, 0);
+    f.emit("guestbook", "value", "guestbook", {
+      old: {
+        name: "Earlier visitor",
+        message: "A note from the festival",
+        location: "leeds",
+        timestamp: 1000,
+      },
+      new: {
+        name: "<img src=x>",
+        message: "<script>alert(1)</script>",
+        location: "melbourne",
+        timestamp: 2000,
+      },
+      invalid: { name: "Missing message" },
+    });
+    assert.equal(p.w.document.querySelectorAll(".visitor-postcard").length, 2);
+    assert.equal(p.$("#postcard-list img"), null);
+    assert.equal(p.$("#postcard-list script"), null);
+    assert.match(p.$("#postcard-list").textContent, /earlier chapter/);
+    assert.equal(p.$(".postcard-signature").textContent, "<img src=x>");
+    assert.deepEqual(p.errors, []);
+    p.close();
+  });
+  await test("postcard failures keep drafts, pending submissions are unique, and cooldown follows success", async () => {
+    const f = mockFirebase();
+    const p = page("guestbook.html", (w) => {
+      w.firebase = f.firebase;
+    });
+    p.$("#postcard-name").value = "Visitor";
+    p.$("#postcard-message").value = "Try the little cafe near the park";
+    p.$("#postcard-kind").value = "coffee";
+    p.$("#postcard-location").value = "melbourne";
+    f.push = () => Promise.reject(new Error("offline"));
+    submit(p, "#postcard-form");
+    await flush();
+    assert.match(p.$("#postcard-status").textContent, /could not/);
+    assert.equal(
+      p.$("#postcard-message").value,
+      "Try the little cafe near the park",
+    );
+    const pending = deferred();
+    f.push = () => pending.promise;
+    const before = f.writes.length;
+    submit(p, "#postcard-form");
+    submit(p, "#postcard-form");
+    assert.equal(f.writes.length, before + 1);
+    pending.resolve();
+    await flush();
+    assert.equal(f.writes.at(-1).path, "guestbook");
+    assert.equal(f.writes.at(-1).data.location, "melbourne");
+    assert.equal(
+      f.writes.at(-1).data.message,
+      "[Café tip] Try the little cafe near the park",
+    );
+    assert.equal(p.$("#postcard-message").value, "");
+    p.$("#postcard-name").value = "Visitor";
+    p.$("#postcard-message").value = "Another recommendation";
+    submit(p, "#postcard-form");
+    assert.equal(f.writes.length, before + 1);
+    assert.match(p.$("#postcard-status").textContent, /half a minute/);
+    assert.deepEqual(p.errors, []);
+    p.close();
+  });
+  await test("postcards fail gracefully when Firebase is unavailable", async () => {
+    const p = page("guestbook.html");
+    assert.equal(p.$("[type=submit]").disabled, true);
+    assert.match(
+      p.$("#postcard-status").textContent,
+      /temporarily unavailable/,
+    );
+    p.close();
+  });
+  await test("project model loads on request and sharing always copies the public domain", async () => {
+    const p = page("project-stray.html");
+    assert.equal(p.$("iframe"), null);
+    p.$("[data-load-model]").click();
+    assert.match(p.$("iframe").src, /sketchfab.com\/models\/ce0619/);
+    p.close();
+    let copied;
+    const share = page("share.html", (w) => {
+      Object.defineProperty(w.navigator, "clipboard", {
+        value: {
+          writeText: async (value) => {
+            copied = value;
+          },
+        },
+      });
+    });
+    share.$("[data-copy-home]").click();
+    await flush();
+    assert.equal(copied, "https://hirecharlienow.com/");
+    assert.deepEqual(share.errors, []);
+    share.close();
+  });
+
   console.log(
-    `${passed}/8 integration checks passed. Network calls were mocked; no messages, pixels or scores were sent.`,
+    `${passed}/${attempted} integration checks passed. Network calls were mocked; no messages, pixels or scores were sent.`,
   );
 })();

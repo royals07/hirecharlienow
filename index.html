@@ -13,6 +13,24 @@
     <link rel="apple-touch-icon" href="charlie.png" />
     <link rel="stylesheet" href="site.css" />
     <script src="site.js" defer></script>
+    <link rel="stylesheet" href="chapter.css" />
+    <script src="content.js" defer></script>
+    <link rel="canonical" href="https://hirecharlienow.com/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="CharlieOS — Australia edition · Charlie Woodhead"
+    />
+    <meta
+      property="og:description"
+      content="Charlie Woodhead: 3D artist, creative problem-solver and experienced barista from Devon. Explore my work, download my CVs and follow my plans for Australia."
+    />
+    <meta property="og:url" content="https://hirecharlienow.com/" />
+    <meta
+      property="og:image"
+      content="https://hirecharlienow.com/assets/charlie-social.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -34,8 +52,9 @@
           Menu ☰
         </button>
         <div class="navlinks" id="navlinks">
-          <a href="index.html#work">Work</a><a href="index.html#about">About</a
-          ><a href="index.html#australia">Australia</a
+          <a href="index.html#hire">Work with me</a
+          ><a href="index.html#work">Portfolio</a
+          ><a href="archive.html">Tape Archive</a
           ><a href="index.html#play">Play</a><a href="index.html#cv">CVs</a
           ><a class="nav-contact" href="contact.html">Say hello ↗</a>
         </div>
@@ -90,12 +109,14 @@
               </div>
               <span class="route-arrow" aria-hidden="true">→</span>
               <div>
-                <small>NEXT STOP</small><strong>MELB.</strong
+                <small>NEXT STOP</small
+                ><strong data-availability="next">MELB.</strong
                 ><small>Australia</small>
               </div>
             </div>
             <div class="passport-status">
-              <span>ONE PERSON. MANY INTERESTS.</span><b>PLANNING THE TRIP</b>
+              <span>ONE PERSON. MANY INTERESTS.</span
+              ><b data-availability="status">PLANNING THE TRIP</b>
             </div>
           </div>
         </div>
@@ -123,6 +144,34 @@
           </div>
         </div>
       </div>
+      <section class="section" id="hire">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">WORK WITH ME / FIND YOUR WAY</p>
+            <h2>What brings you here?</h2>
+          </div>
+        </div>
+        <div class="chapter-grid">
+          <a class="hire-card" href="work-creative.html"
+            ><span class="card-number">01 / CREATIVE</span>
+            <h3>3D &amp; creative work</h3>
+            <p>Characters, props, textures and real-time projects.</p>
+            <span>Explore my work ↗</span></a
+          ><a class="hire-card" href="work-hospitality.html"
+            ><span class="card-number">02 / HOSPITALITY</span>
+            <h3>Coffee &amp; good people</h3>
+            <p>Café, customer-service and event experience.</p>
+            <span>Meet your next team-mate ↗</span></a
+          ><a class="hire-card" href="work-it.html"
+            ><span class="card-number">03 / IT SUPPORT</span>
+            <h3>A technical direction</h3>
+            <p>
+              Qualifications, transferable skills and an entry-level outlook.
+            </p>
+            <span>See my IT background ↗</span></a
+          >
+        </div>
+      </section>
       <section class="section" id="work">
         <div class="section-heading">
           <div>
@@ -145,10 +194,7 @@
                 ><span>_</span><span>□</span><span>×</span></span
               >
             </div>
-            <a
-              href="https://sketchfab.com/3d-models/stray-robot-fan-art-original-character-ce0619a05bbd4f40b1f296c1d78efd0f"
-              target="_blank"
-              rel="noopener noreferrer"
+            <a href="project-stray.html"
               ><div class="project-image">
                 <img
                   src="assets/stray-robot.jpg"
@@ -168,7 +214,7 @@
                 <div class="project-tools">
                   3ds Max · ZBrush · Substance Painter
                 </div>
-                <span class="project-open">Explore the 3D model ↗</span>
+                <span class="project-open">See the project breakdown ↗</span>
               </div></a
             >
           </article>
@@ -338,7 +384,9 @@
               vintage camcorder coming along for the ride.
             </p>
           </div>
-          <span class="trip-tag">✳ PLANS IN PROGRESS</span>
+          <span class="trip-tag" data-availability="status"
+            >✳ PLANS IN PROGRESS</span
+          >
         </div>
         <div class="travel-grid">
           <article class="travel-item">
@@ -367,10 +415,51 @@
           </article>
         </div>
         <div class="travel-foot">
-          <span
-            >Currently UK-based · Planning Australia · Ask me about
-            availability</span
+          <span>See my latest location and availability below</span
           ><a href="contact.html">In Australia? Say hello ↗</a>
+        </div>
+      </section>
+      <section class="availability" aria-label="Current availability">
+        <div>
+          <span class="status-dot" aria-hidden="true"></span
+          ><strong data-availability="status">Planning Australia</strong>
+        </div>
+        <dl>
+          <div>
+            <dt>Currently</dt>
+            <dd data-availability="location">South Devon, UK</dd>
+          </div>
+          <div>
+            <dt>Next stop</dt>
+            <dd data-availability="next">Melbourne</dd>
+          </div>
+          <div>
+            <dt>Start date</dt>
+            <dd data-availability="start">Ask me about availability</dd>
+          </div>
+        </dl>
+        <p data-availability="remote">
+          Open to freelance and remote conversations.
+        </p>
+        <small
+          >Updated
+          <time data-availability="updated" datetime="2026-09-23"
+            >23 September 2026</time
+          ></small
+        >
+      </section>
+      <section class="section" id="tapes">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">ON THE ROAD / THE TAPE ARCHIVE</p>
+            <h2>A few moments worth keeping.</h2>
+          </div>
+          <a class="section-link" href="archive.html">Open the archive ↗</a>
+        </div>
+        <div data-latest-tape>
+          <p class="empty-state">
+            Camcorder films and field notes, from Devon to Australia.
+          </p>
         </div>
       </section>
       <section class="section" id="cv">
@@ -425,6 +514,12 @@
           <span class="section-link">Some things never change.</span>
         </div>
         <div class="play-grid">
+          <a class="play-card" href="guestbook.html"
+            ><span class="play-icon" aria-hidden="true">✉</span>
+            <h3>Postcards for Charlie.</h3>
+            <p>A hello, a café tip, a little local knowledge.</p>
+            <small>LEAVE A POSTCARD ↗</small></a
+          >
           <a class="play-card" href="flappycharlie.html"
             ><span class="play-icon" aria-hidden="true">🎮</span>
             <h3>Flappy Charlie</h3>
@@ -478,7 +573,8 @@
           target="_blank"
           rel="noopener noreferrer"
           >LinkedIn ↗</a
-        ><br />Australia edition · September 2026
+        ><br />Australia edition · September 2026 ·
+        <a href="share.html">Keep in touch ↗</a>
       </div>
     </footer>
     <div class="taskbar" aria-label="Site controls">
